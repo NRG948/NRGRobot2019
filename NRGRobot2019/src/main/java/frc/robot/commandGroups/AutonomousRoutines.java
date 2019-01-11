@@ -9,11 +9,11 @@ package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class Autonomous extends CommandGroup {
+public class AutonomousRoutines extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public Autonomous() {
+  public AutonomousRoutines() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
