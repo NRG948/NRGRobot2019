@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -17,6 +19,14 @@ public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
 
+  private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+
+  OI() {
+    resetSensorsButton.whenPressed(new InstantCommand(() -> {
+      RobotMap.resetSensors();
+    }));
+  }
+
   public double getLeftJoystickY() {
     return -leftJoystick.getY();
   }
@@ -24,4 +34,5 @@ public class OI {
   public double getRightJoystickY() {
     return -rightJoystick.getY();
   }
+
 }
