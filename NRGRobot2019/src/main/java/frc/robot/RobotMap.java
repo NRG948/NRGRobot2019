@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -37,6 +39,8 @@ public class RobotMap {
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
+  public static AHRS navx;
+
   public static void init() {
     driveFrontLeftMotor = new Talon(DRIVE_FRONT_LEFT_MOTOR_PORT);
     driveFrontRightMotor = new Talon(DRIVE_FRONT_RIGHT_MOTOR_PORT);
@@ -49,11 +53,13 @@ public class RobotMap {
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
 
+    navx = new AHRS(SPI.Port.kMXP); 
   }
 
   public static void resetSensors(){
     driveLeftEncoder.reset();
     driveRightEncoder.reset();
+    navx.reset();
 
   }
   
