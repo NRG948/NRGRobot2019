@@ -53,6 +53,8 @@ public class RobotMap {
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
 
+    driveRightEncoder.setReverseDirection(true);
+
     navx = new AHRS(SPI.Port.kMXP); 
   }
 
