@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.utilities.PositionTracker;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +28,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class Robot extends TimedRobot {
   public static Drive drive;
   public static OI m_oi;
+  public static PositionTracker positionTracker = new PositionTracker();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -54,6 +57,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("PositionTracker/x", this.positionTracker.getX());
+    SmartDashboard.putNumber("PositionTracker/y", this.positionTracker.getY());
   }
 
   /**
@@ -103,6 +108,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    positionTracker.updatePosition();
     Scheduler.getInstance().run();
   }
 
@@ -122,6 +128,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    positionTracker.updatePosition();
     Scheduler.getInstance().run();
   }
 
@@ -130,5 +137,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    positionTracker.updatePosition();
+
   }
 }
