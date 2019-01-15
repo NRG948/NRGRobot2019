@@ -30,6 +30,9 @@ public class RobotMap {
   public static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
   public static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
   public static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
+  
+  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 1.0;
+  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 1.0;
 
   public static SpeedController driveFrontLeftMotor;
   public static SpeedController driveFrontRightMotor;
@@ -52,7 +55,8 @@ public class RobotMap {
 
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
-
+    driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
+    driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setReverseDirection(true);
 
     navx = new AHRS(SPI.Port.kMXP); 
