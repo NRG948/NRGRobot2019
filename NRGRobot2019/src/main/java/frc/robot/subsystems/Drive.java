@@ -21,11 +21,15 @@ public class Drive extends Subsystem {
   private final double DEFAULT_TURN_P = 0.2;
   private final double DEFAULT_TURN_I = 0;
   private final double DEFAULT_TURN_D = 0;
+  private final double DEFAULT_DRIVE_P = 0.2;
+  private final double DEFAULT_DRIVE_I = 0;
+  private final double DEFAULT_DRIVE_D = 0;
 
   private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveBackLeftMotor);
   private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveBackRightMotor);
   private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
-  private SimplePIDController turnPIDController;
+  private SimplePIDController turnPIDController; 
+  private SimplePIDController drivePIDController; 
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -61,5 +65,28 @@ public class Drive extends Subsystem {
   public void turnToHeadingEnd() {
     this.stopMotor();
     this.turnPIDController = null;
+  }
+
+  public void driveOnHeadingInit(double currentHeading){
+    this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D).
+      setSetpoint(currentHeading);
+  }
+
+  public void driveOnHeadingExecute(double power) {
+    double powerDelta = this.drivePIDController.update(RobotMap.navx.getAngle());
+    if(powerDelta<0){
+      this.tankDrive(power+powerDelta, power);
+    } else{
+      this.tankDrive(power, power-powerDelta);
+    }
+  }
+
+  public boolean driveOnHeadingIsOnTarget () {
+    return this.drivePIDController.onTarget();
+  }
+
+  public void driveOnHeadingEnd () {
+    this.stopMotor();
+    this.drivePIDController = null;
   }
 }
