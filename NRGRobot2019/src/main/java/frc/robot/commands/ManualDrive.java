@@ -23,8 +23,8 @@ public class ManualDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double left = Robot.m_oi.getLeftJoystickY();
-    double right = Robot.m_oi.getRightJoystickY();
+    double left = Robot.oi.getLeftJoystickY();
+    double right = Robot.oi.getRightJoystickY();
     Robot.drive.tankDrive(left, right);
   }
 
