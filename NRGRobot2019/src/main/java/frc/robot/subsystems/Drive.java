@@ -53,8 +53,8 @@ public class Drive extends Subsystem {
       setAbsoluteTolerance(tolerance);
   }
 
-  public void turnToHeadingExecute(){
-    double currentPower = this.turnPIDController.update(RobotMap.navx.getAngle());
+  public void turnToHeadingExecute(double maxPower){
+    double currentPower = this.turnPIDController.update(RobotMap.navx.getAngle()) * maxPower;
     this.tankDrive(currentPower, -currentPower); 
   }
 
