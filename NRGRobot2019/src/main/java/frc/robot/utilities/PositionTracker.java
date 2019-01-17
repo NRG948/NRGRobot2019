@@ -19,7 +19,7 @@ public class PositionTracker {
     private double y;
     private double previousLeftEncoder;
     private double previousRightEncoder;
-
+    
     public double getX(){
         return this.x;
     }
@@ -48,5 +48,11 @@ public class PositionTracker {
 
         this.x += deltaX;
         this.y += deltaY;
+    }
+
+    public double calculateDistance(double xOrigin, double yOrigin){
+        double deltaX = this.x - xOrigin;
+        double deltaY = this.y - yOrigin;
+        return Math.sqrt((deltaX*deltaX)+(deltaY*deltaY));
     }
 }
