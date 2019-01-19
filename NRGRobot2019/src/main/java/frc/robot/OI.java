@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
+  // assign each side of joystick to a port 
 
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 
@@ -29,10 +30,10 @@ public class OI {
 
   public double getLeftJoystickY() {
     return -leftJoystick.getY();
-  }
+  }// gets the Y value of the left joystick
 
   public double getRightJoystickY() {
     return -rightJoystick.getY();
-  }
+  }// gets the Y value of the right joystick
 
 }

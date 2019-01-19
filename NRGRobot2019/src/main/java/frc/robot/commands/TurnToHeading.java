@@ -9,47 +9,45 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class TurnToHeading extends Command {
   private final double DEFAULT_TURN_TOLERANCE = 5.0;
 
-  private double desiredHeading;
-  private double maxPower;
+  private double desiredHeading; //  this gives the angle that we need to turn
+  private double maxPower; // gives the power the robot is gonna drive when the command is executed 
   public TurnToHeading(double desiredHeading, double maxPower) {
-    this.desiredHeading = desiredHeading;
-    this.maxPower = Math.abs(maxPower);
-    this.requires (Robot.drive);
+    this.desiredHeading = desiredHeading;// assignes the heading 
+    this.maxPower = Math.abs(maxPower);// assignes the power 
+    this.requires (Robot.drive);// requires the Drive subsystem
     }
     
     // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.drive.turnToHeadingInit(this.desiredHeading, DEFAULT_TURN_TOLERANCE);
+    Robot.drive.turnToHeadingInit(this.desiredHeading, DEFAULT_TURN_TOLERANCE); 
+    // this gives in the angle into the command and intializes the command and gives in the tolerance  
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.drive.turnToHeadingExecute(this.maxPower);
-  }
+  }// this gives the power/ the speed into the command and executes it.
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.drive.turnToHeadingOnTarget();
+    return Robot.drive.turnToHeadingOnTarget();// this command checks whether the robot is on target if not corrects it.
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drive.turnToHeadingEnd();
+    Robot.drive.turnToHeadingEnd();// terminates the command 
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
+    end();// calls the end method
   }
 }

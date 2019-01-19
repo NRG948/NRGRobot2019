@@ -14,29 +14,31 @@ import frc.robot.RobotMap;
 public class DriveStraight extends Command {
   public DriveStraight() {
     this.requires(Robot.drive);
+    // this command requires the drive subsystem 
+    //in order to function as all the PID values are defined there
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-      Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle ());
+      Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle ()); 
+      // getting the current driving angle from the gyro 
   }
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
       Robot.drive.driveOnHeadingExecute (Robot.oi.getRightJoystickY());
   }
-
-  // Make this return true when this Command no longer needs to run execute()
+    // we are excuting driveOnHeadingExecute command and we are getting the Y joystick value so that we can drive forward as the right joystick drives the robot forward.
   @Override
   protected boolean isFinished() {
     return false;
   }
+  // we return false here as we dont want this command to stop since we want our robot to drive straight!
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
       Robot.drive.driveOnHeadingEnd ();
+      // we terminate this command using driveOnHeadingEnd
   }
 
   // Called when another command which requires one or more of the same
@@ -44,5 +46,6 @@ public class DriveStraight extends Command {
   @Override
   protected void interrupted() {
       end();
+      // calls the end method 
   }
 }

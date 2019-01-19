@@ -58,7 +58,7 @@ public class Drive extends Subsystem {
 
   }
   public void stopMotor () {
-    motivator.stopMotor();
+    motivator.stopMotor();// stops the motor
   }
 
   public void turnToHeadingInit(double desiredHeading, double tolerance) {
@@ -109,13 +109,13 @@ public class Drive extends Subsystem {
     Trajectory pathTrajectory = Pathfinder.readFromCSV(path);
     TankModifier modifier = new TankModifier(pathTrajectory).modify(DRIVE_WHEEL_BASE);
 
-    this.leftFollower = new EncoderFollower(modifier.getLeftTrajectory());
+    this.leftFollower = new EncoderFollower(modifier.getLeftTrajectory()); 
     this.rightFollower = new EncoderFollower(modifier.getRightTrajectory());
     this.leftFollower.configureEncoder(RobotMap.driveLeftEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
     this.rightFollower.configureEncoder(RobotMap.driveRightEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
     this.leftFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
     this.rightFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
-
+    // alignes left and right sides of the robot into the pathweaver tool.
   }
 
   public void followTrajectoryExecute(){
