@@ -25,14 +25,17 @@ public class TurnToHeading extends Command {
   @Override
   protected void initialize() {
     Robot.drive.turnToHeadingInit(this.desiredHeading, DEFAULT_TURN_TOLERANCE); 
-    // this gives in the angle into the command and intializes the command and gives in the tolerance  
+    // this gives in the angle into the command and intializes the command and gives in the tolerance
+    System.out.println("TurnToHeading.init()"); 
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.drive.turnToHeadingExecute(this.maxPower);
+    System.out.println("TurnToHeading.execute()"); 
   }// this gives the power/ the speed into the command and executes it.
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

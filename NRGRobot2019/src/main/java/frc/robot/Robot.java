@@ -7,9 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
@@ -27,6 +29,7 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static OI oi;
   public static PositionTracker positionTracker = new PositionTracker();
+  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -38,11 +41,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     RobotMap.init();
-    oi = new OI();
     drive = new Drive();
+    
     chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", chooser);
+    System.out.println("robotInit()");
+    oi = new OI();
   }
 
   /**
@@ -58,6 +63,10 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
+    SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
+    SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
+    LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
+    
   }
 
   /**
@@ -76,6 +85,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    System.out.println("autonomousInit()");
     autonomousCommand = chooser.getSelected();
 
     if (autonomousCommand != null) {
@@ -91,6 +101,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    System.out.println("teleopInit()");
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

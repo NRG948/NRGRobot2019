@@ -29,12 +29,15 @@ public class DriveStraightDistance extends Command {
     this.xOrigin = Robot.positionTracker.getX(); // gets our current X position from the poistion tracker command
     this.yOrigin = Robot.positionTracker.getY();// gets our current Y position from the poistion tracker command
     Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle()); // We are getting our current heading and putting it into driveOnHeadingInit to adjust our current heading 
+    System.out.println("DriveStraightDistance.init()");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.drive.driveOnHeadingExecute(this.maxPower);// excuting the command and puts in the maximum power that the robot is gonna run on
+    System.out.println("DriveStraightDistance.execute()");
+
   }
 
   @Override

@@ -10,6 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.TurnToHeading;
+import frc.robot.subsystems.Drive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -21,15 +25,21 @@ public class OI {
   // assign each side of joystick to a port 
 
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+  private JoystickButton DriveStraightButton = new JoystickButton(rightJoystick, 2);
+  private JoystickButton TurnToHeadingButton = new JoystickButton(rightJoystick, 3);
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
     }));
+
+   // DriveStraightButton.whenActive(new DriveStraightDistance(15, 0.3));
+    TurnToHeadingButton.whenPressed(new TurnToHeading(90, 0.3));
   }
 
+
   public double getLeftJoystickY() {
-    return -leftJoystick.getY();
+    return leftJoystick.getY();
   }// gets the Y value of the left joystick
 
   public double getRightJoystickY() {

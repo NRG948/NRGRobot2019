@@ -23,6 +23,7 @@ import frc.robot.utilities.SimplePIDController;
  * Add your docs here.
  */
 public class Drive extends Subsystem {
+
   private final double DEFAULT_TURN_P = 0.2;
   private final double DEFAULT_TURN_I = 0;
   private final double DEFAULT_TURN_D = 0;
@@ -88,6 +89,7 @@ public class Drive extends Subsystem {
 
   public void driveOnHeadingExecute(double power) {
     double powerDelta = this.drivePIDController.update(RobotMap.navx.getAngle());
+    System.out.println(driveOnHeadingIsOnTarget());
     if(powerDelta<0){
       this.tankDrive(power+powerDelta, power);
     } else{
