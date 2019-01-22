@@ -84,7 +84,7 @@ public class Drive extends Subsystem {
 
   public void driveOnHeadingInit(double currentHeading){
     this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D).
-      setSetpoint(currentHeading);
+      setSetpoint(currentHeading).setAbsoluteTolerance(0);
   }
 
   public void driveOnHeadingExecute(double power) {
