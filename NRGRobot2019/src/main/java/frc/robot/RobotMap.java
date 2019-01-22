@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,10 +19,10 @@ import edu.wpi.first.wpilibj.*;
  */
 public class RobotMap {
 
-  public static final int DRIVE_FRONT_LEFT_MOTOR_PORT = 0;
-  public static final int DRIVE_FRONT_RIGHT_MOTOR_PORT = 1;
-  public static final int DRIVE_BACK_LEFT_MOTOR_PORT = 2;
-  public static final int DRIVE_BACK_RIGHT_MOTOR_PORT = 3;
+  public static final int DRIVE_FRONT_LEFT_MOTOR_PORT = 2;
+  public static final int DRIVE_FRONT_RIGHT_MOTOR_PORT = 0;
+  public static final int DRIVE_BACK_LEFT_MOTOR_PORT = 3;
+  public static final int DRIVE_BACK_RIGHT_MOTOR_PORT = 1;
   
   public static final int DRIVE_LEFT_ENCODER_PORT1 = 0; 
   public static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
@@ -47,22 +48,20 @@ public class RobotMap {
     driveBackLeftMotor = new Victor(DRIVE_BACK_LEFT_MOTOR_PORT);
     driveBackRightMotor = new Victor(DRIVE_BACK_RIGHT_MOTOR_PORT);
 
-    driveFrontRightMotor.setInverted(true);
-    driveBackRightMotor.setInverted(true);
-
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2, true);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
     navx = new AHRS(SPI.Port.kMXP); 
+
   }
 
   public static void resetSensors(){
     driveLeftEncoder.reset();
     driveRightEncoder.reset();
     navx.reset();
-
+    System.out.println("Sensors Reset");
   }
   
 }
