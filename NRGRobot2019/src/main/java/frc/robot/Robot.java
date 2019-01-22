@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", chooser);
     System.out.println("robotInit()");
     oi = new OI();
+    LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
   }
 
   /**
@@ -65,7 +67,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
-    LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
+    SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
+    SmartDashboard.putData("DriveSubsystem", Robot.drive);
     
   }
 
