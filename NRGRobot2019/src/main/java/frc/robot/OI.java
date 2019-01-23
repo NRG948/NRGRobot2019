@@ -28,15 +28,18 @@ public class OI {
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
   private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
+  private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
+      Robot.positionTracker.setPosition(0.0, 0.0);
     }));
 
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
+    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
   }
 
 
