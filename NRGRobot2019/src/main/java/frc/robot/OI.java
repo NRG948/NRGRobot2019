@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.ManualDrive;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Drive;
 
@@ -33,8 +34,9 @@ public class OI {
       RobotMap.resetSensors();
     }));
 
-   driveStraightButton.whenActive(new DriveStraight());
-    turnToHeadingButton.whenPressed(new TurnToHeading(90, 0.5));
+    driveStraightButton.whenActive(new DriveStraight());
+    driveStraightButton.whenInactive(new ManualDrive());
+    turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
   }
 
 
