@@ -29,8 +29,8 @@ public class RobotMap {
   public static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
   public static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
   
-  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 1.0;
-  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 1.0;
+  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.01171875;
+  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.01171875;
 
   public static SpeedController driveFrontLeftMotor;
   public static SpeedController driveFrontRightMotor;
