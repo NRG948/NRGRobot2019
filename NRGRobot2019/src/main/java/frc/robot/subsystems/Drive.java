@@ -56,8 +56,8 @@ public class Drive extends Subsystem {
 
   public void tankDrive (double leftPower, double rightPower) {
     motivator.tankDrive(leftPower, rightPower);
-
   }
+
   public void stopMotor () {
     motivator.stopMotor();// stops the motor
   }

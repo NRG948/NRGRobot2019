@@ -48,6 +48,11 @@ public class RobotMap {
     driveBackLeftMotor = new Victor(DRIVE_BACK_LEFT_MOTOR_PORT);
     driveBackRightMotor = new Victor(DRIVE_BACK_RIGHT_MOTOR_PORT);
 
+    driveFrontRightMotor.setInverted(true);
+    driveFrontLeftMotor.setInverted(true);
+    driveBackLeftMotor.setInverted(true);
+    driveBackRightMotor.setInverted(true);
+
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2, true);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
