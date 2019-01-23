@@ -45,5 +45,8 @@ public class OI {
   public double getRightJoystickY() {
     return -rightJoystick.getY();
   }// gets the Y value of the right joystick
-
+  
+  public double getRightJoystickZ() {
+    return rightJoystick.getZ();
+  }
 }

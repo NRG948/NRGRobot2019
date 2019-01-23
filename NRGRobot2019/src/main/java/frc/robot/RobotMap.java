@@ -37,6 +37,8 @@ public class RobotMap {
   public static SpeedController driveBackLeftMotor;
   public static SpeedController driveBackRightMotor;
 
+  public static Servo ringLightServo;
+
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
@@ -52,6 +54,8 @@ public class RobotMap {
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
+
+    ringLightServo = new Servo( 9);
 
     navx = new AHRS(SPI.Port.kMXP); 
 

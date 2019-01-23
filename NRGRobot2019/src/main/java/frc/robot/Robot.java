@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    RobotMap.ringLightServo.set(Robot.oi.getRightJoystickZ());
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
