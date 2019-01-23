@@ -24,12 +24,12 @@ import frc.robot.utilities.SimplePIDController;
  */
 public class Drive extends Subsystem {
 
-  private final double DEFAULT_TURN_P = 0.2;
-  private final double DEFAULT_TURN_I = 0;
-  private final double DEFAULT_TURN_D = 0;
-  private final double DEFAULT_DRIVE_P = 0.2;
-  private final double DEFAULT_DRIVE_I = 0;
-  private final double DEFAULT_DRIVE_D = 0;
+  private final double DEFAULT_TURN_P = 0.081;
+  private final double DEFAULT_TURN_I = 0.00016;
+  private final double DEFAULT_TURN_D = 0.0072;
+  private final double DEFAULT_DRIVE_P = 0.081;
+  private final double DEFAULT_DRIVE_I = 0.00016;
+  private final double DEFAULT_DRIVE_D = 0.0072;
   private final double DRIVE_WHEEL_BASE = 28.0;
   private final int DRIVE_TICKS_PER_REV = 256;
   private final double DRIVE_WHEEL_DIAMETER = 6.0;
