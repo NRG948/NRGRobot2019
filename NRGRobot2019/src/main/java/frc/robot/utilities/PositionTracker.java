@@ -48,6 +48,9 @@ public class PositionTracker {
 
         this.x += deltaX;
         this.y += deltaY;
+
+        this.previousLeftEncoder = currentLeftEncoder;
+        this.previousRightEncoder = currentRightEncoder;
     }
 
     public double calculateDistance(double xOrigin, double yOrigin){
