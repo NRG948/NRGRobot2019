@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
 import frc.robot.utilities.SimplePIDController;
-// import jaci.pathfinder.Trajectory;
-// import java.io.File;
-// import edu.wpi.first.wpilibj.Filesystem;
-// import jaci.pathfinder.Pathfinder;
-// import jaci.pathfinder.followers.EncoderFollower;
-// import jaci.pathfinder.modifiers.TankModifier;
+import jaci.pathfinder.Trajectory;
+import java.io.File;
+import edu.wpi.first.wpilibj.Filesystem;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 /**
  * Add your docs here.
  */
@@ -30,7 +30,7 @@ public class Drive extends Subsystem {
   private final double DEFAULT_DRIVE_P = 0.081;
   private final double DEFAULT_DRIVE_I = 0.00016;
   private final double DEFAULT_DRIVE_D = 0.0072;
-  private final double DRIVE_WHEEL_BASE = 28.0;
+  private final double DRIVE_WHEEL_BASE = 0.5715;
   private final int DRIVE_TICKS_PER_REV = 256;
   private final double DRIVE_WHEEL_DIAMETER = 6.0;
   private final double DEFAULT_PATH_P = 0.5;
@@ -43,8 +43,8 @@ public class Drive extends Subsystem {
   private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
   private SimplePIDController turnPIDController; 
   private SimplePIDController drivePIDController; 
-  // private EncoderFollower leftFollower;
-  // private EncoderFollower rightFollower;
+  private EncoderFollower leftFollower;
+  private EncoderFollower rightFollower;
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -106,38 +106,37 @@ public class Drive extends Subsystem {
     this.drivePIDController = null;
   }
 
-  // public void followTrajectoryInit(String pathName){
-  //   File path = new File(Filesystem.getDeployDirectory(), pathName);
-  //   Trajectory pathTrajectory = Pathfinder.readFromCSV(path);
-  //   TankModifier modifier = new TankModifier(pathTrajectory).modify(DRIVE_WHEEL_BASE);
+  public void followTrajectoryInit(Trajectory pathName){
+ 
+    TankModifier modifier = new TankModifier(pathName).modify(DRIVE_WHEEL_BASE);
 
-  //   this.leftFollower = new EncoderFollower(modifier.getLeftTrajectory()); 
-  //   this.rightFollower = new EncoderFollower(modifier.getRightTrajectory());
-  //   this.leftFollower.configureEncoder(RobotMap.driveLeftEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
-  //   this.rightFollower.configureEncoder(RobotMap.driveRightEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
-  //   this.leftFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
-  //   this.rightFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
-  //   // alignes left and right sides of the robot into the pathweaver tool.
-  // }
+    this.leftFollower = new EncoderFollower(modifier.getLeftTrajectory()); 
+    this.rightFollower = new EncoderFollower(modifier.getRightTrajectory());
+    this.leftFollower.configureEncoder(RobotMap.driveLeftEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
+    this.rightFollower.configureEncoder(RobotMap.driveRightEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
+    this.leftFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
+    this.rightFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
+    // alignes left and right sides of the robot into the pathweaver tool.
+  }
 
-  // public void followTrajectoryExecute(){
-  //   double left = this.leftFollower.calculate(RobotMap.driveLeftEncoder.get());
-  //   double right = this. rightFollower.calculate(RobotMap.driveRightEncoder.get());
-  //   double currentHeading = RobotMap.navx.getAngle();
-  //   double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
-  //   double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
-  //   double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
+  public void followTrajectoryExecute(){
+    double left = this.leftFollower.calculate(RobotMap.driveLeftEncoder.get());
+    double right = this. rightFollower.calculate(RobotMap.driveRightEncoder.get());
+    double currentHeading = RobotMap.navx.getAngle();
+    double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
+    double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
+    double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
 
-  //   tankDrive(left + turn, right - turn);
-  // }
+    tankDrive(left + turn, right - turn);
+  }
 
-  // public boolean followTrajectoryIsFinished(){
-  //   return this.leftFollower.isFinished() && this.rightFollower.isFinished();
-  // }
+  public boolean followTrajectoryIsFinished(){
+    return this.leftFollower.isFinished() && this.rightFollower.isFinished();
+  }
 
-  // public void followTrajectoryEnd(){
-  //   stopMotor();
-  //   this.leftFollower = null;
-  //   this.rightFollower= null;
-  // }
+  public void followTrajectoryEnd(){
+    stopMotor();
+    this.leftFollower = null;
+    this.rightFollower= null;
+  }
 }
