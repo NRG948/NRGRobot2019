@@ -97,6 +97,11 @@ public class Drive extends Subsystem {
     }
   }
 
+  public void driveOnHeadingExecute(double power, double heading) {
+    this.drivePIDController.setSetpoint(heading);
+    driveOnHeadingExecute(power);
+  }
+
   public boolean driveOnHeadingIsOnTarget () {
     return this.drivePIDController.onTarget();
   }

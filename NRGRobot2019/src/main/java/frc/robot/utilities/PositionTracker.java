@@ -7,6 +7,8 @@
 
 package frc.robot.utilities;
 
+import frc.robot.Robot;
+
 /**
  * Add your docs here.
  */
@@ -58,4 +60,13 @@ public class PositionTracker {
         double deltaY = this.y - yOrigin;
         return Math.sqrt((deltaX*deltaX)+(deltaY*deltaY));
     }
+
+    public double calculateAngleTo(double targetX, double targetY){
+        double dX = targetX - this.x;
+		double dY = targetY - this.y;
+		double heading = Math.toDegrees(Math.atan2(dX, dY));
+        return heading;
+    }
+
+
 }
