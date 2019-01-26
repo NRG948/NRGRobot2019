@@ -20,31 +20,34 @@ import frc.robot.utilities.Waypoint;
 import frc.robot.utilities.WaypointPredicate;
 import frc.robot.utilities.Waypoint.CoordinateType;
 import frc.robot.utilities.Waypoint.WithinInches;
+import frc.robot.utilities.Waypoint.WithinInchesX;
+import frc.robot.utilities.Waypoint.WithinInchesY;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  private static final double PATH_POWER = 0.75;
   private static final Waypoint[] FOLLOW_SQUARE = new Waypoint[]{
     // new Waypoint(0, 30, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
     // new Waypoint(5, 60, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
     // new Waypoint(15, 80, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
     // new Waypoint(30, 90, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
     // new Waypoint(50, 90, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
-    new Waypoint(0, 78, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(4, 112, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(6, 126, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(10, 138, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(16, 150, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(20, 162, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(32, 174, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(42, 186, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(66, 198, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(86, 204, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(100, 208, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(120, 210, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
-    new Waypoint(132, 210, CoordinateType.ABSOLUTE, 0.75, new WithinInches(10.0)),
+    new Waypoint(0, 78, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
+    new Waypoint(4, 112, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
+    new Waypoint(6, 126, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
+    new Waypoint(10, 138, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
+    new Waypoint(16, 150, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
+    new Waypoint(20, 162, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInches(10.0)),
+    new Waypoint(32, 174, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInches(10.0)),
+    new Waypoint(42, 186, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInches(10.0)),
+    new Waypoint(66, 198, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesX(10.0)),
+    new Waypoint(86, 204, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesX(10.0)),
+    new Waypoint(100, 208, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesX(10.0)),
+    new Waypoint(120, 210, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesX(10.0)),
+    new Waypoint(132, 210, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesX(10.0)),
   };
 
   private Joystick leftJoystick = new Joystick(0);

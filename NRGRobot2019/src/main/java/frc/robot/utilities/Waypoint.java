@@ -14,74 +14,99 @@ import frc.robot.Robot;
  */
 public class Waypoint {
     private double x, y, power;
-	private CoordinateType type;
+    private CoordinateType type;
 
-	private WaypointPredicate waypointPredicate;
+    private WaypointPredicate waypointPredicate;
 
-	public Waypoint(double x, double y, CoordinateType type, double power, WaypointPredicate waypointPredicate) {
-		this.x = x;
-		this.y = y;
-		this.type = type;
-		this.power = power;
-		this.waypointPredicate = waypointPredicate;
-	}
-	
-	public enum CoordinateType {
-		ABSOLUTE, RELATIVE;
-	}
+    public Waypoint(double x, double y, CoordinateType type, double power, WaypointPredicate waypointPredicate) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        this.power = power;
+        this.waypointPredicate = waypointPredicate;
+    }
 
-	public double getX() {
-		return x;
-	}
+    public enum CoordinateType {
+        ABSOLUTE, RELATIVE;
+    }
 
-	public double getY() {
-		return y;
-	}
+    public double getX() {
+        return x;
+    }
 
-	public CoordinateType getType() {
-		return type;
-	}
+    public double getY() {
+        return y;
+    }
 
-	public double getPower() {
-		return power;
-	}
+    public CoordinateType getType() {
+        return type;
+    }
 
-	public boolean isFinished() {
-		return waypointPredicate.isAtWaypoint(this);
-	}
-	
-	public static class GreaterThanY implements WaypointPredicate {
-		@Override
-		public boolean isAtWaypoint(Waypoint w) {
-			return Robot.positionTracker.getY() > w.getY();
-		}
-	}
-	
-	public static class GreaterThanX implements WaypointPredicate {
-		@Override
-		public boolean isAtWaypoint(Waypoint w) {
-			return Robot.positionTracker.getX() > w.getX();
-		}
-	}
-	
-	public static class LessThanX implements WaypointPredicate {
-		@Override
-		public boolean isAtWaypoint(Waypoint w) {
-			return Robot.positionTracker.getX() < w.getX();
-		}
-	}
-	
-	public static class WithinInches implements WaypointPredicate {
-		private double tolerance;
+    public double getPower() {
+        return power;
+    }
 
-		public WithinInches(double tolerance) {
-			this.tolerance = tolerance;
-		}
-		
-		@Override
-		public boolean isAtWaypoint(Waypoint w) {
-			return Robot.positionTracker.calculateDistance(w.getX(), w.getY()) <= tolerance;
-		}
-	}
+    public boolean isFinished() {
+        return waypointPredicate.isAtWaypoint(this);
+    }
 
+    public static class GreaterThanY implements WaypointPredicate {
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Robot.positionTracker.getY() > w.getY();
+        }
+    }
+
+    public static class GreaterThanX implements WaypointPredicate {
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Robot.positionTracker.getX() > w.getX();
+        }
+    }
+
+    public static class LessThanX implements WaypointPredicate {
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Robot.positionTracker.getX() < w.getX();
+        }
+    }
+
+    public static class WithinInches implements WaypointPredicate {
+        private double tolerance;
+
+        public WithinInches(double tolerance) {
+            this.tolerance = tolerance;
+        }
+
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Robot.positionTracker.calculateDistance(w.getX(), w.getY()) <= tolerance;
+        }
+    }
+
+    public static class WithinInchesY implements WaypointPredicate {
+        private double tolerance;
+
+        public WithinInchesY(double tolerance) {
+            this.tolerance = tolerance;
+        }
+
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Math.abs(w.y - Robot.positionTracker.getY()) <= tolerance;
+        }
+    }
+    
+    public static class WithinInchesX implements WaypointPredicate {
+        private double tolerance;
+    
+        public WithinInchesX(double tolerance) {
+            this.tolerance = tolerance;
+        }
+            
+        @Override
+        public boolean isAtWaypoint(Waypoint w) {
+            return Math.abs(w.x - Robot.positionTracker.getX()) <= tolerance;
+        }
+	}
 }
