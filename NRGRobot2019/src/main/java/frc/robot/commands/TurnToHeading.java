@@ -33,7 +33,6 @@ public class TurnToHeading extends Command {
   @Override
   protected void execute() {
     Robot.drive.turnToHeadingExecute(this.maxPower);
-    System.out.println("TurnToHeading.execute()"); 
   }// this gives the power/ the speed into the command and executes it.
   
 
@@ -46,6 +45,7 @@ public class TurnToHeading extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    System.out.println("TurnToHeading.end()"); 
     Robot.drive.turnToHeadingEnd();// terminates the command 
   }
 

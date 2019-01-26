@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
+import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.SimplePIDController;
 // import jaci.pathfinder.Trajectory;
 // import java.io.File;
@@ -83,13 +84,15 @@ public class Drive extends Subsystem {
   }
 
   public void driveOnHeadingInit(double currentHeading){
-    this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D).
-      setSetpoint(currentHeading).setAbsoluteTolerance(0);
+    this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D)
+      .setOutputRange(-0.4, 0.4)
+      .setSetpoint(currentHeading).setAbsoluteTolerance(2);
   }
 
   public void driveOnHeadingExecute(double power) {
     double powerDelta = this.drivePIDController.update(RobotMap.navx.getAngle());
-    System.out.println(driveOnHeadingIsOnTarget());
+    powerDelta = MathUtil.clamp(powerDelta, -Math.abs(power), Math.abs(power));
+    System.out.println(String.format("pD:%.2f", powerDelta));
     if(powerDelta<0){
       this.tankDrive(power+powerDelta, power);
     } else{

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.Waypoint;
 import frc.robot.utilities.Waypoint.CoordinateType;
 
@@ -40,10 +41,13 @@ public class FollowWaypoints extends Command {
 				targetX = currentWaypoint.getX();
 				targetY = currentWaypoint.getY();
 			}
+			System.out.println("Next Waypoint is :" + targetX + ", " + targetY);
 		}
 	}
 	
 	public void initialize() {
+		System.out.println("FollowWaypoints init");
+		waypointIndex = -1;
 		targetX = Robot.positionTracker.getX();
 		targetY = Robot.positionTracker.getY();
 		initializeNextWaypoint();
@@ -52,7 +56,10 @@ public class FollowWaypoints extends Command {
 	
 	public void execute() {
 		if (currentWaypoint != null) {
-			Robot.drive.driveOnHeadingExecute(currentWaypoint.getPower(), Robot.positionTracker.calculateAngleTo(targetX, targetY));
+			double newHeading = Robot.positionTracker.calculateAngleTo(targetX, targetY);
+			System.out.print(String.format("X:%.1f Y:%.1f heading:%.1f ", Robot.positionTracker.getX(),
+				Robot.positionTracker.getY(), newHeading));
+			Robot.drive.driveOnHeadingExecute(currentWaypoint.getPower(), newHeading);
 		}
 	}
 	
@@ -65,6 +72,7 @@ public class FollowWaypoints extends Command {
 	}
 	
 	protected void end() {
+		System.out.println("FollowWaypoints end");
 		Robot.drive.driveOnHeadingEnd();
 	}
 	

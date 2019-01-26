@@ -36,8 +36,6 @@ public class DriveStraightDistance extends Command {
   @Override
   protected void execute() {
     Robot.drive.driveOnHeadingExecute(this.maxPower);// excuting the command and puts in the maximum power that the robot is gonna run on
-    System.out.println("DriveStraightDistance.execute()");
-
   }
 
   @Override
@@ -49,6 +47,7 @@ public class DriveStraightDistance extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    System.out.println("DriveStraightDistance.end()");
     Robot.drive.driveOnHeadingEnd();
   } // terminated the command as the robot has reached the distance that needs to be traveled or if it needs to be interrupted
 

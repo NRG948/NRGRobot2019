@@ -64,7 +64,7 @@ public class PositionTracker {
     public double calculateAngleTo(double targetX, double targetY){
         double dX = targetX - this.x;
 		double dY = targetY - this.y;
-		double heading = Math.toDegrees(Math.atan2(dX, dY));
+        double heading = Math.toDegrees(Math.atan2(dX, dY));
         return heading;
     }
 
