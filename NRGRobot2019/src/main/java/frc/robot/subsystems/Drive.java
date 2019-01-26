@@ -25,6 +25,8 @@ import frc.robot.utilities.SimplePIDController;
  */
 public class Drive extends Subsystem {
 
+  private final double PID_MIN_OUTPUT = 0.05;
+  private final double PID_MAX_OUTPUT = 0.5;
   private final double DEFAULT_TURN_P = 0.081;
   private final double DEFAULT_TURN_I = 0.00016;
   private final double DEFAULT_TURN_D = 0.0072;
@@ -85,13 +87,14 @@ public class Drive extends Subsystem {
 
   public void driveOnHeadingInit(double currentHeading){
     this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D)
-      .setOutputRange(-0.4, 0.4)
       .setSetpoint(currentHeading).setAbsoluteTolerance(2);
   }
 
   public void driveOnHeadingExecute(double power) {
+    //double error = this.drivePIDController.getError();
+    //double outputRange = MathUtil.clamp(PID_MIN_OUTPUT *(Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
+    //this.drivePIDController.setOutputRange(-outputRange, outputRange);
     double powerDelta = this.drivePIDController.update(RobotMap.navx.getAngle());
-    powerDelta = MathUtil.clamp(powerDelta, -Math.abs(power), Math.abs(power));
     System.out.println(String.format("pD:%.2f", powerDelta));
     if(powerDelta<0){
       this.tankDrive(power+powerDelta, power);
