@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.FollowWaypoints;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.TurnToHeading;
@@ -43,7 +44,7 @@ public class OI {
   private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
-  private JoystickButton followSquareButton = new JoystickButton(rightJoystick, 9);
+  private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
 
 
   
@@ -58,7 +59,7 @@ public class OI {
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
-    // followSquareButton.whenPressed(new FollowWaypoints(FOLLOW_SQUARE));
+    followPathButton.whenPressed(new FollowPathWeaverFile("output/Test1.pf1.csv"));
   }
 
 

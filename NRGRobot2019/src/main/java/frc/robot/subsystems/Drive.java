@@ -30,9 +30,9 @@ public class Drive extends Subsystem {
   private final double DEFAULT_DRIVE_P = 0.081;
   private final double DEFAULT_DRIVE_I = 0.00016;
   private final double DEFAULT_DRIVE_D = 0.0072;
-  private final double DRIVE_WHEEL_BASE = 0.5715;
+  private final double DRIVE_WHEEL_BASE = 25.5;
   private final int DRIVE_TICKS_PER_REV = 256;
-  private final double DRIVE_WHEEL_DIAMETER = 6.0;
+  private final double DRIVE_WHEEL_DIAMETER = 4.0; //CHANGE THE WHEELS TO 8 INCHES
   private final double DEFAULT_PATH_P = 0.5;
   private final double DEFAULT_PATH_I = 0.0;
   private final double DEFAULT_PATH_D = 0.0;
@@ -121,11 +121,12 @@ public class Drive extends Subsystem {
 
   public void followTrajectoryExecute(){
     double left = this.leftFollower.calculate(RobotMap.driveLeftEncoder.get());
-    double right = this. rightFollower.calculate(RobotMap.driveRightEncoder.get());
+    double right = this.rightFollower.calculate(RobotMap.driveRightEncoder.get());
     double currentHeading = RobotMap.navx.getAngle();
     double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
     double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
     double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
+    System.out.println(String.format("left: %.2f right: %.2f turn: %.2f",left,right,turn));
 
     tankDrive(left + turn, right - turn);
   }
