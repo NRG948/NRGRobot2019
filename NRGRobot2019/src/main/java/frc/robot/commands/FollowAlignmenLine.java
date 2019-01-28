@@ -50,12 +50,13 @@ public class FollowAlignmenLine extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return false; // has no end will run untill interrupted, will add ending code when we have WebCam code
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.drive.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
@@ -64,7 +65,7 @@ public class FollowAlignmenLine extends Command {
   protected void interrupted() {
     end();
   }
-  private void UpdateSensorStates(ColorSensor leftSensor, ColorSensor rightSensor){ // returns the state of color sensor
+  private void UpdateSensorStates(ColorSensor leftSensor, ColorSensor rightSensor){ // Updates sensor state vars on whitch sensors see white
 
     if(leftSensor.getRed() > 230 && leftSensor.getGreen() > 230 && leftSensor.getBlue() > 230)
       this.leftSensorState = true;
@@ -79,7 +80,7 @@ public class FollowAlignmenLine extends Command {
 
 
   }
-  private void determineHeading(){
+  private void determineHeading(){ // changes driving angle based on which sensors see white
     if(this.leftSensorState && this.RightSensorState){ // Drive straight if both sensors see white
       Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle()); 
       correctionCounter = 0;
@@ -92,7 +93,7 @@ public class FollowAlignmenLine extends Command {
       correctionCounter += 1;
       Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle() + (0.5 * correctionCounter)); 
     }
-    if(!this.leftSensorState && this.RightSensorState){
+    if(!this.leftSensorState && this.RightSensorState){ // Find last posotive sensor state and correct based on that
       for(int i = 0;!this.leftSensorState && !this.RightSensorState; i++){
         colorSensor1.setBlock(colorSensor1.getBlockArray().get(colorSensor1.getBlockArray().size() - i));
         colorSensor1.setBlock(colorSensor2.getBlockArray().get(colorSensor2.getBlockArray().size() - i));
