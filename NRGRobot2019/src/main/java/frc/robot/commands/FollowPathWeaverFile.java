@@ -11,6 +11,7 @@ import java.io.File;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
@@ -18,7 +19,7 @@ public class FollowPathWeaverFile extends FollowTrajectory{
   public FollowPathWeaverFile(String filename) {
     super(LoadTrajectoryFromCsvFile(filename));
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.drive);
   }
   
   private static Trajectory LoadTrajectoryFromCsvFile(String filename){

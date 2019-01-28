@@ -30,13 +30,14 @@ public class Drive extends Subsystem {
   private final double DEFAULT_DRIVE_P = 0.081;
   private final double DEFAULT_DRIVE_I = 0.00016;
   private final double DEFAULT_DRIVE_D = 0.0072;
+  private final double DEFAULT_PATH_P = 0.081;
+  private final double DEFAULT_PATH_I = 0.00016;
+  private final double DEFAULT_PATH_D = 0.0072;
+  private final double INCHES_PER_METER = 39.37;
   private final double DRIVE_WHEEL_BASE = 25.5;
-  private final int DRIVE_TICKS_PER_REV = 256;
-  private final double DRIVE_WHEEL_DIAMETER = 4.0; //CHANGE THE WHEELS TO 8 INCHES
-  private final double DEFAULT_PATH_P = 0.5;
-  private final double DEFAULT_PATH_I = 0.0;
-  private final double DEFAULT_PATH_D = 0.0;
-  private final double DRIVE_MAX_VELOCITY = 120.0;
+  private final int DRIVE_TICKS_PER_REV = 1024;
+  private final double DRIVE_WHEEL_DIAMETER = 8.0; //TODO: CHANGE THE WHEELS TO 8 INCHES
+  private final double DRIVE_MAX_VELOCITY = 220.0/INCHES_PER_METER;
 
   private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveBackLeftMotor);
   private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveBackRightMotor);
@@ -106,8 +107,7 @@ public class Drive extends Subsystem {
     this.drivePIDController = null;
   }
 
-  public void followTrajectoryInit(Trajectory pathName){
- 
+  public void followTrajectoryInit(Trajectory pathName) {
     TankModifier modifier = new TankModifier(pathName).modify(DRIVE_WHEEL_BASE);
 
     this.leftFollower = new EncoderFollower(modifier.getLeftTrajectory()); 
@@ -125,11 +125,13 @@ public class Drive extends Subsystem {
     double currentHeading = RobotMap.navx.getAngle();
     double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
     double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
-    double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
-    System.out.println(String.format("left: %.2f right: %.2f turn: %.2f",left,right,turn));
+    double turn = 0.8 * (+1.0 / 80.0) * angleDifference;
+   
 
     tankDrive(left + turn, right - turn);
+    System.out.println(String.format("l: %.2f r: %.2f t: %.2f L+T: %.2f R-T: %.2f",left,right,turn,left+turn,right-turn));
   }
+
 
   public boolean followTrajectoryIsFinished(){
     return this.leftFollower.isFinished() && this.rightFollower.isFinished();
