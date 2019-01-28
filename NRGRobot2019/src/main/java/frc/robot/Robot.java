@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
+import frc.robot.vision.I2Cwrapper;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -73,7 +74,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ColorSensorRed", RobotMap.colorSensor.getRed());
     SmartDashboard.putNumber("ColorSensorGreen", RobotMap.colorSensor.getGreen());
     SmartDashboard.putNumber("ColorSensorBlue", RobotMap.colorSensor.getBlue());
-    SmartDashboard.putNumber("ColorSensorAlpha", RobotMap.colorSensor.getAlpha());
+    SmartDashboard.putNumber("ColorSensorAlpha", RobotMap.colorSensor.getProx());
 
   }
 

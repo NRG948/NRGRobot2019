@@ -34,16 +34,23 @@ private int blockNumCounter;
     }
 
     public int getRed(){ // Returns red values of color sensor
-        return byteToInt(currColorSensorBlock.ColorSensorValues[0]); 
+        // return byteToInt(currColorSensorBlock.ColorSensorValues[0]); 
+        return currColorSensorBlock.ColorSensorValues[0];
     }
     public int getGreen(){ // returns green vlaues
-        return byteToInt(currColorSensorBlock.ColorSensorValues[1]);
+        // return byteToInt(currColorSensorBlock.ColorSensorValues[1]);
+        return currColorSensorBlock.ColorSensorValues[1];
+
     }
     public int getBlue(){ // returns blue values
-        return byteToInt(currColorSensorBlock.ColorSensorValues[2]);
+        // return byteToInt(currColorSensorBlock.ColorSensorValues[2]);
+        return currColorSensorBlock.ColorSensorValues[2];
+
     }
-    public int getAlpha(){ // returns alpha values
-        return byteToInt(currColorSensorBlock.ColorSensorValues[3]);
+    public int getProx(){ // returns alpha values
+        // return byteToInt(currColorSensorBlock.ColorSensorValues[3]);
+        return currColorSensorBlock.ColorSensorValues[3];
+
     }
     public void updateColorSensor(){
         currColorSensorBlock = new Block(this.link);
@@ -64,7 +71,7 @@ private int blockNumCounter;
         int[] ColorSensorValues;
     
         public Block( ColorSensorLink link){
-            this.ColorSensorValues = link.getIntArray(); 
+            this.ColorSensorValues = link.readColorSensor(); 
         }
         
     }
