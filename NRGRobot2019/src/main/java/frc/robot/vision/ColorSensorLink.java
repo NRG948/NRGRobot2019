@@ -12,5 +12,7 @@ package frc.robot.vision;
  */
 public interface ColorSensorLink {
 
+	int[] getIntArray();
+
 	void send(byte[] data); // i2c data send method
 }

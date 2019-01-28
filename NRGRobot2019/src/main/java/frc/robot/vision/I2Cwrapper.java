@@ -29,11 +29,11 @@ public class I2Cwrapper implements ColorSensorLink {
 	}
 
 
-    public int[] getInt() { // covert byte array to int 
-		byte[] c = new byte[5];
-        i2c.readOnly(c, 5); // get byte array
+    public int[] getIntArray() { // covert byte array to int array
+		byte[] c = new byte[4];
+        i2c.readOnly(c, 4); // get byte array
         int[] w = new int[5];
-        for(int i = 4; i > 0; i--){
+        for(int i = 3; i > 0; i--){
             w[i] = (c[i] & 0xff); // save bytes to int array
         }
         w[0] = (c[0] & 0xff);

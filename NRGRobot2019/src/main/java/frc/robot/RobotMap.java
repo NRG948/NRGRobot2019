@@ -10,6 +10,10 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.vision.ColorSensor;
+import frc.robot.vision.ColorSensorLink;
+import frc.robot.vision.I2Cwrapper;
+
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -40,6 +44,12 @@ public class RobotMap {
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
+  public static ColorSensorLink colorSensorlink;
+  public static ColorSensor colorSensor;
+
+  public static ColorSensorLink colorSensorlink2;
+  public static ColorSensor colorSensor2;
+
   public static AHRS navx;
 
   public static void init() {
@@ -59,6 +69,13 @@ public class RobotMap {
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
     navx = new AHRS(SPI.Port.kMXP); 
+
+    colorSensorlink = new I2Cwrapper(I2C.Port.kOnboard, 0);
+    colorSensor = new ColorSensor(colorSensorlink);
+
+    colorSensorlink2 = new I2Cwrapper(I2C.Port.kOnboard, 1);
+    colorSensor2 = new ColorSensor(colorSensorlink2);
+    
 
   }
 
