@@ -7,73 +7,86 @@
 
 package frc.robot.vision;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
+
+
+import edu.wpi.first.wpilibj.I2C;
 
 /**
  * Add your docs here.
  */
 public class ColorSensor {
 
-public static ColorSensorLink link;
-ArrayList<Block> colorSensorData = new ArrayList<Block>();
-Block currColorSensorBlock;
-private int blockNumCounter;
+    protected final static int CMD = 0x80;
+    protected final static int MULTI_BYTE_BIT = 0x20;
 
-    public ColorSensor(ColorSensorLink link){
-        this.link = link;
-    }
-    private int byteToInt(int binary){ // Changes 1 Byte into Int form
-		int x = 0;
-		for(int i = 0; i < 8; i++) {
-			if(binary % 10 == 1) {
-				x += Math.pow(2, i);
-			}
-			binary /= 10;
-		}
-        return x;
-    }
+    protected final static int ENABLE_REGISTER  = 0x00;
+    protected final static int ATIME_REGISTER   = 0x01;
+    protected final static int PPULSE_REGISTER  = 0x0E;
 
-    public int getRed(){ // Returns red values of color sensor
-        // return byteToInt(currColorSensorBlock.ColorSensorValues[0]); 
-        return currColorSensorBlock.ColorSensorValues[0];
-    }
-    public int getGreen(){ // returns green vlaues
-        // return byteToInt(currColorSensorBlock.ColorSensorValues[1]);
-        return currColorSensorBlock.ColorSensorValues[1];
+    protected final static int ID_REGISTER     = 0x12;
+    protected final static int CDATA_REGISTER  = 0x14;
+    protected final static int RDATA_REGISTER  = 0x16;
+    protected final static int GDATA_REGISTER  = 0x18;
+    protected final static int BDATA_REGISTER  = 0x1A;
+    protected final static int PDATA_REGISTER  = 0x1C;
 
-    }
-    public int getBlue(){ // returns blue values
-        // return byteToInt(currColorSensorBlock.ColorSensorValues[2]);
-        return currColorSensorBlock.ColorSensorValues[2];
+    protected final static int PON   = 0b00000001;
+    protected final static int AEN   = 0b00000010;
+    protected final static int PEN   = 0b00000100;
+    protected final static int WEN   = 0b00001000;
+    protected final static int AIEN  = 0b00010000;
+    protected final static int PIEN  = 0b00100000;
+    private final double integrationTime = 10;
 
-    }
-    public int getProx(){ // returns alpha values
-        // return byteToInt(currColorSensorBlock.ColorSensorValues[3]);
-        return currColorSensorBlock.ColorSensorValues[3];
+    private I2C sensor;
 
-    }
-    public void updateColorSensor(){
-        currColorSensorBlock = new Block(this.link);
-        colorSensorData.add(currColorSensorBlock);
-    }
-    public ArrayList<Block> getBlockArray(){
-        return colorSensorData;
-    }
-    public void setBlock(Block b){
-        currColorSensorBlock = b;
-    }
-    public Block getBlock(){
-        return currColorSensorBlock;
-    }
+private ByteBuffer buffy = ByteBuffer.allocate(8);
 
-    public class Block {
+public short red = 0, green = 0, blue = 0, prox = 0;
 
-        int[] ColorSensorValues;
+public ColorSensor(I2C.Port port) {
+	buffy.order(ByteOrder.LITTLE_ENDIAN);
+    sensor = new I2C(port, 0x39); //0x39 is the address of the Vex ColorSensor V2
     
-        public Block( ColorSensorLink link){
-            this.ColorSensorValues = link.readColorSensor(); 
-        }
-        
-    }
+    sensor.write(CMD | 0x00, PON | AEN | PEN);
+    
+    sensor.write(CMD | 0x01, (int) (256-integrationTime/2.38)); //configures the integration time (time for updating color data)
+    sensor.write(CMD | 0x0E, 0b1111);
+    read();
+    System.out.println(status());
+}
+
+
+
+public void read() {
+	buffy.clear();
+    sensor.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy);
+    
+    red = buffy.getShort(0);
+    if(red < 0) { red += 0b10000000000000000; }
+    
+    green = buffy.getShort(2);
+    if(green < 0) { green += 0b10000000000000000; }
+    
+    blue = buffy.getShort(4); 
+    if(blue < 0) { blue += 0b10000000000000000; }
+    
+    prox = buffy.getShort(6); 
+    if(prox < 0) { prox += 0b10000000000000000; }
+    System.out.println("read");
+}
+
+public int status() {g
+	buffy.clear();
+	sensor.read(CMD | 0x13, 1, buffy);
+	return buffy.get(0);
+}
+
+public void free() {
+	sensor.free();
+}
 }
 

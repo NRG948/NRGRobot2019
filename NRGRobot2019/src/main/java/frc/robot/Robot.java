@@ -71,10 +71,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
-    SmartDashboard.putNumber("ColorSensorRed", RobotMap.colorSensor.getRed());
-    SmartDashboard.putNumber("ColorSensorGreen", RobotMap.colorSensor.getGreen());
-    SmartDashboard.putNumber("ColorSensorBlue", RobotMap.colorSensor.getBlue());
-    SmartDashboard.putNumber("ColorSensorAlpha", RobotMap.colorSensor.getProx());
+    // SmartDashboard.putNumber("ColorSensorRed", RobotMap.colorSensor.getRed());
+    // SmartDashboard.putNumber("ColorSensorGreen", RobotMap.colorSensor.getGreen());
+    // SmartDashboard.putNumber("ColorSensorBlue", RobotMap.colorSensor.getBlue());
+    // SmartDashboard.putNumber("ColorSensorAlpha", RobotMap.colorSensor.getProx());
 
   }
 
@@ -107,8 +107,8 @@ public class Robot extends TimedRobot {
     positionTracker.updatePosition();
     Scheduler.getInstance().run();
 
-    RobotMap.colorSensor.updateColorSensor();
-    RobotMap.colorSensor2.updateColorSensor();
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 
   @Override
@@ -128,15 +128,15 @@ public class Robot extends TimedRobot {
     positionTracker.updatePosition();
     Scheduler.getInstance().run();
 
-    RobotMap.colorSensor.updateColorSensor();
-    RobotMap.colorSensor2.updateColorSensor();
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 
   @Override
   public void testPeriodic() {
     positionTracker.updatePosition();
 
-    RobotMap.colorSensor.updateColorSensor();
-    RobotMap.colorSensor2.updateColorSensor();
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 }

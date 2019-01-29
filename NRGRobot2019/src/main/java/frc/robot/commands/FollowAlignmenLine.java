@@ -40,7 +40,7 @@ public class FollowAlignmenLine extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    UpdateSensorStates(colorSensor1, colorSensor2);
+    // UpdateSensorStates(colorSensor1, colorSensor2);
     determineHeading();
     Robot.drive.driveOnHeadingExecute(this.maxPower);
 
@@ -65,21 +65,21 @@ public class FollowAlignmenLine extends Command {
   protected void interrupted() {
     end();
   }
-  private void UpdateSensorStates(ColorSensor leftSensor, ColorSensor rightSensor){ // Updates sensor state vars on whitch sensors see white
+  // private void UpdateSensorStates(ColorSensor leftSensor, ColorSensor rightSensor){ // Updates sensor state vars on whitch sensors see white
 
-    if(leftSensor.getRed() > 230 && leftSensor.getGreen() > 230 && leftSensor.getBlue() > 230)
-      this.leftSensorState = true;
-    else
-      this.leftSensorState = false;
-    if(rightSensor.getRed() > 230 && rightSensor.getGreen() > 230 && rightSensor.getBlue() > 230)
-      this.RightSensorState = true;
-    else
-      this.RightSensorState = false;
+  //   if(leftSensor.getRed() > 230 && leftSensor.getGreen() > 230 && leftSensor.getBlue() > 230)
+  //     this.leftSensorState = true;
+  //   else
+  //     this.leftSensorState = false;
+  //   if(rightSensor.getRed() > 230 && rightSensor.getGreen() > 230 && rightSensor.getBlue() > 230)
+  //     this.RightSensorState = true;
+  //   else
+  //     this.RightSensorState = false;
     
 
 
 
-  }
+  // }
   private void determineHeading(){ // changes driving angle based on which sensors see white
     if(this.leftSensorState && this.RightSensorState){ // Drive straight if both sensors see white
       Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle()); 
@@ -95,9 +95,9 @@ public class FollowAlignmenLine extends Command {
     }
     if(!this.leftSensorState && this.RightSensorState){ // Find last posotive sensor state and correct based on that
       for(int i = 0;!this.leftSensorState && !this.RightSensorState; i++){
-        colorSensor1.setBlock(colorSensor1.getBlockArray().get(colorSensor1.getBlockArray().size() - i));
-        colorSensor1.setBlock(colorSensor2.getBlockArray().get(colorSensor2.getBlockArray().size() - i));
-        UpdateSensorStates(colorSensor1, colorSensor2);
+        // colorSensor1.setBlock(colorSensor1.getBlockArray().get(colorSensor1.getBlockArray().size() - i));
+        // colorSensor1.setBlock(colorSensor2.getBlockArray().get(colorSensor2.getBlockArray().size() - i));
+        // UpdateSensorStates(colorSensor1, colorSensor2);
       }
       determineHeading();
     }

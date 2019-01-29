@@ -71,7 +71,7 @@ public class RobotMap {
     navx = new AHRS(SPI.Port.kMXP); 
 
     colorSensorlink = new I2Cwrapper(I2C.Port.kOnboard, 0x39);
-    colorSensor = new ColorSensor(colorSensorlink);
+    colorSensor = new ColorSensor(I2C.Port.kOnboard);
 
     // colorSensorlink2 = new I2Cwrapper(I2C.Port.kOnboard, 1);
     // colorSensor2 = new ColorSensor(colorSensorlink2);
