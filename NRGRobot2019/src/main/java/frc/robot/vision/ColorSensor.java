@@ -79,7 +79,7 @@ public void read() {
     System.out.println("read");
 }
 
-public int status() {g
+public int status() {
 	buffy.clear();
 	sensor.read(CMD | 0x13, 1, buffy);
 	return buffy.get(0);
