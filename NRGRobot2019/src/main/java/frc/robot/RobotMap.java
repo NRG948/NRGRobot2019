@@ -44,11 +44,7 @@ public class RobotMap {
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
-  public static ColorSensorLink colorSensorlink;
   public static ColorSensor colorSensor;
-
-  public static ColorSensorLink colorSensorlink2;
-  public static ColorSensor colorSensor2;
 
   public static AHRS navx;
 
@@ -70,9 +66,7 @@ public class RobotMap {
 
     navx = new AHRS(SPI.Port.kMXP); 
 
-    colorSensorlink = new I2Cwrapper(I2C.Port.kOnboard, 0x39);
-    colorSensor = new ColorSensor(I2C.Port.kOnboard);
-
+    colorSensor = new ColorSensor(I2C.Port.kOnboard, 0x39);
     // colorSensorlink2 = new I2Cwrapper(I2C.Port.kOnboard, 1);
     // colorSensor2 = new ColorSensor(colorSensorlink2);
     

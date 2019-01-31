@@ -16,7 +16,7 @@ import frc.robot.vision.*;
 
 public class FollowAlignmenLine extends Command {
   static ColorSensor colorSensor1 = RobotMap.colorSensor;
-  static ColorSensor colorSensor2 = RobotMap.colorSensor2;
+  // static ColorSensor colorSensor2 = RobotMap.colorSensor2;
   boolean leftSensorState;
   boolean RightSensorState;
   int correctionCounter = 0;
