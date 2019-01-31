@@ -7,6 +7,7 @@
 
 package frc.robot.vision;
 
+import java.awt.image.ColorModel;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -45,8 +46,6 @@ public class ColorSensor {
 
 private ByteBuffer buffy = ByteBuffer.allocate(8);
 
-public short red = 0, green = 0, blue = 0, prox = 0;
-
 public ColorSensor(I2C.Port port) {
 	buffy.order(ByteOrder.LITTLE_ENDIAN);
     sensor = new I2C(port, 0x39); //0x39 is the address of the Vex ColorSensor V2
@@ -61,22 +60,22 @@ public ColorSensor(I2C.Port port) {
 
 
 
-public void read() {
+public Color read() {
 	buffy.clear();
     sensor.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy);
+    Color color = new Color();
+    color.red = buffy.getShort(0);
+    if(color.red < 0) { color.red += 0b10000000000000000; }
     
-    red = buffy.getShort(0);
-    if(red < 0) { red += 0b10000000000000000; }
+    color.green = buffy.getShort(2);
+    if(color.green < 0) { color.green += 0b10000000000000000; }
     
-    green = buffy.getShort(2);
-    if(green < 0) { green += 0b10000000000000000; }
+    color.blue = buffy.getShort(4); 
+    if(color.blue < 0) { color.blue += 0b10000000000000000; }
     
-    blue = buffy.getShort(4); 
-    if(blue < 0) { blue += 0b10000000000000000; }
-    
-    prox = buffy.getShort(6); 
-    if(prox < 0) { prox += 0b10000000000000000; }
-    System.out.println("read");
+    color.prox = buffy.getShort(6); 
+    if(color.prox < 0) { color.prox += 0b10000000000000000; }
+    return color;
 }
 
 public int status() {
@@ -87,6 +86,13 @@ public int status() {
 
 public void free() {
 	sensor.free();
+}
+public class Color{
+    public int red;
+    public int green;
+    public int blue;
+    public int prox;
+
 }
 }
 
