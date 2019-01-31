@@ -19,7 +19,6 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.vision.I2Cwrapper;
-import frc.robot.vision.ColorSensor.Color;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -72,12 +71,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
-    Color color = RobotMap.colorSensor.readRGB();
-    RobotMap.colorSensor.clearInterrupt();
-    SmartDashboard.putNumber("ColorSensor/Red", color.red);
-    SmartDashboard.putNumber("ColorSensor/Green",color.green);
-    SmartDashboard.putNumber("ColorSensor/Blue", color.blue);
-    SmartDashboard.putNumber("ColorSensor/Alpha", color.alpha);
+    // SmartDashboard.putNumber("ColorSensorRed", RobotMap.colorSensor.getRed());
+    // SmartDashboard.putNumber("ColorSensorGreen", RobotMap.colorSensor.getGreen());
+    // SmartDashboard.putNumber("ColorSensorBlue", RobotMap.colorSensor.getBlue());
+    // SmartDashboard.putNumber("ColorSensorAlpha", RobotMap.colorSensor.getProx());
 
   }
 
@@ -110,6 +107,8 @@ public class Robot extends TimedRobot {
     positionTracker.updatePosition();
     Scheduler.getInstance().run();
 
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 
   @Override
@@ -129,11 +128,15 @@ public class Robot extends TimedRobot {
     positionTracker.updatePosition();
     Scheduler.getInstance().run();
 
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 
   @Override
   public void testPeriodic() {
     positionTracker.updatePosition();
 
+    // RobotMap.colorSensor.updateColorSensor();
+    // RobotMap.colorSensor2.updateColorSensor();
   }
 }
