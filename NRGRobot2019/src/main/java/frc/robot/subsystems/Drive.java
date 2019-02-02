@@ -35,14 +35,14 @@ public class Drive extends Subsystem {
   private final double DEFAULT_PATH_P = 0.081; //INCHES_PER_METER;
   private final double DEFAULT_PATH_I = 0.00;
   private final double DEFAULT_PATH_D = 0.00;
-  private final double DRIVE_WHEEL_BASE = 25.75;
+  private final double DRIVE_WHEEL_BASE = 25.2;
   private final int DRIVE_TICKS_PER_REV = 1024;
-  private final double DRIVE_WHEEL_DIAMETER = 4.0; //TODO: CHANGE THE WHEELS TO 8 INCHES
+  private final double DRIVE_WHEEL_DIAMETER = 8.0;
   private final double DRIVE_MAX_VELOCITY = 220.0;
 
-  private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveBackLeftMotor);
-  private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveBackRightMotor);
-  private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
+  private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveMiddleLeftMotor, RobotMap.driveBackLeftMotor);
+  private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveMiddleRightMotor, RobotMap.driveBackRightMotor);
+   private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
   private SimplePIDController turnPIDController; 
   private SimplePIDController drivePIDController; 
   private DistanceFollower leftFollower;
