@@ -14,7 +14,6 @@ import frc.robot.vision.ColorSensor;
 import frc.robot.vision.ColorSensorLink;
 import frc.robot.vision.I2Cwrapper;
 
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -27,12 +26,12 @@ public class RobotMap {
   public static final int DRIVE_FRONT_RIGHT_MOTOR_PORT = 0;
   public static final int DRIVE_BACK_LEFT_MOTOR_PORT = 3;
   public static final int DRIVE_BACK_RIGHT_MOTOR_PORT = 1;
-  
-  public static final int DRIVE_LEFT_ENCODER_PORT1 = 0; 
+
+  public static final int DRIVE_LEFT_ENCODER_PORT1 = 0;
   public static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
   public static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
   public static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
-  
+
   public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.01171875;
   public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.01171875;
 
@@ -44,10 +43,7 @@ public class RobotMap {
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
-  public static ColorSensorLink colorSensorlink;
   public static ColorSensor colorSensor;
-
-  public static ColorSensorLink colorSensorlink2;
   public static ColorSensor colorSensor2;
 
   public static AHRS navx;
@@ -68,23 +64,17 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    navx = new AHRS(SPI.Port.kMXP); 
+    navx = new AHRS(SPI.Port.kMXP);
 
     colorSensor = new ColorSensor(I2C.Port.kOnboard);
 
-    // colorSensorlink2 = new I2Cwrapper(I2C.Port.kOnboard, 1);
-    // colorSensor2 = new ColorSensor(colorSensorlink2);
-    
-
   }
 
-  public static void resetSensors(){
+  public static void resetSensors() {
     driveLeftEncoder.reset();
     driveRightEncoder.reset();
     navx.reset();
     System.out.println("Sensors Reset");
   }
-  
+
 }
-
-

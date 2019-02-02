@@ -32,16 +32,14 @@ public class I2Cwrapper implements ColorSensorLink {
 	protected final static int AEN   = 0b00000010;
 	protected final static int PEN   = 0b00000100;
 
+	private final double integrationTime = 10;
+
 	private I2C i2c;
 	private Port i2cPort;
 	private int deviceAddress;
 
-	private final double integrationTime = 10;
-
 	private ByteBuffer buffy = ByteBuffer.allocate(8);
-
-	public short red = 0, green = 0, blue = 0, prox = 0;
-
+	public int red = 0, green = 0, blue = 0, prox = 0;
 
 	public I2Cwrapper(Port port, int deviceAddress) {
 		i2cPort = port;
@@ -60,36 +58,28 @@ public class I2Cwrapper implements ColorSensorLink {
         return w;
 	}
 
-
     public int[] readColorSensor() { // covert byte array to int array
 		buffy.clear();
 		int[] c = new int[4];
 		if(i2c.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy)){
 			System.out.println("YES");
-		}
-		else
+		} else {
 			System.out.println("NO");
+		}
 		
-		red = buffy.getShort(0);
-		if(red < 0) { red += 0b10000000000000000; }
+		red = buffy.getShort(0) & 0xFFFF;
+		green = buffy.getShort(2) & 0xFFFF;
+		blue = buffy.getShort(4) & 0xFFFF; 
+		prox = buffy.getShort(6) & 0xFFFF; 
 		c[0] = red;
-		green = buffy.getShort(2);
-		if(green < 0) { green += 0b10000000000000000; }
 		c[1] = green;
-		blue = buffy.getShort(4); 
-		if(blue < 0) { blue += 0b10000000000000000; }
 		c[2] = blue;
-		prox = buffy.getShort(6); 
-		if(prox < 0) { prox += 0b10000000000000000; }
 		c[3] = prox;
-
 		return c;
     }
-    
 
 	public void send(byte[] data) {
 		i2c.writeBulk(data);
 	}
-
 }
 

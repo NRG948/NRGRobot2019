@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
-    Color color = RobotMap.colorSensor.read();
+    Color color = RobotMap.colorSensor.readColorSensor();
     SmartDashboard.putNumber("ColorSensor/Red", color.red);
     SmartDashboard.putNumber("ColorSensor/Green",color.green);
     SmartDashboard.putNumber("ColorSensor/Blue", color.blue);
