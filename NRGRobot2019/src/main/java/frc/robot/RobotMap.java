@@ -30,8 +30,8 @@ public class RobotMap {
   public static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
   public static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
   
-  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.01171875;
-  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.01171875;
+  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009703125;
+  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009703125;
 
   /*
   public static SpeedController driveFrontLeftMotor;
@@ -66,8 +66,8 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
-    driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2, true);
-    driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2);
+    driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
+    driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
