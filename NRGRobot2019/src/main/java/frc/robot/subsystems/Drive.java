@@ -38,8 +38,8 @@ public class Drive extends Subsystem {
   private final double DEFAULT_PATH_D = 0.0;
   private final double DRIVE_MAX_VELOCITY = 120.0;
 
-  private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveBackLeftMotor);
-  private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveBackRightMotor);
+  private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveMiddleLeftMotor, RobotMap.driveBackLeftMotor);
+  private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveMiddleRightMotor, RobotMap.driveBackRightMotor);
   private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
   private SimplePIDController turnPIDController; 
   private SimplePIDController drivePIDController; 
