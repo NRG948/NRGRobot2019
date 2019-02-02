@@ -14,6 +14,8 @@ import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.FollowWaypoints;
+// import frc.robot.commands.ManualCargoAcquirer;
+
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Drive;
@@ -39,7 +41,7 @@ public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
   // assign each side of joystick to a port 
-
+  private JoystickButton manualCargoAcquirerButton = new JoystickButton(rightJoystick, 2);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
   private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
@@ -60,6 +62,7 @@ public class OI {
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
     followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
+    // manualCargoAcquirerButton.whenActive(new ManualCargoAcquirer());
   }
 
 

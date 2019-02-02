@@ -32,10 +32,10 @@ public class Drive extends Subsystem {
   private final double DEFAULT_DRIVE_I = 0.00016;
   private final double DEFAULT_DRIVE_D = 0.0072;
   private final double INCHES_PER_METER = 39.37;
-  private final double DEFAULT_PATH_P = 0.081; //INCHES_PER_METER;
+  private final double DEFAULT_PATH_P = 0.081;
   private final double DEFAULT_PATH_I = 0.00;
   private final double DEFAULT_PATH_D = 0.00;
-  private final double DRIVE_WHEEL_BASE = 25.2;
+  private final double DRIVE_WHEEL_BASE = 25.25;
   private final int DRIVE_TICKS_PER_REV = 1024;
   private final double DRIVE_WHEEL_DIAMETER = 8.0;
   private final double DRIVE_MAX_VELOCITY = 220.0;
