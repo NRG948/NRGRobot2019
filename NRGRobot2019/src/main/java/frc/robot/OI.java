@@ -61,7 +61,7 @@ public class OI {
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
-    followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
+    followPathButton.whenPressed(new FollowPathWeaverFile("output/ToLeftFrontHatch.pf1.csv"));
     // manualCargoAcquirerButton.whenActive(new ManualCargoAcquirer());
   }
 
