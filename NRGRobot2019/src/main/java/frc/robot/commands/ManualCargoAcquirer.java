@@ -5,44 +5,45 @@
 // /* the project.                                                               */
 // /*----------------------------------------------------------------------------*/
 
-// package frc.robot.commands;
+package frc.robot.commands;
 
-// import edu.wpi.first.wpilibj.command.Command;
-// import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-// public class ManualCargoAcquirer extends Command {
-//   public ManualCargoAcquirer() {
-//     // Use requires() here to declare subsystem dependencies
-//     // eg. requires(chassis);
-//     requires(Robot.cargoAcquirer);
-//   }
+public class ManualCargoAcquirer extends Command {
+  public ManualCargoAcquirer() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.cargoAcquirer);
+  }
 
-//   // Called just before this Command runs the first time
-//   @Override
-//   protected void initialize() {
-//   }
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+      System.out.println("ManualCargoAcquire Init");
+  }
 
-//   // Called repeatedly when this Command is scheduled to run
-//   @Override
-//   protected void execute() {
-//   }
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+      Robot.cargoAcquirer.rawAcquire(Robot.oi.getXBoxLeftY());
+  }
 
-//   // Make this return true when this Command no longer needs to run execute()
-//   @Override
-//   protected boolean isFinished() {
-//     return false;
-//   }
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
 
-//   // Called once after isFinished returns true
-//   @Override
-//   protected void end() {
-//     Robot.cargoAcquirer.stop();
-//     System.out.println("ManualCargoAcquire End");
-//   }
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+    Robot.cargoAcquirer.stop();
+    System.out.println("ManualCargoAcquire End");
+  }
 
-//   // Called when another command which requires one or more of the same
-//   // subsystems is scheduled to run
-//   @Override
-//   protected void interrupted() {
-//   }
-// }
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+  }
+}

@@ -38,7 +38,7 @@ public class Drive extends Subsystem {
   private final double DRIVE_WHEEL_BASE = 25.25;
   private final int DRIVE_TICKS_PER_REV = 1024;
   private final double DRIVE_WHEEL_DIAMETER = 8.0;
-  private final double DRIVE_MAX_VELOCITY = 220.0;
+  private final double DRIVE_MAX_VELOCITY = 190;
 
   private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveMiddleLeftMotor, RobotMap.driveBackLeftMotor);
   private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveMiddleRightMotor, RobotMap.driveBackRightMotor);

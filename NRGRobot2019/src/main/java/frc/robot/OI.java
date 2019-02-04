@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.DriveStraight;
@@ -40,8 +42,9 @@ public class OI {
 
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
+  private XboxController xboxController = new XboxController(2);
+
   // assign each side of joystick to a port 
-  private JoystickButton manualCargoAcquirerButton = new JoystickButton(rightJoystick, 2);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
   private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
@@ -60,18 +63,25 @@ public class OI {
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
-    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
+    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
-    // manualCargoAcquirerButton.whenActive(new ManualCargoAcquirer());
   }
 
-
+  /** Gets the Y value of the left joystick. */
   public double getLeftJoystickY() {
     return -leftJoystick.getY();
-  }// gets the Y value of the left joystick
+  }
 
+  /** Gets the Y value of the right joystick. */
   public double getRightJoystickY() {
-    return -rightJoystick.getY();
-  }// gets the Y value of the right joystick
+    return -rightJoystick.getY(); 
+  }
 
+  public double getXBoxLeftY() {
+		return -xboxController.getY(Hand.kLeft);
+	}
+
+	public double getXBoxRightY() {
+		return -xboxController.getY(Hand.kRight);
+	}
 }
