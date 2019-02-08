@@ -10,6 +10,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.sensors.VL53L0X;
 import frc.robot.vision.ColorSensor;
 import frc.robot.vision.ColorSensorLink;
 import frc.robot.vision.I2Cwrapper;
@@ -47,6 +48,7 @@ public class RobotMap {
   public static ColorSensor colorSensor2;
 
   public static AHRS navx;
+  public static VL53L0X timeOfFlightSensor;
 
   public static void init() {
     driveFrontLeftMotor = new Victor(DRIVE_FRONT_LEFT_MOTOR_PORT);
@@ -66,8 +68,9 @@ public class RobotMap {
 
     navx = new AHRS(SPI.Port.kMXP);
 
-    colorSensor = new ColorSensor(I2C.Port.kOnboard);
-
+    // colorSensor = new ColorSensor(I2C.Port.kOnboard);
+    timeOfFlightSensor = new VL53L0X(I2C.Port.kOnboard);
+    timeOfFlightSensor.start();
   }
 
   public static void resetSensors() {
