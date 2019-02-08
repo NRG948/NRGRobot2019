@@ -42,6 +42,7 @@ public class ColorSensor {
     private I2C sensor;
 
     private ByteBuffer buffy = ByteBuffer.allocate(8);
+    private Boolean status;
 
     public ColorSensor(I2C.Port port) {
         buffy.order(ByteOrder.LITTLE_ENDIAN);
@@ -54,13 +55,17 @@ public class ColorSensor {
         // configures the integration time (time for updating color data)
         sensor.write(CMD | 0x01, (int) (256 - integrationTime / 2.38));
         sensor.write(CMD | 0x0E, 0b1111);
-        readColorSensor();
-        System.out.println(status());
+        // readColorSensor();
+        // System.out.println(status());
     }
 
     public Color readColorSensor() {
         buffy.clear();
-        sensor.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy);
+        if(sensor.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy)){
+            System.out.println("Fail");
+        }else{
+            System.out.println("Success");
+        }
         Color color = new Color();
         color.red = (int) buffy.getShort(0) & 0xFFFF;
         color.green = (int) buffy.getShort(2) & 0xFFFF;
