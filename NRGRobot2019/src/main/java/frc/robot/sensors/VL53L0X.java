@@ -38,6 +38,7 @@ public class VL53L0X extends SendableBase {
         i2c.write(0x00, 0x01);
         i2c.write(0xFF, 0x00);
         i2c.write(0x80, 0x00);
+        setName("VL53L0X");
     }
 
     private void startMeasurement() {
