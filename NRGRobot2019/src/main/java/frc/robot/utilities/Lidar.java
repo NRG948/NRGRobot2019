@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import edu.wpi.first.wpilibj.I2C;
 
 public class Lidar {
+	//constants
 	protected final int address = 0x52;
 	private final int SYSRANGE_START = 0x00;
 	private final int SYSTEM_INTERRUPT_CLEAR = 0x0B;
