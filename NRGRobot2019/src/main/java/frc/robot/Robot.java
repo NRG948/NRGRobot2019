@@ -78,6 +78,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ColorSensor/Blue", color.blue);
     SmartDashboard.putNumber("ColorSensor/Prox", color.prox);
 
+    int range = RobotMap.lidar.range();
+    SmartDashboard.putNumber("LidarSensor_Range", range);
   }
 
   /**

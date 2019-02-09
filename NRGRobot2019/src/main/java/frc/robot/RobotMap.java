@@ -10,6 +10,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.utilities.Lidar;
 import frc.robot.vision.ColorSensor;
 import frc.robot.vision.ColorSensorLink;
 import frc.robot.vision.I2Cwrapper;
@@ -42,7 +43,8 @@ public class RobotMap {
 
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
-
+  
+  public static Lidar lidar;
   public static ColorSensor colorSensor;
   public static ColorSensor colorSensor2;
 
@@ -66,8 +68,8 @@ public class RobotMap {
 
     navx = new AHRS(SPI.Port.kMXP);
 
-    colorSensor = new ColorSensor(I2C.Port.kOnboard);
-
+    //colorSensor = new ColorSensor(I2C.Port.kOnboard);
+    lidar = new Lidar(I2C.Port.kOnboard);
   }
 
   public static void resetSensors() {

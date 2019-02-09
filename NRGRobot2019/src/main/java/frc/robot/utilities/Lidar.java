@@ -39,19 +39,19 @@ public class Lidar {
 		return result; // & 0xFF;
     }
     
-    private int readU16BE(I2C sensor, int register) throws IOException{
+    private int readU16BE(I2C sensor, int register) {
         //method reads 2 bytes of BIG ENDIANS
 		return readU16(sensor, register, ByteOrder.BIG_ENDIAN);
 	}
 
-	private int readU16(I2C sensor, int register, ByteOrder by) throws IOException {
+	private int readU16(I2C sensor, int register, ByteOrder by) {
         //helper method for method above
 		int hi = readU8(sensor, register);
 		int lo = readU8(sensor, register + 1);
 		return ((by ==  ByteOrder.BIG_ENDIAN) ? (hi << 8) + lo : (lo << 8) + hi); // & 0xFFFF;
 	}
 
-	public int range() throws IOException {
+	public int range() {
 		sensor.write((byte)0x80, (byte)0x01);
 		sensor.write((byte)0xFF, (byte)0x01);
 		sensor.write((byte)0x00, (byte)0x00);
