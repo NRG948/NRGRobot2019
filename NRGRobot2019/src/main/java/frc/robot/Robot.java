@@ -65,21 +65,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    int range = RobotMap.lidar.range();
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-
-    Color color = RobotMap.colorSensor.readColorSensor();
-    SmartDashboard.putNumber("ColorSensor/Red", color.red);
-    SmartDashboard.putNumber("ColorSensor/Green",color.green);
-    SmartDashboard.putNumber("ColorSensor/Blue", color.blue);
-    SmartDashboard.putNumber("ColorSensor/Prox", color.prox);
-
-    int range = RobotMap.lidar.range();
     SmartDashboard.putNumber("LidarSensor_Range", range);
+
+    // Color color = RobotMap.colorSensor.readColorSensor();
+    // SmartDashboard.putNumber("ColorSensor/Red", color.red);
+    // SmartDashboard.putNumber("ColorSensor/Green",color.green);
+    // SmartDashboard.putNumber("ColorSensor/Blue", color.blue);
+    // SmartDashboard.putNumber("ColorSensor/Prox", color.prox);
+
   }
 
   /**

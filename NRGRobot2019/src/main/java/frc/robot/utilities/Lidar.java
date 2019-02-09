@@ -6,7 +6,7 @@ import java.nio.ByteOrder;
 import edu.wpi.first.wpilibj.I2C;
 
 public class Lidar {
-	protected final int address = 0x29;
+	protected final int address = 0x52;
 	private final int SYSRANGE_START = 0x00;
 	private final int SYSTEM_INTERRUPT_CLEAR = 0x0B;
 	private final int RESULT_RANGE_STATUS = 0x14;
@@ -28,6 +28,7 @@ public class Lidar {
 		sensor.write((byte) 0x00, (byte) 0x01);
 		sensor.write((byte) 0xFF, (byte) 0x00);
 		sensor.write((byte) 0x80, (byte) 0x00);
+		System.out.println("Lidar Constructor");
     }
 
     private int readU8(I2C sensor, int register) {
@@ -52,6 +53,7 @@ public class Lidar {
 	}
 
 	public int range() {
+		System.out.println("Range Started");
 		sensor.write((byte)0x80, (byte)0x01);
 		sensor.write((byte)0xFF, (byte)0x01);
 		sensor.write((byte)0x00, (byte)0x00);
@@ -61,18 +63,18 @@ public class Lidar {
 		sensor.write((byte)0x80, (byte)0x00);
 		sensor.write((byte)SYSRANGE_START, (byte)0x01);
 
-		long start = System.currentTimeMillis();
-		while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {
-			if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
-				throw new RuntimeException("Timeout waiting for VL53L0X!");
-			}
-		}
-		start = System.currentTimeMillis();
-		while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
-			if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
-				throw new RuntimeException("Timeout waiting for VL53L0X!");
-			}
-		}
+		// long start = System.currentTimeMillis();
+		// while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {
+		// 	if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
+		// 		throw new RuntimeException("Timeout waiting for VL53L0X!");
+		// 	}
+		// }
+		// start = System.currentTimeMillis();
+		// while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
+		// 	if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
+		// 		throw new RuntimeException("Timeout waiting for VL53L0X!");
+		// 	}
+		// }
 
 		int rangeMm = this.readU16BE(this.sensor, RESULT_RANGE_STATUS + 10);
 		sensor.write((byte)SYSTEM_INTERRUPT_CLEAR, (byte)0x01);
