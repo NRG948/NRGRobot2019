@@ -65,13 +65,12 @@ public class Lidar {
 		sensor.write((byte)SYSRANGE_START, (byte)0x01);
 
 		// long start = System.currentTimeMillis();
-		// while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {
-		// 	if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
-		// 		throw new RuntimeException("Timeout waiting for VL53L0X!");
-		// 	}
+		while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {}	
+		System.out.println("Done checking SYSRANGE");
 		// }
 		// start = System.currentTimeMillis();
-		// while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
+		while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {}
+		System.out.println("RESULT_INTERRUPT_STATUS no longer 0");
 		// 	if (this.ioTimeout > 0 && ((System.currentTimeMillis() - start) / 1_000) >= this.ioTimeout) {
 		// 		throw new RuntimeException("Timeout waiting for VL53L0X!");
 		// 	}
