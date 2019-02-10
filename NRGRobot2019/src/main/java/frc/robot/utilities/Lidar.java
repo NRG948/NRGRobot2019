@@ -35,10 +35,13 @@ public class Lidar {
     private int readU8(I2C sensor, int register) {
         //this method reads an unsigned byte from the device
 		int result = 0;
-        byte[] buffer = new byte[1];
-        sensor.read(register, 1, buffer);
+        byte[] buffer = new byte[12];
+        sensor.read(register, buffer.length, buffer);
 		result = buffer[0];
-		System.out.println(result);
+		for (byte b : buffer) {
+			System.out.println(b);
+		}
+		//System.out.println(result);
 		return result; // & 0xFF;
     }
     
