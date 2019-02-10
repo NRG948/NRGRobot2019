@@ -62,7 +62,7 @@ public class Lidar {
 		sensor.write((byte)0x80, (byte)0x01);
 		sensor.write((byte)0xFF, (byte)0x01);
 		sensor.write((byte)0x00, (byte)0x00);
-		sensor.write((byte)0x91, (byte)this.stopVariable);
+		//sensor.write((byte)0x91, (byte)this.stopVariable);
 		sensor.write((byte)0x00, (byte)0x01);
 		sensor.write((byte)0xFF, (byte)0x00);
 		sensor.write((byte)0x80, (byte)0x00);
