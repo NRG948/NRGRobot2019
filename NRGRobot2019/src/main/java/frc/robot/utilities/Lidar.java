@@ -76,7 +76,9 @@ public class Lidar {
 		// 		throw new RuntimeException("Timeout waiting for VL53L0X!");
 		// 	}
 		// }
-		System.out.println(this.readU16BE(this.sensor, RESULT_RANGE_STATUS + 10));
+		
+		System.out.println("hi: " + readU8(this.sensor, RESULT_RANGE_STATUS) + " lo: " + readU8(this.sensor, RESULT_RANGE_STATUS + 1));
+		//System.out.println(this.readU16BE(this.sensor, RESULT_RANGE_STATUS + 10));
 		int rangeMm = this.readU16BE(this.sensor, RESULT_RANGE_STATUS + 10);
 		sensor.write((byte)SYSTEM_INTERRUPT_CLEAR, (byte)0x01);
 		return rangeMm;
