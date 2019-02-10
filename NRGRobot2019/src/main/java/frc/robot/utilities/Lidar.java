@@ -37,7 +37,8 @@ public class Lidar {
 		int result = 0;
         byte[] buffer = new byte[1];
         sensor.read(register, 1, buffer);
-        result = buffer[0];
+		result = buffer[0];
+		System.out.println(result);
 		return result; // & 0xFF;
     }
     
@@ -68,7 +69,7 @@ public class Lidar {
 			//java.util.concurrent.TimeUnit.MILLISECONDS.sleep(200);
 			while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {}	
 			System.out.println("Done checking SYSRANGE");
-			System.out.println((byte)this.readU8(this.sensor, RESULT_INTERRUPT_STATUS));
+			this.readU8(this.sensor, RESULT_INTERRUPT_STATUS);
 			//while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS + 10) & 0x07) == 0) {
 			//}
 			// System.out.println("RESULT_INTERRUPT_STATUS no longer 0");
