@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+  private int range; //testing purposes
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
+    range = RobotMap.lidar.range();
   }
 
   /**
@@ -65,7 +66,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    int range = RobotMap.lidar.range();
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
