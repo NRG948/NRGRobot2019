@@ -68,10 +68,10 @@ public class Lidar {
 			//java.util.concurrent.TimeUnit.MILLISECONDS.sleep(200);
 			while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {}	
 			System.out.println("Done checking SYSRANGE");
-			while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
-				System.out.println(this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07);
-			}
-			System.out.println("RESULT_INTERRUPT_STATUS no longer 0");
+			// while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07) == 0) {
+			// 	System.out.println(this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07);
+			// }
+			// System.out.println("RESULT_INTERRUPT_STATUS no longer 0");
 		} catch(Exception e) {
 			System.out.println("not working");
 		}
