@@ -53,7 +53,7 @@ public class Lidar {
 		return ((by ==  ByteOrder.BIG_ENDIAN) ? (hi << 8) + lo : (lo << 8) + hi); // & 0xFFFF;
 	}
 
-	public int range() throws InterruptedException {
+	public int range() {
 		System.out.println("Range Started");
 		sensor.write((byte)0x80, (byte)0x01);
 		sensor.write((byte)0xFF, (byte)0x01);
@@ -64,7 +64,11 @@ public class Lidar {
 		sensor.write((byte)0x80, (byte)0x00);
 		sensor.write((byte)SYSRANGE_START, (byte)0x01);
 
-		java.util.concurrent.TimeUnit.MILLISECONDS.sleep(200);
+		try {
+			java.util.concurrent.TimeUnit.MILLISECONDS.sleep(200);
+		} catch(Exception e) {
+			System.out.println("not working");
+		}
 		// long start = System.currentTimeMillis();
 		//while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {}	
 		//System.out.println("Done checking SYSRANGE");
