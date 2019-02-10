@@ -11,7 +11,7 @@ public class Lidar {
 	private final int SYSRANGE_START = 0x00;
 	private final int SYSTEM_INTERRUPT_CLEAR = 0x0B;
 	private final int RESULT_RANGE_STATUS = 0x14;
-	private final int RESULT_INTERRUPT_STATUS = 0x13;
+	private final int RESULT_INTERRUPT_STATUS = 0x12;
 	private int ioTimeout;
 	private int stopVariable = 0;
     private I2C sensor; 
@@ -69,7 +69,7 @@ public class Lidar {
 			while ((this.readU8(this.sensor, SYSRANGE_START) & 0x01) > 0) {}	
 			System.out.println("Done checking SYSRANGE");
 			while ((this.readU8(this.sensor, RESULT_INTERRUPT_STATUS)) == 0) {
-			// 	System.out.println(this.readU8(this.sensor, RESULT_INTERRUPT_STATUS) & 0x07);
+				System.out.println(this.readU8(this.sensor, RESULT_INTERRUPT_STATUS));
 			}
 			// System.out.println("RESULT_INTERRUPT_STATUS no longer 0");
 		} catch(Exception e) {
