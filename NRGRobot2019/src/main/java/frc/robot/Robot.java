@@ -19,6 +19,8 @@ import frc.robot.commands.ExampleCommand;
 // import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
+import frc.robot.utilities.Target;
+import frc.robot.utilities.VisionProc;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +36,10 @@ public class Robot extends TimedRobot {
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
+  public static Target leftTarget = new Target(); //temporary targets
+  public static Target rightTarget = new Target(); //temporary Targets
+  public static VisionProc vp = new VisionProc(); //temporary initialization
+  
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
