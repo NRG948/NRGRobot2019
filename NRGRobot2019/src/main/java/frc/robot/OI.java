@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.DriveStraight;
@@ -16,6 +17,7 @@ import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Drive;
+import frc.robot.utilities.MathUtil;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -24,6 +26,7 @@ import frc.robot.subsystems.Drive;
 public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
+  private XboxController xboxController = new XboxController(2);
   // assign each side of joystick to a port 
   private JoystickButton manualCargoAcquirerButton = new JoystickButton(rightJoystick, 2);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
@@ -53,4 +56,11 @@ public class OI {
     return -rightJoystick.getY();
   }// gets the Y value of the right joystick
 
+  public double getXboxLeftTrigger() {
+    return MathUtil.deadband(xboxController.getRawAxis(2), 0.05);
+  }
+
+  public double getXboxRightTrigger() {
+    return MathUtil.deadband(xboxController.getRawAxis(3), 0.05);
+  }
 }
