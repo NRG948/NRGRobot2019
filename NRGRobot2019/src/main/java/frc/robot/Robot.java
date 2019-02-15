@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     RobotMap.init();
     drive = new Drive();
     arm = new Arm(); 
-    
+
     chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", chooser);
@@ -74,7 +74,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-    
   }
 
   /**
@@ -128,6 +127,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     positionTracker.updatePosition();
-
   }
 }
