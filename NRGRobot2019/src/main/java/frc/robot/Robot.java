@@ -71,10 +71,12 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
+    SmartDashboard.putNumber("PositionTracker/maxVelocity", positionTracker.getMaxVelocity());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
+    positionTracker.updatePosition();
   }
 
   /**
@@ -103,7 +105,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    positionTracker.updatePosition();
     Scheduler.getInstance().run();
   }
 
@@ -121,7 +122,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    positionTracker.updatePosition();
     Scheduler.getInstance().run();
   }
 

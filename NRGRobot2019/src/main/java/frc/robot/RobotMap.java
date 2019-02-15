@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
+ * The RobotMap is a mapping from the ports sensors and actuators are wired into0
+ * 
  * to a variable name. This provides flexibility changing wiring, makes checking
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
