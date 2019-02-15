@@ -58,7 +58,7 @@ public class RobotMap {
     driveBackRightMotor.setInverted(true);
 
     // armMotor = new Victor(2);
-    // cargoAcquirer = new Victor(1);
+    // cargoAcquirerMotor = new Victor(1);
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2);
 
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);

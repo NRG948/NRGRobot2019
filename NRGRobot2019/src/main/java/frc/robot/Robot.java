@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
-// import frc.robot.subsystems.CargoAcquirer;
+import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
 
@@ -31,7 +31,7 @@ import frc.robot.utilities.PositionTracker;
 public class Robot extends TimedRobot {
   public static Drive drive;
   public static OI oi;
-  // public static CargoAcquirer cargoAcquirer;
+  public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
@@ -47,7 +47,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotMap.init();
     drive = new Drive();
-    arm = new Arm(); 
+    arm = new Arm();
+    cargoAcquirer = new CargoAcquirer(); 
 
     chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());

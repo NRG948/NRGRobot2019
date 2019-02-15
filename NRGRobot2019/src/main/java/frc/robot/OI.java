@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.commands.DriveStraight;
@@ -47,14 +48,23 @@ public class OI {
     // manualCargoAcquirerButton.whenActive(new ManualCargoAcquirer());
   }
 
-
+  // gets the Y value of the left joystick
   public double getLeftJoystickY() {
     return -leftJoystick.getY();
-  }// gets the Y value of the left joystick
+  }
 
+  // gets the Y value of the right joystick
   public double getRightJoystickY() {
     return -rightJoystick.getY();
-  }// gets the Y value of the right joystick
+  }
+  
+  public double getXboxLeftY() {
+    return -xboxController.getY(Hand.kLeft);
+  }
+
+  public double getXboxRightY() {
+    return -xboxController.getY(Hand.kRight);
+  }
 
   public double getXboxLeftTrigger() {
     return MathUtil.deadband(xboxController.getRawAxis(2), 0.05);
