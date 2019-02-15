@@ -36,9 +36,6 @@ public class Robot extends TimedRobot {
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  public static Target leftTarget = new Target(); //temporary targets
-  public static Target rightTarget = new Target(); //temporary Targets
-  public static VisionProc vp = new VisionProc(); //temporary initialization
   
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();

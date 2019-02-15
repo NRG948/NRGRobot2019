@@ -17,8 +17,8 @@ public class DriveToVisionTapes extends CommandGroup {
    * Add your docs here.
    */
   public DriveToVisionTapes() {
-    System.out.println("DriveToVisionTapes Start");
-    addSequential(new TurnToHeading(Robot.vp.getAngleToTurn(Robot.leftTarget, Robot.rightTarget), 0.5)); 
-    addSequential(new DriveStraightDistance(Robot.vp.getDistanceToCenter(Robot.leftTarget, Robot.rightTarget), 0.5));
+    // System.out.println("DriveToVisionTapes Start");
+    // addSequential(new TurnToHeading(Robot.vp.getAngleToTurn(Robot.leftTarget, Robot.rightTarget), 0.5)); 
+    // addSequential(new DriveStraightDistance(Robot.vp.getDistanceToCenter(Robot.leftTarget, Robot.rightTarget), 0.5));
   }
 }

@@ -10,13 +10,7 @@ public class Target {
     private Point minY;
     private Point maxY;
     private Side side;
-
-    public Target() {
-        minX.x = 0;
-        maxX.x = 1;
-        minY.y = 0;
-        maxY.y = 1;
-    }
+    
     public Target(MatOfPoint mat) {
         Point[] points = mat.toArray();
         minX = points[0];
