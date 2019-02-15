@@ -7,36 +7,50 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.commands.DriveStraight;
+import frc.robot.commands.DriveStraightDistance;
+// import frc.robot.commands.ManualCargoAcquirer;
+import frc.robot.commands.ManualDrive;
+import frc.robot.commands.TurnToHeading;
+import frc.robot.subsystems.Drive;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
+  private Joystick leftJoystick = new Joystick(0);
+  private Joystick rightJoystick = new Joystick(1);
+  // assign each side of joystick to a port 
+  private JoystickButton manualCargoAcquirerButton = new JoystickButton(rightJoystick, 2);
+  private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+  private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
+  private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
+  private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
+  OI() {
+    resetSensorsButton.whenPressed(new InstantCommand(() -> {
+      RobotMap.resetSensors();
+      Robot.positionTracker.setPosition(0.0, 0.0);
+    }));
 
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
+    driveStraightButton.whenActive(new DriveStraight());
+    driveStraightButton.whenInactive(new ManualDrive());
+    turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
+    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.5));
+    // manualCargoAcquirerButton.whenActive(new ManualCargoAcquirer());
+  }
 
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
 
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
+  public double getLeftJoystickY() {
+    return -leftJoystick.getY();
+  }// gets the Y value of the left joystick
 
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
+  public double getRightJoystickY() {
+    return -rightJoystick.getY();
+  }// gets the Y value of the right joystick
+
 }
