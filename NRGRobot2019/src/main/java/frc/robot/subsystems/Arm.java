@@ -17,6 +17,11 @@ public class Arm extends Subsystem {
 	public static final double DEFAULT_ARM_P = 0.005;
 	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
 	public static final double DEFAULT_ARM_D = 0;
+	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 0;
 
   private SimplePIDController pidController;
 

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,6 +24,7 @@ import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.PositionTracker;
+import frc.robot.utilities.PreferenceKeys;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,6 +46,8 @@ public class Robot extends TimedRobot {
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
+  public static Preferences preferences;
+
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -53,6 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+		preferences = Preferences.getInstance();
     RobotMap.init();
     drive = new Drive();
     gearbox = new Gearbox();
@@ -144,59 +149,29 @@ public class Robot extends TimedRobot {
 
   public void initPreferences() {
 		if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
-			preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
-			preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
-			preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
-			preferences.putDouble(PreferenceKeys.ARM_UP_MAX_POWER, Arm.LIFT_POWER_SCALE_UP);
-			preferences.putDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, Arm.LIFT_POWER_SCALE_DOWN);
+      preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
 			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
 			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
 			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_TURN_MAX_POWER, Drive.DEFAULT_DRIVE_TURN_POWER);
 
-			preferences.putDouble(PreferenceKeys.DRIVE_P, Drive.DEFAULT_DRIVE_P);
-			preferences.putDouble(PreferenceKeys.DRIVE_I, Drive.DEFAULT_DRIVE_I);
-			preferences.putDouble(PreferenceKeys.DRIVE_D, Drive.DEFAULT_DRIVE_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_MAX_POWER, Drive.DEFAULT_DRIVE_POWER);
+			preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
+			preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
+      preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
+      
+			preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
+			preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
+			preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
+			preferences.putDouble(PreferenceKeys.ARM_UP_MAX_POWER, Arm.ARM_UP_MAX_POWER);
+			preferences.putDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, Arm.ARM_DOWN_MAX_POWER);
 
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_P, Drive.DEFAULT_DRIVE_Y_P);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_I, Drive.DEFAULT_DRIVE_Y_I);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_D, Drive.DEFAULT_DRIVE_Y_D);
-			preferences.putDouble(PreferenceKeys.DRIVE_Y_MAX_POWER, Drive.DEFAULT_DRIVE_Y_POWER);
-
-			preferences.putDouble(PreferenceKeys.DRIVEYH_X, 48.0);
-			preferences.putDouble(PreferenceKeys.DRIVEYH_Y, 48.0);
-			preferences.putDouble(PreferenceKeys.DRIVEYH_H, 0);
-			preferences.putDouble(PreferenceKeys.DRIVEYH_X_POWER, 0.9);
-			preferences.putDouble(PreferenceKeys.DRIVEYH_Y_POWER, 0.5);
-			preferences.putDouble(PreferenceKeys.DRIVEYH_TURN_POWER, 0.3);
-
-			preferences.putInt(PreferenceKeys.SWITCH_TICKS, CubeLifter.DEFAULT_SWITCH_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_HIGH_TICKS, CubeLifter.DEFAULT_SCALE_HIGH_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_MEDIUM_TICKS, CubeLifter.DEFAULT_SCALE_MEDIUM_TICKS);
-			preferences.putInt(PreferenceKeys.SCALE_LOW_TICKS, CubeLifter.DEFAULT_SCALE_LOW_TICKS);
-			preferences.putInt(PreferenceKeys.STOWED_TICKS, CubeLifter.DEFAULT_STOWED_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
 
 			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-			preferences.putBoolean(PreferenceKeys.USE_FOUR_ENCODERS, false);
 			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
-			
-			preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
-			
-			preferences.putDouble(PreferenceKeys.AUTO_MAX_DRIVE_ACCEL, Drive.DEF_AUTO_MAX_DRIVE_ACCEL);
-			preferences.putDouble(PreferenceKeys.TELEOP_DRIVE_ACCEL_MAX_ARM_HEIGHT, Drive.DEF_TELEOP_DRIVE_ACCEL_MAX_ARM_HEIGHT);
-
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LF_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_LF_RATIO_PRACTICE);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LR_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_LR_RATIO_PRACTICE);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RF_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_RF_RATIO_PRACTICE);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RR_RATIO_PRACTICE, RobotMap.DEF_MEC_ENCODER_RR_RATIO_PRACTICE);
-			
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LF_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_LF_RATIO_COMP);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_LR_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_LR_RATIO_COMP);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RF_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_RF_RATIO_COMP);
-			preferences.putDouble(PreferenceKeys.MEC_ENCODER_RR_RATIO_COMP, RobotMap.DEF_MEC_ENCODER_RR_RATIO_COMP);
-			
-			preferences.putInt(PreferenceKeys.PIXY_CAM_CUBE_SIGNATURE, 1);
 		}
 }
