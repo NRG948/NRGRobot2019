@@ -18,10 +18,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class VisionTargets {
-    private final String[] NO_TARGETS = new String[0];
+    private static final String[] NO_TARGETS = new String[0];
     private ArrayList<Target> targets;
+    public static Target one;
+    public static Target two;
 
-    public void update(){
+    public static void update(){
         String[] targetsJson = SmartDashboard.getStringArray("Vision/targets", NO_TARGETS);
         ArrayList<Target> newTargets = new ArrayList<Target>(); 
         GsonBuilder builder = new GsonBuilder();
@@ -29,6 +31,8 @@ public class VisionTargets {
         for(int i = 0; i < targetsJson.length; i++){
             newTargets.add(gson.fromJson(targetsJson[i], Target.class));
         }
+        one = newTargets.get(0);
+        two = newTargets.get(1);
     }
 }
 

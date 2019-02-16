@@ -21,6 +21,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.Target;
 import frc.robot.utilities.VisionProc;
+import frc.robot.utilities.VisionTargets;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
   // public static CargoAcquirer cargoAcquirer;
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+  VisionTargets vt;
   
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -74,7 +75,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-    
+    VisionTargets.update();
+    SmartDashboard.putString("Vision/targetsOne", VisionTargets.one.toString());
+    SmartDashboard.putString("Vision/targetsTwo", VisionTargets.two.toString());
+    SmartDashboard.putNumber("Vision/AngleToTarget", VisionProc.getAngleToTurn(VisionTargets.one, VisionTargets.two));
+    //SmartDashboard.putString("Vision/TargetOne", VisionTargets.one.toString());
+    //SmartDashboard.putString("Vision/TargetTwo", VisionTargets.two.toString());
   }
 
   /**
