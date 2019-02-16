@@ -21,7 +21,6 @@ import frc.robot.commands.ExampleCommand;
 // import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
-import frc.robot.utilities.Target;
 import frc.robot.utilities.VisionTargets;
 
 /**
@@ -57,7 +56,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
-    this.visionTargets = new VisionTargets();
+    visionTargets = new VisionTargets();
   }
 
   /**
@@ -100,7 +99,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    this.visionTargets.update();
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
@@ -117,6 +116,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     positionTracker.updatePosition();
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
@@ -135,12 +135,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     positionTracker.updatePosition();
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
   @Override
   public void testPeriodic() {
     positionTracker.updatePosition();
+    visionTargets.update();
 
   }
 }
