@@ -22,7 +22,6 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.Target;
-import frc.robot.utilities.VisionProc;
 import frc.robot.utilities.VisionTargets;
 
 /**
@@ -83,6 +82,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
     if(hasTargets) {
       SmartDashboard.putNumber("Vision/angleToTarget", visionTargets.getAngleToTarget());
+      SmartDashboard.putNumber("Vision/distance", visionTargets.getDistanceToTarget());
       Point center = visionTargets.getCenterOfTargets();
       SmartDashboard.putNumber("Vision/centerX", center.x);
       SmartDashboard.putNumber("Vision/centerY", center.y);
