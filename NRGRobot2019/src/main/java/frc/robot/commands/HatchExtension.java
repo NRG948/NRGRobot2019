@@ -24,7 +24,7 @@ public class HatchExtension extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(state == State.EXTENDED) {
+    if(state == State.EXTEND) {
       Robot.hatchExtension.extend();
     } else {
       Robot.hatchExtension.retract();

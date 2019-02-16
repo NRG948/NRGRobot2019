@@ -21,7 +21,7 @@ public class HatchClawSubsystem extends Subsystem {
   // here. Call these from Commands.
 
   public enum State{
-    OPEN, CLOSE;
+    OPEN, CLOSE, RETRACT;
   }
 
   @Override
@@ -30,10 +30,10 @@ public class HatchClawSubsystem extends Subsystem {
   }
 
   public void setClawOpen(){
-    RobotMap.hatchClawSolenoid.set(Value.kForward);
+    // RobotMap.hatchClawSolenoid.set(Value.kForward);
   }
 
   public void setClawClose(){
-    RobotMap.hatchClawSolenoid.set(Value.kReverse);
+    // RobotMap.hatchClawSolenoid.set(Value.kReverse);
   }
 }

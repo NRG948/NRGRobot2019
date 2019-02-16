@@ -29,10 +29,10 @@ public class Gearbox extends Subsystem {
   }
 
   public void setHighGear(){
-    RobotMap.gearboxSolenoid.set(Value.kForward);
+    // RobotMap.gearboxSolenoid.set(Value.kForward);
   }
 
   public void setLowGear(){
-    RobotMap.gearboxSolenoid.set(Value.kReverse);
+    // RobotMap.gearboxSolenoid.set(Value.kReverse);
   }
 }

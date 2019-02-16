@@ -75,7 +75,7 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    // hatchClawSolenoid = new DoubleSolenoid(0, 0);
+    // hatchClawSolenoid = new DoubleSolenoid(0, 0);          // TODO CHANGE THE CHANNELS LATER
     // hatchExtensionSolenoid = new DoubleSolenoid (0,0);
     // climberSolenoid1 = new DoubleSolenoid(0, 0);
     // climberSolenoid2 = new DoubleSolenoid (0,0);

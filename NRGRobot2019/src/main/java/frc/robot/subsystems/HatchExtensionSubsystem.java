@@ -21,11 +21,11 @@ public class HatchExtensionSubsystem extends Subsystem {
   // here. Call these from Commands.
 
   public enum State{
-    EXTENDED, RETRACTED;
+    EXTEND, RETRACT;
   }
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new HatchExtension(State.RETRACTED));
+    setDefaultCommand(new HatchExtension(State.RETRACT));
   }
 
   public void extend(){
