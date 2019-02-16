@@ -1,11 +1,6 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
+
+import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
@@ -25,6 +20,7 @@ import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.PreferenceKeys;
+import frc.robot.utilities.VisionTargets;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,6 +44,8 @@ public class Robot extends TimedRobot {
 
   public static Preferences preferences;
 
+  public static VisionTargets visionTargets;
+  
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -73,6 +71,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
+    visionTargets = new VisionTargets();
   }
 
   /**
@@ -93,7 +92,16 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-    positionTracker.updatePosition();
+
+    boolean hasTargets = visionTargets.hasTargets();
+    SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
+    if(hasTargets) {
+      SmartDashboard.putNumber("Vision/angleToTarget", visionTargets.getAngleToTarget());
+      SmartDashboard.putNumber("Vision/distance", visionTargets.getDistanceToTarget());
+      Point center = visionTargets.getCenterOfTargets();
+      SmartDashboard.putNumber("Vision/centerX", center.x);
+      SmartDashboard.putNumber("Vision/centerY", center.y);
+    }
   }
 
   /**
@@ -107,6 +115,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
@@ -122,6 +131,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    positionTracker.updatePosition();
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
@@ -139,12 +150,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    positionTracker.updatePosition();
+    visionTargets.update();
     Scheduler.getInstance().run();
   }
 
   @Override
   public void testPeriodic() {
     positionTracker.updatePosition();
+    visionTargets.update();
   }
 
   public void initPreferences() {
