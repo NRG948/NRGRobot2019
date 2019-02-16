@@ -1,44 +1,33 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Victor;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
+ * The RobotMap is a mapping from the ports sensors and actuators are wired into0
+ * 
  * to a variable name. This provides flexibility changing wiring, makes checking
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
 public class RobotMap {
-/*
-  public static final int DRIVE_FRONT_LEFT_MOTOR_PORT = 2;
-  public static final int DRIVE_FRONT_RIGHT_MOTOR_PORT = 0;
-  public static final int DRIVE_BACK_LEFT_MOTOR_PORT = 3;
-  public static final int DRIVE_BACK_RIGHT_MOTOR_PORT = 1;
-  */
-   public static final int DRIVE_LEFT_ENCODER_PORT1 = 0; 
-  public static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
-  public static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
-  public static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
-  
-  public static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009703125;
-  public static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009703125;
 
-  /*
-  public static SpeedController driveFrontLeftMotor;
-  public static SpeedController driveFrontRightMotor;
-  public static SpeedController driveBackLeftMotor;
-  public static SpeedController driveBackRightMotor;
-*/
+  private static final int DRIVE_LEFT_ENCODER_PORT1 = 0; 
+  private static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
+  private static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
+  private static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
+  private static final int ARM_ENCODER_PORT_1 = 4; // temp make sure these are correct ports
+  private static final int ARM_ENCODER_PORT_2 = 5;
+  
+  private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009703125;
+  private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009703125;
+
   public static WPI_VictorSPX driveFrontLeftMotor;
   public static WPI_VictorSPX driveMiddleLeftMotor;
   public static WPI_VictorSPX driveBackLeftMotor;
@@ -46,9 +35,19 @@ public class RobotMap {
   public static WPI_VictorSPX driveMiddleRightMotor;
   public static WPI_VictorSPX driveBackRightMotor;
 
+  public static Victor armMotor;
+  public static Victor cargoAcquirer;
+  public static Victor climberMotor;
+  public static Encoder armEncoder;
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
+  public static DoubleSolenoid hatchClawSolenoid;
+  public static DoubleSolenoid hatchExtensionSolenoid;
+  public static DoubleSolenoid climberSolenoid1;
+  public static DoubleSolenoid climberSolenoid2;
+  public static DoubleSolenoid climberSolenoid3;
+  
   public static AHRS navx;
 
   public static void init() {
@@ -66,13 +65,22 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
+    // armMotor = new Victor(2);
+    // cargoAcquirerMotor = new Victor(1);
+    armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2);
+
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
+    // hatchClawSolenoid = new DoubleSolenoid(0, 0);
+    // hatchExtensionSolenoid = new DoubleSolenoid (0,0);
+    // climberSolenoid1 = new DoubleSolenoid(0, 0);
+    // climberSolenoid2 = new DoubleSolenoid (0,0);
+    // climberSolenoid3 = new DoubleSolenoid(0, 0);
+    
     navx = new AHRS(SPI.Port.kMXP); 
-
   }
 
   public static void resetSensors(){
@@ -80,8 +88,5 @@ public class RobotMap {
     driveRightEncoder.reset();
     navx.reset();
     System.out.println("Sensors Reset");
-  }
-  
+  }  
 }
-
-
