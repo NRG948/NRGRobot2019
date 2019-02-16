@@ -26,6 +26,7 @@ public class DriveStraightDistance extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    System.out.println("Drive Straight Distance Init");
     this.xOrigin = Robot.positionTracker.getX(); // gets our current X position from the poistion tracker command
     this.yOrigin = Robot.positionTracker.getY();// gets our current Y position from the poistion tracker command
     Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle()); // We are getting our current heading and putting it into driveOnHeadingInit to adjust our current heading 

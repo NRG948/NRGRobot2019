@@ -20,6 +20,7 @@ public class DriveStraight extends Command {
 
   @Override
   protected void initialize() {
+    System.out.println("Drive Strait Init");
       Robot.drive.driveOnHeadingInit (RobotMap.navx.getAngle ()); 
       // getting the current driving angle from the gyro 
   }
