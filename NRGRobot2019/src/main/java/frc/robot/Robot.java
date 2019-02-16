@@ -19,8 +19,9 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.HatchClaw;
-import frc.robot.subsystems.HatchExtension;
+import frc.robot.subsystems.Gearbox;
+import frc.robot.subsystems.HatchClawSubsystem;
+import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.PositionTracker;
 
 /**
@@ -31,12 +32,15 @@ import frc.robot.utilities.PositionTracker;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Drive drive;
   public static OI oi;
+
+  public static Gearbox gearbox;
+  public static Drive drive;
   public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
-  public static HatchClaw hatchClaw;
-  public static HatchExtension HatchExtension;
+  public static HatchClawSubsystem hatchClaw;
+  public static HatchExtensionSubsystem hatchExtension;
+
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
@@ -51,8 +55,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotMap.init();
     drive = new Drive();
+    gearbox = new Gearbox();
     arm = new Arm();
     cargoAcquirer = new CargoAcquirer(); 
+    hatchClaw = new HatchClawSubsystem();
+    hatchExtension = new HatchExtensionSubsystem();
+    
 
     chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());

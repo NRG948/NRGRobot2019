@@ -16,8 +16,8 @@ import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.ManualDrive;
-import frc.robot.commands.ManualHatchClaw;
-import frc.robot.commands.ManualHatchExtension;
+import frc.robot.commands.HatchClaw;
+import frc.robot.commands.HatchExtension;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.utilities.MathUtil;
 
@@ -52,10 +52,10 @@ public class OI {
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
-    hatchOpen.whenPressed(new ManualHatchClaw(true));
-    hatchClose.whenPressed(new ManualHatchClaw(false));
-    hatchExtend.whenPressed(new ManualHatchExtension(true));
-		hatchRetract.whenPressed(new ManualHatchExtension(false));
+    hatchOpen.whenPressed(new HatchClaw(true));
+    hatchClose.whenPressed(new HatchClaw(false));
+    hatchExtend.whenPressed(new HatchExtension(true));
+		hatchRetract.whenPressed(new HatchExtension(false));
   }
 
   /** Gets the Y value of the left joystick. */

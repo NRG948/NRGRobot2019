@@ -4,42 +4,42 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.HatchClawSubsystem.State;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
-public class ManualHatchExtension extends Command {
-  private boolean extend;
-  public ManualHatchExtension(boolean extend) {
-   requires(Robot.HatchExtension);
-   this.extend = extend;
+public class HatchClaw extends Command {
+  public State state;
+  public HatchClaw(frc.robot.subsystems.HatchClawSubsystem.State open) {
+    requires(Robot.hatchClaw);
+    this.state = state;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("Manual Hatch Extension Init");
+    System.out.println("Hatch Claw Init" + state);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // if(extend) {
-    //   RobotMap.hatchExtensionSolenoid.set(DoubleSolenoid.Value.kForward);
-    // } else {
-    //   RobotMap.hatchExtensionSolenoid.set(DoubleSolenoid.Value.kReverse);
-    // }
+    if(state == State.OPEN) {
+      Robot.hatchClaw.setClawOpen();
+    } else {
+      Robot.hatchClaw.setClawClose();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -51,5 +51,6 @@ public class ManualHatchExtension extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

@@ -7,19 +7,32 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Robot;
-import frc.robot.commands.ManualHatchClaw;
+import frc.robot.RobotMap;
+import frc.robot.commands.GearShift;
 
 /**
  * Add your docs here.
  */
-public class HatchClaw extends Subsystem {
+public class Gearbox extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public enum Gear {
+    HIGH, LOW;
+  }
+
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManualHatchClaw(true));
+    setDefaultCommand(new GearShift(Gear.LOW));
+  }
+
+  public void setHighGear(){
+    RobotMap.gearboxSolenoid.set(Value.kForward);
+  }
+
+  public void setLowGear(){
+    RobotMap.gearboxSolenoid.set(Value.kReverse);
   }
 }

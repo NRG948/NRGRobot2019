@@ -47,6 +47,7 @@ public class RobotMap {
   public static DoubleSolenoid climberSolenoid1;
   public static DoubleSolenoid climberSolenoid2;
   public static DoubleSolenoid climberSolenoid3;
+  public static DoubleSolenoid gearboxSolenoid;
   
   public static AHRS navx;
 
@@ -79,6 +80,7 @@ public class RobotMap {
     // climberSolenoid1 = new DoubleSolenoid(0, 0);
     // climberSolenoid2 = new DoubleSolenoid (0,0);
     // climberSolenoid3 = new DoubleSolenoid(0, 0);
+    // gearboxSolenoid = new DoubleSolenoid(0, 0);
     
     navx = new AHRS(SPI.Port.kMXP); 
   }
