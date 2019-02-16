@@ -19,8 +19,12 @@ import frc.robot.commands.FollowWaypoints;
 // import frc.robot.commands.ManualCargoAcquirer;
 
 import frc.robot.commands.ManualDrive;
+import frc.robot.commands.ManualHatchClaw;
+import frc.robot.commands.ManualHatchExtension;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.HatchClaw;
+import frc.robot.utilities.MathUtil;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;
 
@@ -49,9 +53,11 @@ public class OI {
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
-
-
-  
+  private JoystickButton climb = new JoystickButton(rightJoystick, 4);
+  private JoystickButton hatchOpen = new JoystickButton(xboxController, 8); // TBD joystick button numbers
+	private JoystickButton hatchClose = new JoystickButton(xboxController, 7);
+  private JoystickButton hatchExtend = new JoystickButton(xboxController, 9);
+	private JoystickButton hatchRetract = new JoystickButton(xboxController, 10);
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
@@ -64,6 +70,10 @@ public class OI {
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
+    hatchOpen.whenPressed(new ManualHatchClaw(true));
+    hatchClose.whenPressed(new ManualHatchClaw(false));
+    hatchExtend.whenPressed(new ManualHatchExtension(true));
+		hatchRetract.whenPressed(new ManualHatchExtension(false));
   }
 
   /** Gets the Y value of the left joystick. */

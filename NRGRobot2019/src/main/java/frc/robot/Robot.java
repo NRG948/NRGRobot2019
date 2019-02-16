@@ -19,6 +19,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.HatchClaw;
+import frc.robot.subsystems.HatchExtension;
 import frc.robot.utilities.PositionTracker;
 
 /**
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
+  public static HatchClaw hatchClaw;
+  public static HatchExtension HatchExtension;
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
@@ -36,11 +37,17 @@ public class RobotMap {
 
   public static Victor armMotor;
   public static Victor cargoAcquirer;
-  
+  public static Victor climberMotor;
   public static Encoder armEncoder;
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
 
+  public static DoubleSolenoid hatchClawSolenoid;
+  public static DoubleSolenoid hatchExtensionSolenoid;
+  public static DoubleSolenoid climberSolenoid1;
+  public static DoubleSolenoid climberSolenoid2;
+  public static DoubleSolenoid climberSolenoid3;
+  
   public static AHRS navx;
 
   public static void init() {
@@ -67,6 +74,12 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
+    // hatchClawSolenoid = new DoubleSolenoid(0, 0);
+    // hatchExtensionSolenoid = new DoubleSolenoid (0,0);
+    // climberSolenoid1 = new DoubleSolenoid(0, 0);
+    // climberSolenoid2 = new DoubleSolenoid (0,0);
+    // climberSolenoid3 = new DoubleSolenoid(0, 0);
+    
     navx = new AHRS(SPI.Port.kMXP); 
   }
 
