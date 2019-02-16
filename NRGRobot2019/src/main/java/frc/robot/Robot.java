@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import org.opencv.core.Point;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -36,7 +38,7 @@ public class Robot extends TimedRobot {
   // public static CargoAcquirer cargoAcquirer;
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-  VisionTargets vt;
+  public static VisionTargets visionTargets;
   
   Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
@@ -56,6 +58,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
+    this.visionTargets = new VisionTargets();
   }
 
   /**
@@ -75,12 +78,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-    VisionTargets.update();
-    SmartDashboard.putString("Vision/targetsOne", VisionTargets.one.toString());
-    SmartDashboard.putString("Vision/targetsTwo", VisionTargets.two.toString());
-    SmartDashboard.putNumber("Vision/AngleToTarget", VisionProc.getAngleToTurn(VisionTargets.one, VisionTargets.two));
-    //SmartDashboard.putString("Vision/TargetOne", VisionTargets.one.toString());
-    //SmartDashboard.putString("Vision/TargetTwo", VisionTargets.two.toString());
+
+    boolean hasTargets = visionTargets.hasTargets();
+    SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
+    if(hasTargets) {
+      SmartDashboard.putNumber("Vision/angleToTarget", visionTargets.getAngleToTarget());
+      Point center = visionTargets.getCenterOfTargets();
+      SmartDashboard.putNumber("Vision/centerX", center.x);
+      SmartDashboard.putNumber("Vision/centerY", center.y);
+    }
   }
 
   /**
@@ -94,6 +100,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    this.visionTargets.update();
     Scheduler.getInstance().run();
   }
 

@@ -68,4 +68,8 @@ public class Target {
     public Point getMaxY() {
         return this.maxY;
     }
+
+    public Point getCenter() {
+        return new Point((getMinX().x + getMaxX().x)/2, (getMinY().y + getMaxY().y)/2);
+    }
 }
