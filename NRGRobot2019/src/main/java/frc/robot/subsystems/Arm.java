@@ -5,12 +5,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualMoveArm;
+import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
 /**
  * Subsystem, moves the arm.
  */
 public class Arm extends Subsystem {
+	public static final double ARM_UP_MAX_POWER = 0.35;
+	public static final double ARM_DOWN_MAX_POWER = 0.35;
+	public static final double DEFAULT_ARM_P = 0.005;
+	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
+	public static final double DEFAULT_ARM_D = 0;
+	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 0;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 0;
+
   private SimplePIDController pidController;
 
   @Override
@@ -32,8 +44,8 @@ public class Arm extends Subsystem {
   }
 
   public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-    double maxPowerUp = 0.4; //Robot.preferences.getDouble(PreferenceKeys.LIFT_UP_MAX_POWER, LIFT_POWER_SCALE_UP);
-		double maxPowerDown = 0.4; //Robot.preferences.getDouble(PreferenceKeys.LIFT_DOWN_MAX_POWER, LIFT_POWER_SCALE_DOWN);
+    double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.ARM_UP_MAX_POWER, ARM_UP_MAX_POWER);
+		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, ARM_DOWN_MAX_POWER);
 		
 		pidController = new SimplePIDController(p, i, d, true)
 								.setOutputRange(-maxPowerDown, maxPowerUp)
@@ -43,9 +55,9 @@ public class Arm extends Subsystem {
   } 
 
   public void ArmAnglePIDInit(double setpoint, double tolerance) {
-		double p = 0.005; //Robot.preferences.getDouble(PreferenceKeys.LIFT_P_TERM, DEFAULT_LIFT_P);
-		double i = p/10; //Robot.preferences.getDouble(PreferenceKeys.LIFT_I_TERM, DEFAULT_LIFT_I);
-		double d = 0; //Robot.preferences.getDouble(PreferenceKeys.LIFT_D_TERM, DEFAULT_LIFT_D);
+		double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
+		double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
+		double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
 		armPIDControllerInit(p, i, d, setpoint, tolerance);
   }
   

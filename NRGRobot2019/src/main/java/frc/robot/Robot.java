@@ -1,15 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,13 +11,16 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
+import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.HatchClaw;
-import frc.robot.subsystems.HatchExtension;
+import frc.robot.subsystems.Gearbox;
+import frc.robot.subsystems.HatchClawSubsystem;
+import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.PositionTracker;
+import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.VisionTargets;
 
 /**
@@ -34,18 +31,33 @@ import frc.robot.utilities.VisionTargets;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static Drive drive;
   public static OI oi;
+
+  public static Gearbox gearbox;
+  public static Drive drive;
   public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
-  public static HatchClaw hatchClaw;
-  public static HatchExtension HatchExtension;
+  public static HatchClawSubsystem hatchClaw;
+  public static HatchExtensionSubsystem hatchExtension;
+
   public static PositionTracker positionTracker = new PositionTracker();
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+
+  public static Preferences preferences;
+
   public static VisionTargets visionTargets;
   
   Command autonomousCommand;
-  SendableChooser<Command> chooser = new SendableChooser<>();
+	public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
+  public static SendableChooser<AutoMovement> autoMovementChooser;
+  
+  public enum AutoStartingPosition {
+		LEFT, CENTER, RIGHT
+	}
+
+	public enum AutoMovement {
+		NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+	}
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -53,18 +65,37 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    System.out.println("robotInit()");
+
+		preferences = Preferences.getInstance();
     RobotMap.init();
+    //initialize subsystems
     drive = new Drive();
+    gearbox = new Gearbox();
     arm = new Arm();
     cargoAcquirer = new CargoAcquirer(); 
-
-    chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", chooser);
-    System.out.println("robotInit()");
+    hatchClaw = new HatchClawSubsystem();
+    hatchExtension = new HatchExtensionSubsystem();
+  
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
     visionTargets = new VisionTargets();
+
+    autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
+		autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
+		autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
+		autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
+
+		autoMovementChooser = new SendableChooser<AutoMovement>();
+    autoMovementChooser.addDefault("None", AutoMovement.NONE);
+		autoMovementChooser.addDefault("Forward", AutoMovement.FORWARD);
+    autoMovementChooser.addDefault("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovementChooser.addDefault("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+
+		SmartDashboard.putData("Choose autonomous position", autoStartingPositionChooser);
+		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+
+		System.out.println("robotInit() done");
   }
 
   /**
@@ -115,8 +146,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     System.out.println("autonomousInit()");
-    autonomousCommand = chooser.getSelected();
-
+    RobotMap.resetSensors();
+		autonomousCommand = new AutonomousRoutines();
     if (autonomousCommand != null) {
       autonomousCommand.start();
     }
@@ -152,5 +183,34 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     positionTracker.updatePosition();
     visionTargets.update();
+  }
+
+  public void initPreferences() {
+		if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
+      preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
+
+			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
+			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
+			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
+
+			preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
+			preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
+      preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
+      
+			preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
+			preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
+			preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
+			preferences.putDouble(PreferenceKeys.ARM_UP_MAX_POWER, Arm.ARM_UP_MAX_POWER);
+			preferences.putDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, Arm.ARM_DOWN_MAX_POWER);
+
+			preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
+			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
+
+			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
+			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
+		}
   }
 }

@@ -32,8 +32,7 @@ public class ManualMoveArm extends Command {
   @Override
   protected void end() {
     Robot.arm.stop();
-    System.out.println("ManualMoveArm end");
-
+    System.out.println("ManualMoveArm End");
   }
 
   @Override

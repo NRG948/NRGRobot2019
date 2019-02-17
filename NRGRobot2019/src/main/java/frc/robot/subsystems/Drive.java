@@ -1,17 +1,12 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
+import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 import jaci.pathfinder.Trajectory;
 import java.io.File;
@@ -25,21 +20,24 @@ import jaci.pathfinder.modifiers.TankModifier;
  */
 public class Drive extends Subsystem {
 
-  private final double DEFAULT_TURN_P = 0.081;
-  private final double DEFAULT_TURN_I = 0.00016;
-  private final double DEFAULT_TURN_D = 0.0072;
-  private final double DEFAULT_DRIVE_P = 0.081;
-  private final double DEFAULT_DRIVE_I = 0.00016;
-  private final double DEFAULT_DRIVE_D = 0.0072;
-  private final double INCHES_PER_METER = 39.37;
-  private final double DEFAULT_PATH_P = 0.081;
-  private final double DEFAULT_PATH_I = 0.00;
-  private final double DEFAULT_PATH_D = 0.00;
-  private final double DRIVE_WHEEL_BASE = 25.25;
-  private final int DRIVE_TICKS_PER_REV = 1024;
-  private final double DRIVE_WHEEL_DIAMETER = 8.0;
-  private final double DRIVE_MAX_VELOCITY = 190;
+  public static final double DEFAULT_TURN_P = 0.081;
+  public static final double DEFAULT_TURN_I = 0.00016;
+  public static final double DEFAULT_TURN_D = 0.0072;
+   
+  public static final double DEFAULT_DRIVE_P = 0.081;
+  public static final double DEFAULT_DRIVE_I = 0.00016;
+  public static final double DEFAULT_DRIVE_D = 0.0072;
 
+  private static final double DEFAULT_PATH_P = 0.081;
+  private static final double DEFAULT_PATH_I = 0.00;
+  private static final double DEFAULT_PATH_D = 0.00;
+ 
+  private static final double INCHES_PER_METER = 39.37;
+  private static final double DRIVE_WHEEL_BASE = 25.25;
+  private static final int DRIVE_TICKS_PER_REV = 1024;
+  private static final double DRIVE_WHEEL_DIAMETER = 8.0;
+  private static final double DRIVE_MAX_VELOCITY = 190;
+ 
   private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveMiddleLeftMotor, RobotMap.driveBackLeftMotor);
   private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveMiddleRightMotor, RobotMap.driveBackRightMotor);
    private DifferentialDrive motivator = new DifferentialDrive(leftMotor, rightMotor);
@@ -49,9 +47,6 @@ public class Drive extends Subsystem {
   private DistanceFollower rightFollower;
   private double leftStart;
   private double rightStart;
-
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
   @Override
   public void initDefaultCommand() {
@@ -67,7 +62,10 @@ public class Drive extends Subsystem {
   }
 
   public void turnToHeadingInit(double desiredHeading, double tolerance) {
-    this.turnPIDController = new SimplePIDController(DEFAULT_TURN_P, DEFAULT_TURN_I, DEFAULT_TURN_D).
+    double p = Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P);
+		double i = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
+		double d = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
+    this.turnPIDController = new SimplePIDController(p, i, d).
       setSetpoint(desiredHeading).
       setAbsoluteTolerance(tolerance);
   }
@@ -87,7 +85,10 @@ public class Drive extends Subsystem {
   }
 
   public void driveOnHeadingInit(double currentHeading){
-    this.drivePIDController = new SimplePIDController(DEFAULT_DRIVE_P, DEFAULT_DRIVE_I, DEFAULT_DRIVE_D).
+    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, DEFAULT_DRIVE_P);
+		double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, DEFAULT_DRIVE_I);
+		double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, DEFAULT_DRIVE_D);
+    this.drivePIDController = new SimplePIDController(p, i, d).
       setSetpoint(currentHeading).setAbsoluteTolerance(0);
   }
 

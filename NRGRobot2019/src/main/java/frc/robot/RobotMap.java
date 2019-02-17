@@ -47,6 +47,7 @@ public class RobotMap {
   public static DoubleSolenoid climberSolenoid1;
   public static DoubleSolenoid climberSolenoid2;
   public static DoubleSolenoid climberSolenoid3;
+  public static DoubleSolenoid gearboxSolenoid;
   
   public static AHRS navx;
 
@@ -74,19 +75,21 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    // hatchClawSolenoid = new DoubleSolenoid(0, 0);
+    // hatchClawSolenoid = new DoubleSolenoid(0, 0);          // TODO CHANGE THE CHANNELS LATER
     // hatchExtensionSolenoid = new DoubleSolenoid (0,0);
     // climberSolenoid1 = new DoubleSolenoid(0, 0);
     // climberSolenoid2 = new DoubleSolenoid (0,0);
     // climberSolenoid3 = new DoubleSolenoid(0, 0);
+    // gearboxSolenoid = new DoubleSolenoid(0, 0);
     
     navx = new AHRS(SPI.Port.kMXP); 
   }
 
   public static void resetSensors(){
-    driveLeftEncoder.reset();
-    driveRightEncoder.reset();
+    Robot.positionTracker.reset();
     navx.reset();
+    armEncoder.reset();
+    //TODO CHECK IF WE NEED TO RESET SOLENOIDS
     System.out.println("Sensors Reset");
   }  
 }
