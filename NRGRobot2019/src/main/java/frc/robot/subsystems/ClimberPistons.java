@@ -12,7 +12,7 @@ public class ClimberPistons extends Subsystem {
   public void activate(boolean extend) {
     Value direction = extend ? Value.kForward : Value.kReverse;
 
-    RobotMap.climberSolenoid1.set(direction);
+    RobotMap.climberSolenoid.set(direction);
   }
 
   @Override

@@ -45,9 +45,7 @@ public class RobotMap {
 
   public static DoubleSolenoid hatchClawSolenoid;
   public static DoubleSolenoid hatchExtensionSolenoid;
-  public static DoubleSolenoid climberSolenoid1;
-  public static DoubleSolenoid climberSolenoid2;
-  public static DoubleSolenoid climberSolenoid3;
+  public static DoubleSolenoid climberSolenoid;
   public static DoubleSolenoid gearboxSolenoid;
 
   public static Compressor compressor;
@@ -81,7 +79,7 @@ public class RobotMap {
 
     hatchClawSolenoid = new DoubleSolenoid(0, 1);          // TODO CHANGE THE CHANNELS LATER
     hatchExtensionSolenoid = new DoubleSolenoid (2,3);
-    climberSolenoid1 = new DoubleSolenoid(6, 7);
+    climberSolenoid = new DoubleSolenoid(6, 7);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
 
     compressor = new Compressor();
