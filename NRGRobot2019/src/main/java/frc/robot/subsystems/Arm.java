@@ -19,14 +19,15 @@ public class Arm extends Subsystem {
 	public static final double DEFAULT_ARM_D = 0;
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 0;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 0;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 0;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 0;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 100;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 200;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 300;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 400;
+	public static final int DEFAULT_ARM_TICK_TOLORANCE = 5; // TODO : figure out a good value line 21-26
 
   private SimplePIDController pidController;
 
-	public enum Angles {
+	public enum Angle {
 		
 		ARM_STOWED_TICKS(PreferenceKeys.ARM_STOWED_TICKS, DEFAULT_ARM_STOWED_TICKS),
 		ARM_CARGO_SHIP_TICKS(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
@@ -37,7 +38,7 @@ public class Arm extends Subsystem {
 		public final String preferenceKey;
 		public final int defaultTicks;
 
-		private Angles(String prefKey, int defaultTicks) {
+		private Angle(String prefKey, int defaultTicks) {
 			this.preferenceKey = prefKey;
 			this.defaultTicks = defaultTicks;
 		}
@@ -76,14 +77,14 @@ public class Arm extends Subsystem {
 								.start();
   } 
 
-  public void ArmAnglePIDInit(double setpoint, double tolerance) {
+  public void armAnglePIDInit(double setpoint, double tolerance) {
 		double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
 		double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
 		double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
 		armPIDControllerInit(p, i, d, setpoint, tolerance);
   }
   
-  public void ArmAnglePIDExecute() {
+  public void armAnglePIDExecute() {
 		double currentPIDOutput = pidController.update(RobotMap.armEncoder.getDistance());
 
 		SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
@@ -92,12 +93,12 @@ public class Arm extends Subsystem {
 		rawMoveArm(currentPIDOutput);
 	}
 
-	public void ArmAnglePIDEnd() {
+	public void armAnglePIDEnd() {
 		pidController = null;
 		stop();
 	}
 	
-	public boolean lifterPIDControllerOnTarget() {
+	public boolean armPIDControllerOnTarget() {
 		return pidController.onTarget();
 	}
 }
