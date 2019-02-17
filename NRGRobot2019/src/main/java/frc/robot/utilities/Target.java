@@ -32,7 +32,7 @@ public class Target {
             if(p.x > maxX.x) {
                 maxX = p;
             }
-            if(p.y < maxY.y) {
+            if(p.y > maxY.y) {
                 maxY = p;
             }
         }
