@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -25,6 +26,8 @@ public class RobotMap {
   private static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
   private static final int ARM_ENCODER_PORT_1 = 4; // temp make sure these are correct ports
   private static final int ARM_ENCODER_PORT_2 = 5;
+  private static final int ARM_FRONT_LIMIT_SWITCH_PORT = 6;
+  private static final int ARM_BACK_LIMIT_SWITCH_PORT = 7;
   
   private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009703125;
   private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009703125;
@@ -47,6 +50,9 @@ public class RobotMap {
   public static DoubleSolenoid hatchExtensionSolenoid;
   public static DoubleSolenoid climberSolenoid;
   public static DoubleSolenoid gearboxSolenoid;
+
+  public static DigitalInput armFrontLimitSwitch;
+  public static DigitalInput armBackLimitSwitch;
 
   public static Compressor compressor;
   
@@ -81,6 +87,9 @@ public class RobotMap {
     hatchExtensionSolenoid = new DoubleSolenoid (2,3);
     climberSolenoid = new DoubleSolenoid(6, 7);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
+
+    armFrontLimitSwitch = new DigitalInput(ARM_FRONT_LIMIT_SWITCH_PORT);
+    armBackLimitSwitch = new DigitalInput(ARM_BACK_LIMIT_SWITCH_PORT);
 
     compressor = new Compressor();
     compressor.start();

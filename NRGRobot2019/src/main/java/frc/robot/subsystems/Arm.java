@@ -59,7 +59,22 @@ public class Arm extends Subsystem {
   }
   
   private void rawMoveArm(double power) {
-    RobotMap.armMotor.set(power);
+	  if (power < 0) {
+		  if (atBackLimit()) {
+			  power = 0;
+		  }
+	  }
+	  else {
+		  if (atFrontLimit()) {
+			  power = 0;
+		  }
+	  }
+	  if (power != 0){
+		RobotMap.armMotor.set(power);
+	  }
+	  else {
+		  stop();
+	  }
   }
 
   public void stop() {
@@ -100,6 +115,14 @@ public class Arm extends Subsystem {
 	
 	public boolean armPIDControllerOnTarget() {
 		return pidController.onTarget();
+	}
+
+	public boolean atFrontLimit () {
+		return !RobotMap.armFrontLimitSwitch.get();
+	}
+
+	public boolean atBackLimit () {
+		return !RobotMap.armBackLimitSwitch.get();
 	}
 }
 
