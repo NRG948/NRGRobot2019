@@ -30,7 +30,7 @@ public class ManualCargoAcquirer extends Command {
   @Override
   protected void end() {
     Robot.cargoAcquirer.stop();
-    System.out.println("ManualCargoAcquirer end");
+    System.out.println("ManualCargoAcquirer End");
 
   }
 

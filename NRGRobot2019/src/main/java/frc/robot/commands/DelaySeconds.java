@@ -32,7 +32,7 @@ public class DelaySeconds extends Command {
 
   @Override
   protected void end() {
-    System.out.println("DelaySeconds end");
+    System.out.println("DelaySeconds End");
     timer.stop();
   }
 
