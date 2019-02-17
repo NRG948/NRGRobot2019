@@ -2,32 +2,29 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberMotor;
 
 /**
  * Climber Pistons.
  */
-public class ClimberPistons extends Command {
+public class ActivateClimberPistons extends Command {
 private boolean extend;
 
-  public ClimberPistons(boolean extend) {
-    requires(new Climber());
+  public ActivateClimberPistons(boolean extend) {
+    requires(Robot.climberPistons);
     this.extend = extend;
   }
 
   @Override
   protected void initialize() {
-    System.out.println("Climber Pistons");
+    System.out.println("Climber Pistons " + extend);
   }
 
   @Override
   protected void execute() {
-    Value direction = extend ? Value.kForward : Value.kReverse;
-  
-    RobotMap.climberSolenoid1.set(direction);
-    RobotMap.climberSolenoid2.set(direction);
-    RobotMap.climberSolenoid3.set(direction);
+    Robot.climberPistons.activate(extend);
   }
 
   @Override
