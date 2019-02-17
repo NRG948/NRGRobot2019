@@ -52,12 +52,12 @@ public class RobotMap {
   public static AHRS navx;
 
   public static void init() {
-    driveFrontLeftMotor = new WPI_VictorSPX(5);
-    driveBackLeftMotor = new WPI_VictorSPX(6);
     driveMiddleLeftMotor = new WPI_VictorSPX(1);
-    driveMiddleRightMotor = new WPI_VictorSPX(3);
+    driveBackLeftMotor = new WPI_VictorSPX(2);
+    driveFrontLeftMotor = new WPI_VictorSPX(3);
     driveFrontRightMotor = new WPI_VictorSPX(4);
-    driveBackRightMotor = new WPI_VictorSPX(2);
+    driveMiddleRightMotor = new WPI_VictorSPX(5);
+    driveBackRightMotor = new WPI_VictorSPX(6);
 
     driveFrontRightMotor.setInverted(true);
     driveFrontLeftMotor.setInverted(true);
