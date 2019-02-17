@@ -42,6 +42,7 @@ public class OI {
   private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
   private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 9);
+  private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); //TBD
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
