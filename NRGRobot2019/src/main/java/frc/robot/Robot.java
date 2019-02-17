@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
+import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
@@ -47,7 +48,16 @@ public class Robot extends TimedRobot {
   public static VisionTargets visionTargets;
   
   Command autonomousCommand;
-  SendableChooser<Command> chooser = new SendableChooser<>();
+	public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
+  public static SendableChooser<AutoMovement> autoMovementChooser;
+  
+  public enum AutoStartingPosition {
+		LEFT, CENTER, RIGHT
+	}
+
+	public enum AutoMovement {
+		NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+	}
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -55,23 +65,37 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    System.out.println("robotInit()");
+
 		preferences = Preferences.getInstance();
     RobotMap.init();
+    //initialize subsystems
     drive = new Drive();
     gearbox = new Gearbox();
     arm = new Arm();
     cargoAcquirer = new CargoAcquirer(); 
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
-    
-
-    chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", chooser);
-    System.out.println("robotInit()");
+  
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
     visionTargets = new VisionTargets();
+
+    autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
+		autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
+		autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
+		autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
+
+		autoMovementChooser = new SendableChooser<AutoMovement>();
+    autoMovementChooser.addDefault("None", AutoMovement.NONE);
+		autoMovementChooser.addDefault("Forward", AutoMovement.FORWARD);
+    autoMovementChooser.addDefault("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovementChooser.addDefault("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+
+		SmartDashboard.putData("Choose autonomous position", autoStartingPositionChooser);
+		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+
+		System.out.println("robotInit() done");
   }
 
   /**
@@ -122,8 +146,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     System.out.println("autonomousInit()");
-    autonomousCommand = chooser.getSelected();
-
+    RobotMap.resetSensors();
+		autonomousCommand = new AutonomousRoutines();
     if (autonomousCommand != null) {
       autonomousCommand.start();
     }
@@ -188,4 +212,5 @@ public class Robot extends TimedRobot {
 			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
 			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
 		}
+  }
 }

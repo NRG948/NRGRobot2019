@@ -36,7 +36,12 @@ public class PositionTracker {
         this.y = y;
         this.previousLeftEncoder = RobotMap.driveLeftEncoder.getDistance();
         this.previousRightEncoder = RobotMap.driveRightEncoder.getDistance();
+    }
 
+    public void reset(){
+        RobotMap.driveLeftEncoder.reset();
+        RobotMap.driveRightEncoder.reset();
+        setPosition(0, 0);
     }
 
     public void updatePosition(){

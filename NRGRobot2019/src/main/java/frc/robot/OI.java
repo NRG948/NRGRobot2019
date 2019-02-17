@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot.AutoMovement;
+import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
@@ -47,7 +49,6 @@ public class OI {
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
-      Robot.positionTracker.setPosition(0.0, 0.0);
     }));
 
     driveStraightButton.whenActive(new DriveStraight());
@@ -86,4 +87,12 @@ public class OI {
   public double getXboxRightTrigger() {
     return MathUtil.deadband(xboxController.getRawAxis(3), 0.05);
   }
+
+  public static AutoStartingPosition getAutoStartingPosition() {
+		return Robot.autoStartingPositionChooser.getSelected();
+	}
+
+	public static AutoMovement getAutoMovement() {
+		return Robot.autoMovementChooser.getSelected();
+	}
 }

@@ -86,9 +86,10 @@ public class RobotMap {
   }
 
   public static void resetSensors(){
-    driveLeftEncoder.reset();
-    driveRightEncoder.reset();
+    Robot.positionTracker.reset();
     navx.reset();
+    armEncoder.reset();
+    //TODO CHECK IF WE NEED TO RESET SOLENOIDS
     System.out.println("Sensors Reset");
   }  
 }
