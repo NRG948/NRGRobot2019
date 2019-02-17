@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+/**
+ * Command to drive strait.
+ */
 public class DriveStraight extends Command {
   public DriveStraight() {
     this.requires(Robot.drive);

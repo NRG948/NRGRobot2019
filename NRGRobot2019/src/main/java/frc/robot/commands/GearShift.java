@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Gearbox.Gear;
 
+/**
+ * Shifts drive system into a higher or lower gear.
+ */
 public class GearShift extends Command {
   public Gear gear;
   public GearShift(Gear gear) {

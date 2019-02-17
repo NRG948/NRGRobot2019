@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 
+/**
+ * Climber Pistons.
+ */
 public class ClimberPistons extends Command {
 private boolean extend;
 

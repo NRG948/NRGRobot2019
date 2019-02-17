@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Command to get the joysticks' states and send them to the tank drive.
+ */
 public class ManualDrive extends Command {
   public ManualDrive() {
     requires(Robot.drive); // this uses drive subsystem 

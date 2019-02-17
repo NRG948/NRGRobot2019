@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Command to turn to a certain heading.
+ */
 public class TurnToHeading extends Command {
   private final double DEFAULT_TURN_TOLERANCE = 5.0;
 
@@ -37,7 +40,6 @@ public class TurnToHeading extends Command {
   protected void end() {
     Robot.drive.turnToHeadingEnd(); // terminates the turn
     System.out.println("TurnToHeading End"); 
-
   }
 
   @Override

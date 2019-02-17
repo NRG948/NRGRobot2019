@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+/**
+ * Drives strait for a certain distance.
+ */
 public class DriveStraightDistance extends Command {
   private double xOrigin;// a class variable
   private double yOrigin;

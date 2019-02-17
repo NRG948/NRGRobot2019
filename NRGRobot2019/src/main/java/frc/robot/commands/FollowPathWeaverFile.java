@@ -7,6 +7,9 @@ import frc.robot.Robot;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
+/**
+ * Following the trajectories from the pathweaver file.
+ */
 public class FollowPathWeaverFile extends FollowTrajectory{
   
   public FollowPathWeaverFile(String filename) {
