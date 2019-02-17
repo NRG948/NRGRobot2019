@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -48,16 +49,18 @@ public class RobotMap {
   public static DoubleSolenoid climberSolenoid2;
   public static DoubleSolenoid climberSolenoid3;
   public static DoubleSolenoid gearboxSolenoid;
+
+  public static Compressor compressor;
   
   public static AHRS navx;
 
   public static void init() {
-    driveMiddleLeftMotor = new WPI_VictorSPX(1);
-    driveBackLeftMotor = new WPI_VictorSPX(2);
-    driveFrontLeftMotor = new WPI_VictorSPX(3);
-    driveFrontRightMotor = new WPI_VictorSPX(4);
-    driveMiddleRightMotor = new WPI_VictorSPX(5);
-    driveBackRightMotor = new WPI_VictorSPX(6);
+    driveMiddleLeftMotor = new WPI_VictorSPX(4);
+    driveBackLeftMotor = new WPI_VictorSPX(5);
+    driveFrontLeftMotor = new WPI_VictorSPX(6);
+    driveFrontRightMotor = new WPI_VictorSPX(1);
+    driveMiddleRightMotor = new WPI_VictorSPX(2);
+    driveBackRightMotor = new WPI_VictorSPX(3);
 
     driveFrontRightMotor.setInverted(true);
     driveFrontLeftMotor.setInverted(true);
@@ -79,8 +82,11 @@ public class RobotMap {
     hatchClawSolenoid = new DoubleSolenoid(0, 1);          // TODO CHANGE THE CHANNELS LATER
     hatchExtensionSolenoid = new DoubleSolenoid (2,3);
     climberSolenoid1 = new DoubleSolenoid(6, 7);
-    // gearboxSolenoid = new DoubleSolenoid(0, 0);
-    
+    gearboxSolenoid = new DoubleSolenoid(4, 5);
+
+    compressor = new Compressor();
+    compressor.start();
+
     navx = new AHRS(SPI.Port.kMXP); 
   }
 
