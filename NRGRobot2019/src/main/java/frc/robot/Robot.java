@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commands.ActivateClimberPistons;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberMotor;
@@ -83,7 +82,7 @@ public class Robot extends TimedRobot {
     cargoAcquirer = new CargoAcquirer(); 
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
-  
+
     oi = new OI();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
     visionTargets = new VisionTargets();
