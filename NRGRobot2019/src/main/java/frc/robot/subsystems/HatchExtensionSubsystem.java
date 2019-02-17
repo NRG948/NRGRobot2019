@@ -21,10 +21,10 @@ public class HatchExtensionSubsystem extends Subsystem {
   }
 
   public void extend(){
-    // RobotMap.gearboxSolenoid.set(Value.kForward);
+    RobotMap.gearboxSolenoid.set(Value.kForward);
   }
 
   public void retract(){
-    // RobotMap.gearboxSolenoid.set(Value.kReverse);
+    RobotMap.gearboxSolenoid.set(Value.kReverse);
   }
 }

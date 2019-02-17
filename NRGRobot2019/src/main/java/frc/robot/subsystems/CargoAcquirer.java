@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.commands.ManualCargoAcquirer;
 
 /**
@@ -28,10 +29,10 @@ public class CargoAcquirer extends Subsystem {
 }
   
   public void rawAcquire(double power) {
-    // Robot.cargoAcquirerMotor.set(power);
+    RobotMap.cargoAcquirerMotor.set(power);
   }
 
   public void stop() {
-    // Robot.cargoAcquirerMotor.stopMotor();
+    RobotMap.cargoAcquirerMotor.stopMotor();
   }
 }

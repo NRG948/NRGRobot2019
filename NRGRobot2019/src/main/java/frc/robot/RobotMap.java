@@ -36,7 +36,7 @@ public class RobotMap {
   public static WPI_VictorSPX driveBackRightMotor;
 
   public static Victor armMotor;
-  public static Victor cargoAcquirer;
+  public static Victor cargoAcquirerMotor;
   public static Victor climberMotor;
   public static Encoder armEncoder;
   public static Encoder driveLeftEncoder;
@@ -66,8 +66,9 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
-    // armMotor = new Victor(2);
-    // cargoAcquirerMotor = new Victor(1);
+    armMotor = new Victor(1);
+    climberMotor = new Victor(2);
+    cargoAcquirerMotor = new Victor(0);
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2);
 
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
@@ -75,11 +76,9 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    // hatchClawSolenoid = new DoubleSolenoid(0, 0);          // TODO CHANGE THE CHANNELS LATER
-    // hatchExtensionSolenoid = new DoubleSolenoid (0,0);
-    // climberSolenoid1 = new DoubleSolenoid(0, 0);
-    // climberSolenoid2 = new DoubleSolenoid (0,0);
-    // climberSolenoid3 = new DoubleSolenoid(0, 0);
+    hatchClawSolenoid = new DoubleSolenoid(0, 1);          // TODO CHANGE THE CHANNELS LATER
+    hatchExtensionSolenoid = new DoubleSolenoid (2,3);
+    climberSolenoid1 = new DoubleSolenoid(6, 7);
     // gearboxSolenoid = new DoubleSolenoid(0, 0);
     
     navx = new AHRS(SPI.Port.kMXP); 

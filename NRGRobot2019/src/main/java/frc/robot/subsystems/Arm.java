@@ -59,11 +59,11 @@ public class Arm extends Subsystem {
   }
   
   private void rawMoveArm(double power) {
-    // RobotMap.armMotor.set(power);
+    RobotMap.armMotor.set(power);
   }
 
   public void stop() {
-    // RobotMap.armMotor.stopMotor();
+  	RobotMap.armMotor.stopMotor();
   }
 
   public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
