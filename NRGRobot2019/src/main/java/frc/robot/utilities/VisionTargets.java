@@ -16,7 +16,7 @@ public class VisionTargets {
     private static final String[] NO_TARGETS = new String[0];
     private static final double HALF_IMAGE_FOV = Math.toRadians(31.1);
     private static final double HALF_IMAGE_WIDTH = 160;
-    private static final double TARGET_WIDTH = 14.625;
+    private static final double TARGET_WIDTH = 8.0;
     public Target left;
     public Target right;
 
@@ -65,7 +65,7 @@ public class VisionTargets {
     }
 
     public double getDistanceToTarget() {
-        double targetWidth = (this.right.getMaxX().x - this.left.getMinX().x);
+        double targetWidth = (this.right.getMinX().x - this.left.getMaxX().x);
         return TARGET_WIDTH * 2 * HALF_IMAGE_WIDTH / (2 * targetWidth * Math.tan(HALF_IMAGE_FOV));
     }
 }
