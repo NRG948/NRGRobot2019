@@ -13,6 +13,7 @@ public class ManualMoveArmWithPID extends Command {
   * that's 1300 ticks/second * 1 second/1000 milliseconds * 20 milliseconds = 26 ticks
   */
   private static final int MAX_TICKS_PER_CYCLE = 26;
+  
   public ManualMoveArmWithPID() {
     requires(Robot.arm);
   }

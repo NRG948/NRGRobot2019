@@ -13,6 +13,11 @@ import frc.robot.utilities.SimplePIDController;
  * Subsystem, moves the arm.
  */
 public class Arm extends Subsystem {
+	/**
+	 *
+	 */
+
+	private static final int DEAD_BAND_RANGE = 100;
 	public static final double ARM_UP_MAX_POWER = 0.5;
 	public static final double ARM_DOWN_MAX_POWER = 0.5;
 	public static final double DEFAULT_ARM_P = 0.005;
@@ -20,8 +25,9 @@ public class Arm extends Subsystem {
 	public static final double DEFAULT_ARM_D = 0;
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 300;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 600;
+	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 235;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 600;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 900;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1900;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 1200;
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
@@ -30,11 +36,12 @@ public class Arm extends Subsystem {
 
 	public enum Angle {
 		
-		ARM_STOWED_TICKS(PreferenceKeys.ARM_STOWED_TICKS, DEFAULT_ARM_STOWED_TICKS),
-		ARM_CARGO_SHIP_TICKS(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
-		ARM_ROCKET_CARGO_LOW_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
-		ARM_ROCKET_CARGO_MEDIUM_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
-		ARM_ROCKET_CARGO_HIGH_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
+		ARM_STOWED_ANGLE(PreferenceKeys.ARM_STOWED_TICKS, DEFAULT_ARM_STOWED_TICKS),
+		ARM_ACQUIRE_CARGO_ANGLE(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, DEFAULT_ARM_ACQUIRE_CARGO_TICKS),
+		ARM_CARGO_SHIP_ANGLE(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
+		ARM_ROCKET_CARGO_LOW_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
+		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
+		ARM_ROCKET_CARGO_HIGH_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
 		
 		public final String preferenceKey;
 		public final int defaultTicks;
@@ -105,13 +112,14 @@ public class Arm extends Subsystem {
     double armPIDOutput = pidController.update(armTicks);
 
     //if arm is stowed, don't run PID
-    if(armTicks < 100 && armPIDControllerOnTarget()) {
+    if(armTicks < DEAD_BAND_RANGE && armPIDControllerOnTarget()) {
       armPIDOutput = 0;
     }
     rawMoveArm(armPIDOutput);
 
     SmartDashboard.putNumber("Arm Angle PID/Output", armPIDOutput);
-    SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
+		SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
+		SmartDashboard.putNumber("Arm Angle PID/Setpoint", pidController.getSetpoint());
   }
 
 	public void armAnglePIDEnd() {
@@ -131,8 +139,11 @@ public class Arm extends Subsystem {
 		return !RobotMap.armBackLimitSwitch.get();
   }
   
-  public void setSetpoint(int setPointInTicks) {
-    pidController.setSetpoint(setPointInTicks);
+  public void setSetpoint(int setpointInTicks) {
+		if (setpointInTicks > 0 && setpointInTicks < DEAD_BAND_RANGE && setpointInTicks != Arm.Angle.ARM_STOWED_ANGLE.getTicks()) {
+			setpointInTicks = DEAD_BAND_RANGE;
+		}
+    pidController.setSetpoint(setpointInTicks);
   }
 
   public int getCurrentArmPosition() {

@@ -116,8 +116,12 @@ public class SimplePIDController {
 	}
 
 	public SimplePIDController setSetpoint(double setpoint) {
-		this.setpoint = setpoint;
 		wasPIDReset = true;
+		return setSetpointContinuous(setpoint);
+	}
+
+	public SimplePIDController setSetpointContinuous(double setpoint){
+		this.setpoint = setpoint;
 		return this;
 	}
 

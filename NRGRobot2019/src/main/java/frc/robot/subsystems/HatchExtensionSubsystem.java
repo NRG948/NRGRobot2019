@@ -10,14 +10,15 @@ import frc.robot.commands.HatchExtension;
  * A Subsystem to control the Extension of the hatch mechanism
  */
 public class HatchExtensionSubsystem extends Subsystem {
-
+  public static final double HATCH_EXTEND_DELAY = 0.1;
+  
   public enum State{
     EXTEND, RETRACT;
   }
 
   @Override
   public void initDefaultCommand() {
-    // setDefaultCommand(new HatchExtension(State.RETRACT));
+    setDefaultCommand(null);
   }
 
   public void extend(){

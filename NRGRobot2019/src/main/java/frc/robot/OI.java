@@ -16,8 +16,10 @@ import frc.robot.commands.ManualDrive;
 import frc.robot.commands.MoveArmTo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
+import frc.robot.commands.InterruptAllCommands;
 import frc.robot.commands.ManualClimberMotor;
 import frc.robot.commands.TurnToHeading;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
@@ -71,6 +73,8 @@ public class OI {
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
     gearShiftButton.whenReleased(new GearShift(Gear.LOW));
+
+    interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
     
     climberPistonsExtendButton.whenPressed(new ActivateClimberPistons(true));
     climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
@@ -78,9 +82,9 @@ public class OI {
     climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
     climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
 
-    testButton1.whenPressed(new MoveArmTo(500));
+    testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
     testButton2.whenPressed(new MoveArmTo(1000));
-    testButton3.whenPressed(new MoveArmTo(1500));
+    testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
   }
 
   /** Gets the Y value of the left joystick. */

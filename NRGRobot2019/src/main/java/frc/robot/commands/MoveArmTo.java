@@ -18,7 +18,7 @@ public class MoveArmTo extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("MoveArm " + ticks + " Init");
+    System.out.println("MoveArmTo " + ticks + " Init");
     Robot.arm.setSetpoint(this.ticks);
   }
 
@@ -34,7 +34,7 @@ public class MoveArmTo extends Command {
 
   @Override
   protected void end() {
-    System.out.println("MoveArm End");
+    System.out.println("MoveArmTo End");
   }
 
   @Override
