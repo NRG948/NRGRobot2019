@@ -12,6 +12,7 @@ import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.ManualDrive;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.commands.ManualClimberMotor;
@@ -32,17 +33,22 @@ public class OI {
   private XboxController xboxController = new XboxController(2);
   // assign each side of joystick to a port
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+  private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); //TBD
+  private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8); 
+  private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9); 
+  private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10); 
+
   private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
+
   private JoystickButton climberPistonsExtendButton = new JoystickButton(xboxController, 8);
   private JoystickButton climberPistonsRetractButton = new JoystickButton(xboxController, 7);
   private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1);
   private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
   private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 9);
-  private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); //TBD
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
@@ -63,6 +69,10 @@ public class OI {
     climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
 
     climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
+
+    testButton1.whenPressed(new MoveArm(100));
+    testButton2.whenPressed(new MoveArm(200));
+    testButton3.whenPressed(new MoveArm(300));
   }
 
   /** Gets the Y value of the left joystick. */
