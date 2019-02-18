@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.utilities.MathUtil;
 
 /**
  * Command for manual Cargo Acquirer.
@@ -19,7 +20,7 @@ public class ManualCargoAcquirer extends Command {
   @Override
   protected void execute() {
     double speed = Robot.oi.getXboxRightY();
-    Robot.cargoAcquirer.rawAcquire(speed);
+    Robot.cargoAcquirer.rawAcquire(MathUtil.deadband(speed, 0.1));
   }
 
   @Override

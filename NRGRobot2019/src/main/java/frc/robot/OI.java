@@ -11,12 +11,14 @@ import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
+import frc.robot.commands.GearShift;
 import frc.robot.commands.ManualDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.commands.ManualClimberMotor;
 import frc.robot.commands.TurnToHeading;
+import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
@@ -32,13 +34,14 @@ public class OI {
   private Joystick rightJoystick = new Joystick(1);
   private XboxController xboxController = new XboxController(2);
   // assign each side of joystick to a port
-  private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+  private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); //TBD
   private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8); 
   private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9); 
   private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10); 
+  private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 
-  private JoystickButton driveStraightButton = new JoystickButton(rightJoystick, 1);
+  private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
@@ -46,9 +49,11 @@ public class OI {
   private JoystickButton climberPistonsExtendButton = new JoystickButton(xboxController, 8);
   private JoystickButton climberPistonsRetractButton = new JoystickButton(xboxController, 7);
   private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1);
+  private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2);
+
   private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
   private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
-  private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 9);
+  private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6);
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
@@ -64,15 +69,18 @@ public class OI {
     hatchCloseButton.whenPressed(new HatchClaw(State.CLOSE));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
+    gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
+    gearShiftButton.whenReleased(new GearShift(Gear.LOW));
     
     climberPistonsExtendButton.whenPressed(new ActivateClimberPistons(true));
     climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
 
     climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
+    climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
 
-    testButton1.whenPressed(new MoveArm(100));
-    testButton2.whenPressed(new MoveArm(200));
-    testButton3.whenPressed(new MoveArm(300));
+    testButton1.whenPressed(new MoveArm(500));
+    testButton2.whenPressed(new MoveArm(1000));
+    testButton3.whenPressed(new MoveArm(1500));
   }
 
   /** Gets the Y value of the left joystick. */

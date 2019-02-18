@@ -16,7 +16,7 @@ public class Gearbox extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new GearShift(Gear.LOW));
+    // setDefaultCommand(new GearShift(Gear.LOW));
   }
 
   public void setHighGear(){

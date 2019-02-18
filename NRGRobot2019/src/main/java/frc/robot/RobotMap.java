@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj.Victor;
  */
 public class RobotMap {
 
-  private static final int DRIVE_LEFT_ENCODER_PORT1 = 0; 
-  private static final int DRIVE_LEFT_ENCODER_PORT2 = 1;
-  private static final int DRIVE_RIGHT_ENCODER_PORT1 = 2;
-  private static final int DRIVE_RIGHT_ENCODER_PORT2 = 3;
+  private static final int DRIVE_LEFT_ENCODER_PORT1 = 2; 
+  private static final int DRIVE_LEFT_ENCODER_PORT2 = 3;
+  private static final int DRIVE_RIGHT_ENCODER_PORT1 = 0;
+  private static final int DRIVE_RIGHT_ENCODER_PORT2 = 1;
   private static final int ARM_ENCODER_PORT_1 = 4; // temp make sure these are correct ports
   private static final int ARM_ENCODER_PORT_2 = 5;
   private static final int ARM_FRONT_LIMIT_SWITCH_PORT = 6;
@@ -59,12 +59,12 @@ public class RobotMap {
   public static AHRS navx;
 
   public static void init() {
-    driveMiddleLeftMotor = new WPI_VictorSPX(4);
-    driveBackLeftMotor = new WPI_VictorSPX(5);
-    driveFrontLeftMotor = new WPI_VictorSPX(6);
-    driveFrontRightMotor = new WPI_VictorSPX(1);
-    driveMiddleRightMotor = new WPI_VictorSPX(2);
-    driveBackRightMotor = new WPI_VictorSPX(3);
+    driveMiddleLeftMotor = new WPI_VictorSPX(1);
+    driveBackLeftMotor = new WPI_VictorSPX(2);
+    driveFrontLeftMotor = new WPI_VictorSPX(3);
+    driveFrontRightMotor = new WPI_VictorSPX(4);
+    driveMiddleRightMotor = new WPI_VictorSPX(5);
+    driveBackRightMotor = new WPI_VictorSPX(6);
 
     driveFrontRightMotor.setInverted(true);
     driveFrontLeftMotor.setInverted(true);
@@ -73,13 +73,14 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
-    climberMotor.setInverted(true);
-
-    armMotor = new Victor(1);
+    
+    armMotor = new Victor(0);
     climberMotor = new Victor(2);
-    cargoAcquirerMotor = new Victor(0);
-    armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2);
-
+    cargoAcquirerMotor = new Victor(1);
+    
+    climberMotor.setInverted(true);
+    
+    armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
@@ -87,8 +88,8 @@ public class RobotMap {
 
     hatchClawSolenoid = new DoubleSolenoid(0, 1);          // TODO CHANGE THE CHANNELS LATER
     hatchExtensionSolenoid = new DoubleSolenoid (2,3);
-    climberSolenoid = new DoubleSolenoid(6, 7);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
+    climberSolenoid = new DoubleSolenoid(6, 7);
 
     armFrontLimitSwitch = new DigitalInput(ARM_FRONT_LIMIT_SWITCH_PORT);
     armBackLimitSwitch = new DigitalInput(ARM_BACK_LIMIT_SWITCH_PORT);

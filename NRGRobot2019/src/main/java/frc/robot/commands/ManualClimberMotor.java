@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.utilities.MathUtil;
 
 public class ManualClimberMotor extends Command {
 
@@ -19,12 +20,13 @@ public class ManualClimberMotor extends Command {
 
   @Override
   protected void execute() {
-    Robot.climberMotor.rawClimb(power);
+    double speed = Robot.oi.getXboxLeftY()*0.4;
+    Robot.climberMotor.rawClimb(MathUtil.deadband(speed, 0.1));
   }
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   @Override

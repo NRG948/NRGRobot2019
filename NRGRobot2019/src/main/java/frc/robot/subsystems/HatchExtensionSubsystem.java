@@ -17,14 +17,14 @@ public class HatchExtensionSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new HatchExtension(State.RETRACT));
+    // setDefaultCommand(new HatchExtension(State.RETRACT));
   }
 
   public void extend(){
-    RobotMap.gearboxSolenoid.set(Value.kForward);
+    RobotMap.hatchExtensionSolenoid.set(Value.kForward);
   }
-
+  
   public void retract(){
-    RobotMap.gearboxSolenoid.set(Value.kReverse);
+    RobotMap.hatchExtensionSolenoid.set(Value.kReverse);
   }
 }

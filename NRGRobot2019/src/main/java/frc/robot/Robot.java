@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("PositionTracker/maxVelocity", positionTracker.getMaxVelocity());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
+    SmartDashboard.putData("ArmEncoder", RobotMap.armEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 

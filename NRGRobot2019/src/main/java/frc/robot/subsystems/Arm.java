@@ -12,18 +12,18 @@ import frc.robot.utilities.SimplePIDController;
  * Subsystem, moves the arm.
  */
 public class Arm extends Subsystem {
-	public static final double ARM_UP_MAX_POWER = 0.35;
-	public static final double ARM_DOWN_MAX_POWER = 0.35;
+	public static final double ARM_UP_MAX_POWER = 0.5;
+	public static final double ARM_DOWN_MAX_POWER = 0.5;
 	public static final double DEFAULT_ARM_P = 0.005;
 	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
 	public static final double DEFAULT_ARM_D = 0;
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 100;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 200;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 300;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 400;
-	public static final int DEFAULT_ARM_TICK_TOLORANCE = 5; // TODO : figure out a good value line 21-26
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 300;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 600;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1900;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 1200;
+	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 
   private SimplePIDController pidController;
 

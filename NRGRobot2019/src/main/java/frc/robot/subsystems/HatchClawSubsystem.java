@@ -17,7 +17,7 @@ public class HatchClawSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new HatchClaw(State.OPEN));
+    // setDefaultCommand(new HatchClaw(State.OPEN));
   }
 
   public void setClawOpen(){
