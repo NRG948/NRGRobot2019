@@ -24,17 +24,19 @@ public class Arm extends Subsystem {
 	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1900;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 1200;
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
+	public static final int DEFAULT_ARM_INVERSION_TICKS = 1500;
 
-  private SimplePIDController pidController;
+	private SimplePIDController pidController;
 
 	public enum Angle {
-		
 		ARM_STOWED_TICKS(PreferenceKeys.ARM_STOWED_TICKS, DEFAULT_ARM_STOWED_TICKS),
 		ARM_CARGO_SHIP_TICKS(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
 		ARM_ROCKET_CARGO_LOW_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
-		ARM_ROCKET_CARGO_MEDIUM_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
-		ARM_ROCKET_CARGO_HIGH_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
-		
+		ARM_ROCKET_CARGO_MEDIUM_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS,
+				DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
+		ARM_ROCKET_CARGO_HIGH_TICKS(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS),
+		ARM_INVERSION_TICKS(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS);
+
 		public final String preferenceKey;
 		public final int defaultTicks;
 
@@ -42,64 +44,59 @@ public class Arm extends Subsystem {
 			this.preferenceKey = prefKey;
 			this.defaultTicks = defaultTicks;
 		}
-		
+
 		public int getTicks() {
 			return Robot.preferences.getInt(preferenceKey, defaultTicks);
 		}
 	}
 
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new ManualMoveArm());
-  }
+	@Override
+	public void initDefaultCommand() {
+		setDefaultCommand(new ManualMoveArm());
+	}
 
-  // Positive power means up from the starting (stowed) position.
-  public void moveArm(double power){
-      rawMoveArm(power);
-  }
-  
-  private void rawMoveArm(double power) {
-	  if (power < 0) {
-		  if (atBackLimit()) {
-			  power = 0;
-		  }
-	  }
-	  else {
-		  if (atFrontLimit()) {
-			  power = 0;
-		  }
-	  }
-	  if (power != 0){
-		RobotMap.armMotor.set(power);
-	  }
-	  else {
-		  stop();
-	  }
-  }
+	// Positive power means up from the starting (stowed) position.
+	public void moveArm(double power) {
+		rawMoveArm(power);
+	}
 
-  public void stop() {
-  	RobotMap.armMotor.stopMotor();
-  }
+	private void rawMoveArm(double power) {
+		if (power < 0) {
+			if (atBackLimit()) {
+				power = 0;
+			}
+		} else {
+			if (atFrontLimit()) {
+				power = 0;
+			}
+		}
+		if (power != 0) {
+			RobotMap.armMotor.set(power);
+		} else {
+			stop();
+		}
+	}
 
-  public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-    double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.ARM_UP_MAX_POWER, ARM_UP_MAX_POWER);
+	public void stop() {
+		RobotMap.armMotor.stopMotor();
+	}
+
+	public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
+		double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.ARM_UP_MAX_POWER, ARM_UP_MAX_POWER);
 		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, ARM_DOWN_MAX_POWER);
-		
-		pidController = new SimplePIDController(p, i, d, true)
-								.setOutputRange(-maxPowerDown, maxPowerUp)
-								.setAbsoluteTolerance(tolerance)
-								.setSetpoint(setpoint)
-								.start();
-  } 
 
-  public void armAnglePIDInit(double setpoint, double tolerance) {
+		pidController = new SimplePIDController(p, i, d, true).setOutputRange(-maxPowerDown, maxPowerUp)
+				.setAbsoluteTolerance(tolerance).setSetpoint(setpoint).start();
+	}
+
+	public void armAnglePIDInit(double setpoint, double tolerance) {
 		double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
 		double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
 		double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
 		armPIDControllerInit(p, i, d, setpoint, tolerance);
-  }
-  
-  public void armAnglePIDExecute() {
+	}
+
+	public void armAnglePIDExecute() {
 		double currentPIDOutput = pidController.update(RobotMap.armEncoder.getDistance());
 
 		SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
@@ -112,17 +109,20 @@ public class Arm extends Subsystem {
 		pidController = null;
 		stop();
 	}
-	
+
 	public boolean armPIDControllerOnTarget() {
 		return pidController.onTarget();
 	}
 
-	public boolean atFrontLimit () {
+	public boolean atFrontLimit() {
 		return !RobotMap.armFrontLimitSwitch.get();
 	}
 
-	public boolean atBackLimit () {
+	public boolean atBackLimit() {
 		return !RobotMap.armBackLimitSwitch.get();
 	}
-}
 
+	public boolean isCameraInverted() {
+		return RobotMap.armEncoder.getDistance() > Angle.ARM_INVERSION_TICKS.getTicks();
+	}
+}

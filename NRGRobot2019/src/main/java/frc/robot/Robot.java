@@ -123,7 +123,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("ArmEncoder", RobotMap.armEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-
+    
+    SmartDashboard.putBoolean("Vision/cameraInverted", Robot.arm.isCameraInverted());
     boolean hasTargets = visionTargets.hasTargets();
     SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
     if(hasTargets) {

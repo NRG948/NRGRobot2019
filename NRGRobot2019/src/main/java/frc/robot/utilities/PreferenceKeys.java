@@ -22,6 +22,7 @@ public class PreferenceKeys {
 	public static final String ARM_ROCKET_CARGO_LOW_TICKS = "ARM_ROCKET_CARGO_LOW_TICKS";
 	public static final String ARM_ROCKET_CARGO_MEDIUM_TICKS = "ARM_ROCKET_CARGO_MEDIUM_TICKS";
 	public static final String ARM_ROCKET_CARGO_HIGH_TICKS = "ARM_ROCKET_CARGO_HIGH_TICKS";
+	public static final String ARM_INVERSION_TICKS = "ARM_INVERSION_TICKS";
 	
 	public static final String USE_PHYSICAL_AUTO_CHOOSER = "USE_PHYSICAL_AUTO_CHOOSER";
 
