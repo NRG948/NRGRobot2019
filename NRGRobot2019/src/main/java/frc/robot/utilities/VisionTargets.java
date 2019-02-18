@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -62,6 +63,10 @@ public class VisionTargets {
         double centerX = getCenterOfTargets().x;
         double deltaX = centerX - HALF_IMAGE_WIDTH;
         return Math.toDegrees(Math.atan2(deltaX, HALF_IMAGE_WIDTH*Math.atan(HALF_IMAGE_FOV)));
+    }
+
+    public double getHeadingToTarget() {
+        return RobotMap.navx.getAngle() + getAngleToTarget();
     }
 
     public double getDistanceToTarget() {
