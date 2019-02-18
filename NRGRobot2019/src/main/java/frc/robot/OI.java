@@ -62,7 +62,7 @@ public class OI {
     climberPistonsExtendButton.whenPressed(new ActivateClimberPistons(true));
     climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
 
-    climberMotorButton.whileHeld(new ManualClimberMotor(0.3)); //TBD
+    climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
   }
 
   /** Gets the Y value of the left joystick. */

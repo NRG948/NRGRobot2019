@@ -73,6 +73,8 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
+    climberMotor.setInverted(true);
+
     armMotor = new Victor(1);
     climberMotor = new Victor(2);
     cargoAcquirerMotor = new Victor(0);
