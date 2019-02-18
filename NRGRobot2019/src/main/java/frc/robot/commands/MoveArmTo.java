@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
 
-public class MoveArm extends Command {
+public class MoveArmTo extends Command {
   private int ticks;
 
-  public MoveArm(Arm.Angle angle) {
+  public MoveArmTo(Arm.Angle angle) {
     this(angle.getTicks());
   }
   
-  public MoveArm(int ticks) {
+  public MoveArmTo(int ticks) {
     requires(Robot.arm);
     this.ticks = ticks;
   }

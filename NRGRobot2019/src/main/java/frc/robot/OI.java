@@ -13,7 +13,7 @@ import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.ManualDrive;
-import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArmTo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.commands.ManualClimberMotor;
@@ -78,9 +78,9 @@ public class OI {
     climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
     climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
 
-    testButton1.whenPressed(new MoveArm(500));
-    testButton2.whenPressed(new MoveArm(1000));
-    testButton3.whenPressed(new MoveArm(1500));
+    testButton1.whenPressed(new MoveArmTo(500));
+    testButton2.whenPressed(new MoveArmTo(1000));
+    testButton3.whenPressed(new MoveArmTo(1500));
   }
 
   /** Gets the Y value of the left joystick. */
