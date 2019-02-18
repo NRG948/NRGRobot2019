@@ -19,12 +19,12 @@ public class MoveArmTo extends Command {
   @Override
   protected void initialize() {
     System.out.println("MoveArm " + ticks + " Init");
-    Robot.arm.armAnglePIDInit(ticks, Arm.DEFAULT_ARM_TICK_TOLORANCE);
+    Robot.arm.setSetpoint(this.ticks);
   }
 
   @Override
   protected void execute() {
-    Robot.arm.armAnglePIDExecute();
+    // pid controller is updated in teleopPeriodic and autonomousPeriodic
   }
 
   @Override
@@ -34,7 +34,6 @@ public class MoveArmTo extends Command {
 
   @Override
   protected void end() {
-    Robot.arm.armAnglePIDEnd();
     System.out.println("MoveArm End");
   }
 

@@ -154,6 +154,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     System.out.println("autonomousInit()");
     RobotMap.resetSensors();
+    Robot.arm.armAnglePIDInit();
+    
 		autonomousCommand = new AutonomousRoutines();
     if (autonomousCommand != null) {
       autonomousCommand.start();
@@ -164,12 +166,14 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     positionTracker.updatePosition();
     visionTargets.update();
+    Robot.arm.armAnglePIDExecute();
     Scheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
     System.out.println("teleopInit()");
+    Robot.arm.armAnglePIDInit();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -183,6 +187,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     positionTracker.updatePosition();
     visionTargets.update();
+    Robot.arm.armAnglePIDExecute();
     Scheduler.getInstance().run();
   }
 

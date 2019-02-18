@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * Commands to move the arm under manual control.
+ * Command to move the arm under manual control, without PID.
  */
 public class ManualMoveArm extends Command {
   public ManualMoveArm() {

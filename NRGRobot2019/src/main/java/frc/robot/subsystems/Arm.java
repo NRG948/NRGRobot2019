@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualMoveArm;
+import frc.robot.commands.ManualMoveArmWithPID;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
@@ -50,27 +51,23 @@ public class Arm extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManualMoveArm());
+    setDefaultCommand(new ManualMoveArmWithPID());
   }
 
   // Positive power means up from the starting (stowed) position.
   public void moveArm(double power){
-      rawMoveArm(power);
+    rawMoveArm(power);
   }
   
   private void rawMoveArm(double power) {
-	  if (power < 0) {
-		  if (atBackLimit()) {
-			  power = 0;
-		  }
-	  }
-	  else {
-		  if (atFrontLimit()) {
-			  power = 0;
-		  }
+	  if (power < 0 && atBackLimit()) {
+			power = 0;
+		}
+	  else if (atFrontLimit()) {
+			power = 0;
 	  }
 	  if (power != 0){
-		RobotMap.armMotor.set(power);
+		  RobotMap.armMotor.set(power);
 	  }
 	  else {
 		  stop();
@@ -83,30 +80,39 @@ public class Arm extends Subsystem {
 
   public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
     double maxPowerUp = Robot.preferences.getDouble(PreferenceKeys.ARM_UP_MAX_POWER, ARM_UP_MAX_POWER);
-		double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, ARM_DOWN_MAX_POWER);
-		
-		pidController = new SimplePIDController(p, i, d, true)
-								.setOutputRange(-maxPowerDown, maxPowerUp)
-								.setAbsoluteTolerance(tolerance)
-								.setSetpoint(setpoint)
-								.start();
+    double maxPowerDown = Robot.preferences.getDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, ARM_DOWN_MAX_POWER);
+      
+    pidController = new SimplePIDController(p, i, d, true)
+                .setOutputRange(-maxPowerDown, maxPowerUp)
+                .setAbsoluteTolerance(tolerance)
+                .setSetpoint(setpoint)
+                .start();
   } 
 
   public void armAnglePIDInit(double setpoint, double tolerance) {
-		double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
-		double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
-		double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
-		armPIDControllerInit(p, i, d, setpoint, tolerance);
+    double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
+    double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
+    double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
+    armPIDControllerInit(p, i, d, setpoint, tolerance);
+  }
+
+  public void armAnglePIDInit() {
+	  Robot.arm.armAnglePIDInit(RobotMap.armEncoder.get(), Arm.DEFAULT_ARM_TICK_TOLORANCE);
   }
   
   public void armAnglePIDExecute() {
-		double currentPIDOutput = pidController.update(RobotMap.armEncoder.getDistance());
+    int armTicks = RobotMap.armEncoder.get();
+    double armPIDOutput = pidController.update(armTicks);
 
-		SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
-		SmartDashboard.putNumber("Arm Angle PID/Output", currentPIDOutput);
+    //if arm is stowed, don't run PID
+    if(armTicks < 100 && armPIDControllerOnTarget()) {
+      armPIDOutput = 0;
+    }
+    rawMoveArm(armPIDOutput);
 
-		rawMoveArm(currentPIDOutput);
-	}
+    SmartDashboard.putNumber("Arm Angle PID/Output", armPIDOutput);
+    SmartDashboard.putNumber("Arm Angle PID/Error", pidController.getError());
+  }
 
 	public void armAnglePIDEnd() {
 		pidController = null;
@@ -123,6 +129,14 @@ public class Arm extends Subsystem {
 
 	public boolean atBackLimit () {
 		return !RobotMap.armBackLimitSwitch.get();
-	}
+  }
+  
+  public void setSetpoint(int setPointInTicks) {
+    pidController.setSetpoint(setPointInTicks);
+  }
+
+  public int getCurrentArmPosition() {
+    return RobotMap.armEncoder.get();
+  }
 }
 
