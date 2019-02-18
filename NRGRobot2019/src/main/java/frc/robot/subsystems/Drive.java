@@ -47,6 +47,7 @@ public class Drive extends Subsystem {
   private DistanceFollower rightFollower;
   private double leftStart;
   private double rightStart;
+  private double currentHeading = 0;
 
   @Override
   public void initDefaultCommand() {
@@ -90,6 +91,13 @@ public class Drive extends Subsystem {
 		double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, DEFAULT_DRIVE_D);
     this.drivePIDController = new SimplePIDController(p, i, d).
       setSetpoint(currentHeading).setAbsoluteTolerance(0);
+      setCurrentHeading(currentHeading);
+  }
+
+  public void driveOnHeadingExecute(double power, double heading) {
+    this.drivePIDController.setSetpoint(heading);
+    setCurrentHeading(heading);
+    driveOnHeadingExecute(power);
   }
 
   public void driveOnHeadingExecute(double power) {
@@ -154,5 +162,13 @@ public class Drive extends Subsystem {
     stopMotor();
     this.leftFollower = null;
     this.rightFollower= null;
+  }
+
+  private void setCurrentHeading(double heading) {
+    this.currentHeading = heading;
+  }
+
+  public double getCurrentHeading() {
+    return this.currentHeading;
   }
 }
