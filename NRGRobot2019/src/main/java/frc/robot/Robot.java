@@ -233,6 +233,7 @@ public class Robot extends TimedRobot {
       preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
       preferences.putInt(PreferenceKeys.ARM_MAX_ANGLE_TICKS, Arm.DEFAULT_ARM_MAX_ANGLE_TICKS);
       preferences.putInt(PreferenceKeys.ARM_INVERSION_TICKS, Arm.DEFAULT_ARM_INVERSION_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, Arm.DEFAULT_ARM_ACQUIRE_CARGO_TICKS);
 
 			// preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
 			// preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);

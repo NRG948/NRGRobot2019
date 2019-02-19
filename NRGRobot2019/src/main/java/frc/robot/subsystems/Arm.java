@@ -24,7 +24,7 @@ public class Arm extends Subsystem {
 	public static final double DEFAULT_ARM_D = 0;
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 235;
+	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 250;
 	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 600;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 900;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1900;
