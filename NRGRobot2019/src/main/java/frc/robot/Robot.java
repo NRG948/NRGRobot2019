@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
     hatchExtension = new HatchExtensionSubsystem();
 
     oi = new OI();
+    initPreferences();
     LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
     visionTargets = new VisionTargets();
 
@@ -212,17 +213,17 @@ public class Robot extends TimedRobot {
 			preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
 			preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
 			preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
-			preferences.putDouble(PreferenceKeys.ARM_UP_MAX_POWER, Arm.ARM_UP_MAX_POWER);
-			preferences.putDouble(PreferenceKeys.ARM_DOWN_MAX_POWER, Arm.ARM_DOWN_MAX_POWER);
+			preferences.putDouble(PreferenceKeys.ARM_MAX_POWER, Arm.DEFAULT_ARM_MAX_POWER);
 
 			preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
 			preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
 			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
 			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_MAX_ANGLE_TICKS, Arm.DEFAULT_ARM_MAX_ANGLE_TICKS);
 
-			preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-			preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
+			// preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
+			// preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
 		}
   }
 }

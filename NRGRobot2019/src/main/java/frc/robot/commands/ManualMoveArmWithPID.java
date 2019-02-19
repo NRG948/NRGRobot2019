@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.Arm;
 
 /**
  * Command that moves the arm with PID when manually controlled with xbox triggers.
@@ -13,7 +15,8 @@ public class ManualMoveArmWithPID extends Command {
   * that's 1300 ticks/second * 1 second/1000 milliseconds * 20 milliseconds = 26 ticks
   */
   private static final int MAX_TICKS_PER_CYCLE = 26;
-  
+  private double lastArmSpeed;
+
   public ManualMoveArmWithPID() {
     requires(Robot.arm);
   }
@@ -27,10 +30,20 @@ public class ManualMoveArmWithPID extends Command {
   protected void execute() {
     double upSpeed = Robot.oi.getXboxRightTrigger();
     double downSpeed = Robot.oi.getXboxLeftTrigger();
+    SmartDashboard.putNumber("Arm Angle PID/RightTrigger", upSpeed);
+    SmartDashboard.putNumber("Arm Angle PID/LeftTrigger", downSpeed);
     double speed = upSpeed - downSpeed;
-    int currentPosition = Robot.arm.getCurrentArmPosition();
-    int newPosition = (int)(currentPosition + speed * MAX_TICKS_PER_CYCLE);
-    Robot.arm.setSetpoint(newPosition);
+    if(speed < 0) {
+      Robot.arm.setPIDOutputLimits(speed);
+      Robot.arm.setSetpoint(Arm.Angle.ARM_MAX_ANGLE.getTicks());
+    } else if(speed > 0) {
+      Robot.arm.setPIDOutputLimits(speed);
+      Robot.arm.setSetpoint(Arm.Angle.ARM_STOWED_ANGLE.getTicks());
+    } else if(speed != this.lastArmSpeed){
+      Robot.arm.setPIDOutputLimits(1.0);
+      Robot.arm.setSetpoint(Robot.arm.getCurrentArmPosition());
+    }
+    this.lastArmSpeed = speed;
   }
 
   @Override
