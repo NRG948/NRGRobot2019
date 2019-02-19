@@ -32,6 +32,7 @@ public class Arm extends Subsystem {
 	public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; //slightly smaller than actual range (max = 2670)
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 	public static final int DEFAULT_ARM_INVERSION_TICKS = 1500;
+	public static final int DEFAULT_ARM_FORWARD = 600;
 
 
   private SimplePIDController pidController;
@@ -45,7 +46,8 @@ public class Arm extends Subsystem {
 		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
 		ARM_ROCKET_CARGO_HIGH_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS),
 		ARM_MAX_ANGLE(PreferenceKeys.ARM_MAX_ANGLE_TICKS, DEFAULT_ARM_MAX_ANGLE_TICKS),
-		ARM_INVERSION_TICKS(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS);
+		ARM_INVERSION_ANGLE(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS),
+		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_FORWARD_TICKS, DEFAULT_ARM_FORWARD);
 		
 		public final String preferenceKey;
 		public final int defaultTicks;
@@ -164,6 +166,6 @@ public class Arm extends Subsystem {
 	}
 
 	public boolean isCameraInverted() {
-		return RobotMap.armEncoder.getDistance() > Angle.ARM_INVERSION_TICKS.getTicks();
+		return RobotMap.armEncoder.getDistance() > Angle.ARM_INVERSION_ANGLE.getTicks();
 	}
 }
