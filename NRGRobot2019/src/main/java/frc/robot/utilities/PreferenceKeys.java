@@ -24,7 +24,7 @@ public class PreferenceKeys {
 	public static final String ARM_ROCKET_CARGO_HIGH_TICKS = "ArmRocketCargoHighTicks";
 	public static final String ARM_MAX_ANGLE_TICKS = "ArmMaxAngleTicks";
 	public static final String ARM_INVERSION_TICKS = "ArmInversionTicks";
-	public static final String ARM_FORWARD_TICKS = "ArmForwardTicks";
+	public static final String ARM_LEVEL_TICKS = "ArmLevelTicks";
 	
 	// public static final String USE_PHYSICAL_AUTO_CHOOSER = "UsePhysicalAutoChooser";
 	// public static final String USING_PRACTICE_BOT = "Using Practice Bot";

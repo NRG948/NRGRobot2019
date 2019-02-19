@@ -11,15 +11,12 @@ import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
 /**
- * Subsystem, moves the arm.
+ * Subsystem which controls the arm movement.
  */
 public class Arm extends Subsystem {
-	/**
-	 *
-	 */
-
 	private static final int DEAD_BAND_RANGE = 100;
 	public static final double DEFAULT_ARM_MAX_POWER = 0.5;
+	public static final double DEFAULT_HOLD_ARM_LEVEL = 0.4; //TBD
 	public static final double DEFAULT_ARM_P = 0.005;
 	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
 	public static final double DEFAULT_ARM_D = 0;
@@ -33,7 +30,7 @@ public class Arm extends Subsystem {
 	public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; //slightly smaller than actual range (max = 2670)
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 	public static final int DEFAULT_ARM_INVERSION_TICKS = 1500;
-	public static final int DEFAULT_ARM_FORWARD = 600;
+	public static final int DEFAULT_ARM_LEVEL_TICKS = 600;
 
 
   private SimplePIDController pidController;
@@ -48,7 +45,7 @@ public class Arm extends Subsystem {
 		ARM_ROCKET_CARGO_HIGH_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS),
 		ARM_MAX_ANGLE(PreferenceKeys.ARM_MAX_ANGLE_TICKS, DEFAULT_ARM_MAX_ANGLE_TICKS),
 		ARM_INVERSION_ANGLE(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS),
-		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_FORWARD_TICKS, DEFAULT_ARM_FORWARD);
+		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_LEVEL_TICKS, DEFAULT_ARM_LEVEL_TICKS);
 		
 		public final String preferenceKey;
 		public final int defaultTicks;
@@ -84,7 +81,7 @@ public class Arm extends Subsystem {
 			}
 		}
 		if (power != 0) {
-			power = adjustPowerForGravity(power);
+			// power = adjustPowerForGravity(power);
 			RobotMap.armMotor.set(power);
 		} else {
 			stop();
@@ -128,8 +125,9 @@ public class Arm extends Subsystem {
   }
   
   public void armAnglePIDExecute() {
-    int armTicks = RobotMap.armEncoder.get();
-    double armPIDOutput = pidController.update(armTicks);
+		int armTicks = RobotMap.armEncoder.get();
+		double feedForward = calculateFeedForward(armTicks);
+    double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
     //if arm is stowed, don't run PID
     if(armTicks < DEAD_BAND_RANGE && armPIDControllerOnTarget()) {
@@ -178,6 +176,13 @@ public class Arm extends Subsystem {
 
   public int getCurrentArmPosition() {
     return RobotMap.armEncoder.get();
+	}
+
+	// https://www.chiefdelphi.com/t/smoothly-controlling-an-arm/343880
+	// based on cheesy poofs comments about kf * cos(theta) on this post ^
+	public double calculateFeedForward(int armPositionTicks){
+		double theta = 90.0 * (double)(armPositionTicks - DEFAULT_ARM_LEVEL_TICKS) / (DEFAULT_ARM_INVERSION_TICKS - DEFAULT_ARM_LEVEL_TICKS);
+		return DEFAULT_HOLD_ARM_LEVEL * Math.cos(Math.toRadians(theta));
 	}
 
 	public boolean isCameraInverted() {

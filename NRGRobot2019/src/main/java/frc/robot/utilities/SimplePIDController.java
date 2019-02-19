@@ -65,13 +65,17 @@ public class SimplePIDController {
 		integral = 0.0;
 		return this;
 	}
-
+	
 	public double update(double input, double setpoint) {
 		this.setpoint = setpoint;
 		return update(input);
 	}
+	
+	public double update(double input){
+		return updateWithFeedForward(input, 0);
+	}
 
-	public double update(double input) {
+	public double updateWithFeedForward(double input, double feedForward) {
 		double currTime = System.nanoTime() / 1.0e9;
 		double deltaTime = currTime - prevTime;
 
@@ -84,13 +88,13 @@ public class SimplePIDController {
 		}
 
 		double derivative = (error - prevError) / deltaTime;
-		double pdTerms = kP * error + kD * derivative;
+		double pdfTerms = kP * error + kD * derivative + feedForward;
 
 		// only integrate when close to setpoint
-		if (pdTerms >= maximumOutput) {
+		if (pdfTerms >= maximumOutput) {
 			result = maximumOutput;
 			integral = 0;
-		} else if (pdTerms <= minimumOutput) {
+		} else if (pdfTerms <= minimumOutput) {
 			result = minimumOutput;
 			integral = 0;
 		} else {
@@ -99,7 +103,7 @@ public class SimplePIDController {
 				integral = 0;
 			}
 			integral += kI * (error + prevError) * 0.5 * deltaTime;
-			result = MathUtil.clamp(pdTerms + integral, minimumOutput, maximumOutput);
+			result = MathUtil.clamp(pdfTerms + integral, minimumOutput, maximumOutput);
 		}
 
 		prevTime = currTime;
@@ -115,13 +119,10 @@ public class SimplePIDController {
 		output.pidWrite(result);
 	}
 
-	public SimplePIDController setSetpoint(double setpoint) {
-		wasPIDReset = true;
-		return setSetpointContinuous(setpoint);
-	}
 
-	public SimplePIDController setSetpointContinuous(double setpoint){
+	public SimplePIDController setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
+		wasPIDReset = true;
 		return this;
 	}
 
