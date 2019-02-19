@@ -5,21 +5,18 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
 
 public class MoveArmTo extends Command {
-  private int ticks;
+  private Arm.Angle angle;
 
   public MoveArmTo(Arm.Angle angle) {
-    this(angle.getTicks());
-  }
-  
-  public MoveArmTo(int ticks) {
     requires(Robot.arm);
-    this.ticks = ticks;
+    this.angle = angle;
   }
 
   @Override
   protected void initialize() {
+    int ticks = this.angle.getTicks();
     System.out.println("MoveArmTo " + ticks + " Init");
-    Robot.arm.setSetpoint(this.ticks);
+    Robot.arm.setSetpoint(ticks);
   }
 
   @Override

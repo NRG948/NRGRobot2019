@@ -84,7 +84,7 @@ public class OI {
     climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
 
     testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
-    testButton2.whenPressed(new MoveArmTo(1000));
+    testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_INVERSION_TICKS));
     testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
   }
 
