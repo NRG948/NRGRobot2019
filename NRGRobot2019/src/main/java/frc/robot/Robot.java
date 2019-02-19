@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
 
     arm.initShuffleboard();
+    visionTargets.initShuffleboard();
       
 		System.out.println("robotInit() done");
   }

@@ -7,6 +7,11 @@ import com.google.gson.GsonBuilder;
 
 import org.opencv.core.Point;
 
+import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.HttpCamera.HttpCameraKind;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
@@ -77,5 +82,12 @@ public class VisionTargets {
     public double getDistanceToTarget() {
         double targetWidth = (this.right.getMinX().x - this.left.getMaxX().x);
         return TARGET_WIDTH * 2 * HALF_IMAGE_WIDTH / (2 * targetWidth * Math.tan(HALF_IMAGE_FOV));
+    }
+
+    public void initShuffleboard() {
+        HttpCamera processedVideo = new HttpCamera("Processed Video", "http://frcvision.local:1182/stream.mjpg");
+
+        ShuffleboardTab visionTab = Shuffleboard.getTab("Vision");
+        visionTab.add(processedVideo).withPosition(0, 0).withSize(4, 3);
     }
 }
