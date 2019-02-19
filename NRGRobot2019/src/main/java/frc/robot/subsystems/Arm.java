@@ -16,7 +16,7 @@ import frc.robot.utilities.SimplePIDController;
 public class Arm extends Subsystem {
 	private static final int DEAD_BAND_RANGE = 100;
 	public static final double DEFAULT_ARM_MAX_POWER = 0.5;
-	public static final double DEFAULT_HOLD_ARM_LEVEL = 0.4; //TBD
+	public static final double DEFAULT_HOLD_ARM_LEVEL = 0.2;
 	public static final double DEFAULT_ARM_P = 0.005;
 	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
 	public static final double DEFAULT_ARM_D = 0;
