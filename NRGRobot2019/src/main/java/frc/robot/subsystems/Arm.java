@@ -162,8 +162,6 @@ public class Arm extends Subsystem {
   public int getCurrentArmPosition() {
     return RobotMap.armEncoder.get();
 	}
-	
-}
 
 	public boolean isCameraInverted() {
 		return RobotMap.armEncoder.getDistance() > Angle.ARM_INVERSION_TICKS.getTicks();
