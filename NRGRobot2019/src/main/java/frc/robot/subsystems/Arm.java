@@ -132,7 +132,9 @@ public class Arm extends Subsystem {
 
 	public void armAnglePIDExecute() {
 		int armTicks = RobotMap.armEncoder.get();
-		double feedForward = calculateFeedForward(armTicks);
+		double cosTheta = calculateCosineTheta(armTicks);
+		pidController.setOutputRange(-0.3 + 0.25 * cosTheta, 0.3 + 0.25 * cosTheta);
+		double feedForward = calculateFeedForward(cosTheta);
 		double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
 		// if arm is stowed, don't run PID
@@ -187,10 +189,15 @@ public class Arm extends Subsystem {
 
 	// https://www.chiefdelphi.com/t/smoothly-controlling-an-arm/343880
 	// based on cheesy poofs comments about kf * cos(theta) on this post ^
-	public double calculateFeedForward(int armPositionTicks) {
-		double theta = 90.0 * (double) (armPositionTicks - DEFAULT_ARM_LEVEL_TICKS)
+	public double calculateFeedForward(double cosTheta) {
+		return DEFAULT_HOLD_ARM_LEVEL * cosTheta;
+	}
+
+	// Assumes the forward horizontal arm position is 0 degrees, increasing CCW. 
+	public double calculateCosineTheta(int armPositionTicks) {
+		double thetaInDegrees = 90.0 * (double) (armPositionTicks - DEFAULT_ARM_LEVEL_TICKS)
 				/ (DEFAULT_ARM_INVERSION_TICKS - DEFAULT_ARM_LEVEL_TICKS);
-		return DEFAULT_HOLD_ARM_LEVEL * Math.cos(Math.toRadians(theta));
+		return Math.cos(Math.toRadians(thetaInDegrees));
 	}
 
 	public boolean isCameraInverted() {
