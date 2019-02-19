@@ -6,6 +6,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualMoveArm;
 import frc.robot.commands.ManualMoveArmWithPID;
+import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
@@ -83,17 +84,30 @@ public class Arm extends Subsystem {
 			}
 		}
 		if (power != 0) {
+			power = adjustPowerForGravity(power);
 			RobotMap.armMotor.set(power);
 		} else {
 			stop();
 		}
 	}
 
-  public void stop() {
-  	RobotMap.armMotor.stopMotor();
-  }
+	// Limit max power when the arm is moving toward the floor.
+	private double adjustPowerForGravity(double power) {
+		double maxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
+		int position = getCurrentArmPosition();
+		if(position <= Angle.ARM_INVERSION_ANGLE.getTicks()){
+			power = MathUtil.clamp(power, -0.5 * maxPower, maxPower);
+		} else {
+			power = MathUtil.clamp(power, -maxPower, 0.5 * maxPower);
+		}
+		return power;
+	}
 
-  public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
+	public void stop() {
+		RobotMap.armMotor.stopMotor();
+	}
+
+	public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
     double maxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
     pidController = new SimplePIDController(p, i, d, true)
                 .setOutputRange(-maxPower, maxPower)
@@ -138,7 +152,8 @@ public class Arm extends Subsystem {
 	}
 
 	public void setPIDOutputLimits(double maxSpeed) {
-		double power = Math.min(Math.abs(maxSpeed), Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER));
+		double armMaxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
+		double power = Math.min(Math.abs(maxSpeed), armMaxPower);
 		pidController.setOutputRange(-power, power);
 	}
 
