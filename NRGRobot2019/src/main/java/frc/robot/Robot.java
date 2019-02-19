@@ -54,23 +54,23 @@ public class Robot extends TimedRobot {
   public static Preferences preferences;
 
   public static VisionTargets visionTargets;
-  
+
   Command autonomousCommand;
-	public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
+  public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
-  
+
   public enum AutoStartingPosition {
-		LEFT, CENTER, RIGHT
+    LEFT, CENTER, RIGHT
   }
-  
+
   public enum AutoFeederPosition {
     NONE, LEFT_FEEDER, RIGHT_FEEDER
   }
 
-	public enum AutoMovement {
-		NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
-	}
+  public enum AutoMovement {
+    NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+  }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -80,15 +80,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     System.out.println("robotInit()");
 
-		preferences = Preferences.getInstance();
+    preferences = Preferences.getInstance();
     RobotMap.init();
-    //initialize subsystems
+    // initialize subsystems
     drive = new Drive();
     gearbox = new Gearbox();
     arm = new Arm();
     climberMotor = new ClimberMotor();
     climberPistons = new ClimberPistons();
-    cargoAcquirer = new CargoAcquirer(); 
+    cargoAcquirer = new CargoAcquirer();
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
 
@@ -97,8 +97,8 @@ public class Robot extends TimedRobot {
     visionTargets = new VisionTargets();
 
     autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
-		autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
-		autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
+    autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
+    autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
     autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
 
     autoStationPositionChooser = new SendableChooser<AutoFeederPosition>();
@@ -106,28 +106,24 @@ public class Robot extends TimedRobot {
     autoStationPositionChooser.addObject("Left", AutoFeederPosition.LEFT_FEEDER);
     autoStationPositionChooser.addObject("Right", AutoFeederPosition.RIGHT_FEEDER);
 
-		autoMovementChooser = new SendableChooser<AutoMovement>();
+    autoMovementChooser = new SendableChooser<AutoMovement>();
     autoMovementChooser.addDefault("None", AutoMovement.NONE);
-		autoMovementChooser.addObject("Forward", AutoMovement.FORWARD);
+    autoMovementChooser.addObject("Forward", AutoMovement.FORWARD);
     autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
     Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3, 3);
 
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
-    autoTab.add("Start", autoStartingPositionChooser).
-      withWidget(BuiltInWidgets.kSplitButtonChooser).
-      withPosition(0, 0).
-      withSize(4, 1);
-    autoTab.add("First Hatch", autoMovementChooser).
-      withWidget(BuiltInWidgets.kSplitButtonChooser).
-      withPosition(0, 1).
-      withSize(4, 1);
-    autoTab.add("Feeder", autoStationPositionChooser).
-      withWidget(BuiltInWidgets.kSplitButtonChooser).
-      withPosition(0, 2).
-      withSize(4, 1);
+    autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
+        .withSize(4, 1);
+    autoTab.add("First Hatch", autoMovementChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 1)
+        .withSize(4, 1);
+    autoTab.add("Feeder", autoStationPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 2)
+        .withSize(4, 1);
 
+    arm.initShuffleboard();
+      
 		System.out.println("robotInit() done");
   }
 
@@ -147,14 +143,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("PositionTracker/maxVelocity", positionTracker.getMaxVelocity());
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
-    SmartDashboard.putData("ArmEncoder", RobotMap.armEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-    
+
     SmartDashboard.putBoolean("Vision/cameraInverted", Robot.arm.isCameraInverted());
     boolean hasTargets = visionTargets.hasTargets();
     SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
-    if(hasTargets) {
+    if (hasTargets) {
       SmartDashboard.putNumber("Vision/angleToTarget", visionTargets.getAngleToTarget());
       SmartDashboard.putNumber("Vision/distance", visionTargets.getDistanceToTarget());
       Point center = visionTargets.getCenterOfTargets();
@@ -183,8 +178,8 @@ public class Robot extends TimedRobot {
     System.out.println("autonomousInit()");
     RobotMap.resetSensors();
     Robot.arm.armAnglePIDInit();
-    
-		autonomousCommand = new AutonomousRoutines();
+
+    autonomousCommand = new AutonomousRoutines();
     if (autonomousCommand != null) {
       autonomousCommand.start();
     }
@@ -226,33 +221,33 @@ public class Robot extends TimedRobot {
   }
 
   public void initPreferences() {
-		if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
+    if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
       preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
-			preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
-			preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
-			preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
+      preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
+      preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
+      preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
 
-			preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
-			preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
+      preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
+      preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
       preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
-      
-			preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
-			preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
-			preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
-			preferences.putDouble(PreferenceKeys.ARM_MAX_POWER, Arm.DEFAULT_ARM_MAX_POWER);
 
-			preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
-			preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
-			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
-			preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
+      preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
+      preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
+      preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
+      preferences.putDouble(PreferenceKeys.ARM_MAX_POWER, Arm.DEFAULT_ARM_MAX_POWER);
+
+      preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
+      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
       preferences.putInt(PreferenceKeys.ARM_MAX_ANGLE_TICKS, Arm.DEFAULT_ARM_MAX_ANGLE_TICKS);
       preferences.putInt(PreferenceKeys.ARM_INVERSION_TICKS, Arm.DEFAULT_ARM_INVERSION_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, Arm.DEFAULT_ARM_ACQUIRE_CARGO_TICKS);
 
-			// preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-			// preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
-		}
+      // preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
+      // preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
+    }
   }
 }

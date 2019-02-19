@@ -1,4 +1,5 @@
 package frc.robot.utilities;
+
 import edu.wpi.first.wpilibj.PIDBase.Tolerance;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -7,7 +8,7 @@ import edu.wpi.first.wpilibj.PIDSource;
  * Add your docs here.
  */
 public class SimplePIDController {
-    private double kP; // factor for "proportional" control
+	private double kP; // factor for "proportional" control
 	private double kI; // factor for "integral" control
 	private double kD; // factor for "derivative" control
 
@@ -16,8 +17,8 @@ public class SimplePIDController {
 	private double minimumInput = -Double.MAX_VALUE; // minimum input - limit setpoint to this
 	private double maximumInput = Double.MAX_VALUE; // maximum input - limit setpoint to this
 
-	private PIDSource source;
-	private PIDOutput output;
+	private PIDSource pidSource;
+	private PIDOutput pidOutput;
 	private boolean wasPIDReset = false; // is the pid controller enabled
 
 	// the sum of the errors for use in the integral calc
@@ -26,7 +27,7 @@ public class SimplePIDController {
 	private Tolerance tolerance;
 	private double setpoint = 0.0;
 
-	private double result = 0.0;
+	private double output = 0.0;
 	private double prevInput;
 
 	private double prevError = 0.0; // the prior error (used to compute derivative of error)
@@ -37,8 +38,8 @@ public class SimplePIDController {
 			PIDOutput output) {
 		this(p, i, d, isIntegralNeededToHoldPosition);
 
-		this.source = source;
-		this.output = output;
+		this.pidSource = source;
+		this.pidOutput = output;
 	}
 
 	public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition) {
@@ -65,13 +66,13 @@ public class SimplePIDController {
 		integral = 0.0;
 		return this;
 	}
-	
+
 	public double update(double input, double setpoint) {
 		this.setpoint = setpoint;
 		return update(input);
 	}
-	
-	public double update(double input){
+
+	public double update(double input) {
 		return updateWithFeedForward(input, 0);
 	}
 
@@ -92,10 +93,10 @@ public class SimplePIDController {
 
 		// only integrate when close to setpoint
 		if (pdfTerms >= maximumOutput) {
-			result = maximumOutput;
+			output = maximumOutput;
 			integral = 0;
 		} else if (pdfTerms <= minimumOutput) {
-			result = minimumOutput;
+			output = minimumOutput;
 			integral = 0;
 		} else {
 			// integral is reset if sensor value overshoots the setpoint
@@ -103,22 +104,21 @@ public class SimplePIDController {
 				integral = 0;
 			}
 			integral += kI * (error + prevError) * 0.5 * deltaTime;
-			result = MathUtil.clamp(pdfTerms + integral, minimumOutput, maximumOutput);
+			output = MathUtil.clamp(pdfTerms + integral, minimumOutput, maximumOutput);
 		}
 
 		prevTime = currTime;
 		prevError = error;
 		prevInput = input;
 
-		return result;
+		return output;
 	}
 
 	public void update() {
-		double input = source.pidGet();
+		double input = pidSource.pidGet();
 		double result = update(input);
-		output.pidWrite(result);
+		pidOutput.pidWrite(result);
 	}
-
 
 	public SimplePIDController setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
@@ -153,7 +153,11 @@ public class SimplePIDController {
 	public double getError() {
 		return prevError;
 	}
-	
+
+	public double getOutput() {
+		return output;
+	}
+
 	public double getSetpoint() {
 		return setpoint;
 	}
