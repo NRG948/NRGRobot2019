@@ -79,6 +79,7 @@ public class RobotMap {
     cargoAcquirerMotor = new Victor(1);
     
     climberMotor.setInverted(true);
+    armMotor.setInverted(true);
     
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
