@@ -54,10 +54,15 @@ public class Robot extends TimedRobot {
   Command autonomousCommand;
 	public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
+  public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
   
   public enum AutoStartingPosition {
 		LEFT, CENTER, RIGHT
-	}
+  }
+  
+  public enum AutoFeederPosition {
+    NONE, LEFT_FEEDER, RIGHT_FEEDER
+  }
 
 	public enum AutoMovement {
 		NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
@@ -91,13 +96,18 @@ public class Robot extends TimedRobot {
     autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
 		autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
 		autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
-		autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
+    autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
+
+    autoStationPositionChooser = new SendableChooser<AutoFeederPosition>();
+    autoStationPositionChooser.addDefault("None", AutoFeederPosition.NONE);
+    autoStationPositionChooser.addObject("Left", AutoFeederPosition.LEFT_FEEDER);
+    autoStationPositionChooser.addObject("Right", AutoFeederPosition.RIGHT_FEEDER);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
     autoMovementChooser.addDefault("None", AutoMovement.NONE);
-		autoMovementChooser.addDefault("Forward", AutoMovement.FORWARD);
-    autoMovementChooser.addDefault("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
-    autoMovementChooser.addDefault("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+		autoMovementChooser.addObject("Forward", AutoMovement.FORWARD);
+    autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
 		SmartDashboard.putData("Choose autonomous position", autoStartingPositionChooser);
 		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
@@ -124,7 +134,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("ArmEncoder", RobotMap.armEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-
+    
+    SmartDashboard.putBoolean("Vision/cameraInverted", Robot.arm.isCameraInverted());
     boolean hasTargets = visionTargets.hasTargets();
     SmartDashboard.putBoolean("Vision/hasTargets", hasTargets);
     if(hasTargets) {

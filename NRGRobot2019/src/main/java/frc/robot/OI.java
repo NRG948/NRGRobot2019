@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
@@ -119,5 +120,9 @@ public class OI {
 
 	public static AutoMovement getAutoMovement() {
 		return Robot.autoMovementChooser.getSelected();
-	}
+  }
+  
+  public static AutoFeederPosition getAutoStationPosition(){
+    return Robot.autoStationPositionChooser.getSelected();
+  }
 }

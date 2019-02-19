@@ -4,49 +4,67 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.OI;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
-	public static final int FIELD_WIDTH_INCHES = 27 * 12;
+  public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
   private static final double TANK_POWER = 0.7;
-  
 
   private AutoMovement autoMovement;
   private AutoStartingPosition autoStartingPosition;
-  
+  private AutoFeederPosition autoFeederPosition;
+
   /**
-   * Read autonomous choosers and build a command group to perform the desired autonomous routine
+   * Read autonomous choosers and build a command group to perform the desired
+   * autonomous routine
    */
   public AutonomousRoutines() {
     // addSequential(new SetDriveScale(Drive.SCALE_LOW));
 
     autoMovement = OI.getAutoMovement();
     autoStartingPosition = OI.getAutoStartingPosition();
+    autoFeederPosition = OI.getAutoStationPosition();
     System.out.println("Auto Movement is : " + autoMovement);
     System.out.println("Auto Position is : " + autoStartingPosition);
+    System.out.println("Auto Station position is " + autoFeederPosition);
 
     switch (autoMovement) {
-      case NONE:
-        return;
+    case NONE:
+      return;
 
-      case FORWARD:
-        addSequential(new DriveStraightDistance(80, TANK_POWER), 3);
-        return;
+    case FORWARD:
+      addSequential(new DriveStraightDistance(80, TANK_POWER), 3);
+      return;
 
-      case CARGO_FRONT_LEFT_HATCH:
-        addSequential(new FollowPathWeaverFile("output/Cargo_Front_Left_From_" + autoStartingPosition + ".pf1.csv"));
-        // addSequential(new DriveToVisionTarget());
-        addSequential(new DeliverHatch());
-        return;
-
-      case CARGO_FRONT_RIGHT_HATCH:
-        addSequential(new FollowPathWeaverFile("output/Cargo_Front_Right_From_" + autoStartingPosition + ".pf1.csv"));
-        // addSequential(new DriveToVisionTarget());
-        addSequential(new DeliverHatch());
-        return;
+    default:
+      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition, autoMovement)));
+      addSequential(new DeliverHatch());
+      break;
     }
+
+    switch (autoFeederPosition) {
+    case NONE:
+      return;
+
+    default:
+      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
+      break;
+    }
+  }
+
+  private String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {
+    return getPathWeaverFileName(from.toString(), to.toString());
+  }
+
+  private String getPathWeaverFileName(AutoStartingPosition from, AutoMovement to) {
+    return getPathWeaverFileName(from.toString(), to.toString());
+  }
+
+  private String getPathWeaverFileName(String from, String to) {
+    return "output/" + from + "_TO_" + to + ".pf1.csv";
   }
 }

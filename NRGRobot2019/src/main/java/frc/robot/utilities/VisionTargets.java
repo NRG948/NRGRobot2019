@@ -54,15 +54,20 @@ public class VisionTargets {
         Point centerPoint = new Point();
         Point leftCenter = this.left.getCenter();
         Point rightCenter = this.right.getCenter();
-        centerPoint.x = ((leftCenter.x + rightCenter.x)/2);
-        centerPoint.y = ((leftCenter.y + rightCenter.y)/2);
+        centerPoint.x = ((leftCenter.x + rightCenter.x) / 2);
+        centerPoint.y = ((leftCenter.y + rightCenter.y) / 2);
+        if (this.left.getIsCameraInverted()) {
+            centerPoint.x = -centerPoint.x;
+        } else {
+            centerPoint.y = -centerPoint.y;
+        }
         return centerPoint;
     }
 
     public double getAngleToTarget() {
         double centerX = getCenterOfTargets().x;
         double deltaX = centerX - HALF_IMAGE_WIDTH;
-        return Math.toDegrees(Math.atan2(deltaX, HALF_IMAGE_WIDTH*Math.atan(HALF_IMAGE_FOV)));
+        return Math.toDegrees(Math.atan2(deltaX, HALF_IMAGE_WIDTH * Math.atan(HALF_IMAGE_FOV)));
     }
 
     public double getHeadingToTarget() {
