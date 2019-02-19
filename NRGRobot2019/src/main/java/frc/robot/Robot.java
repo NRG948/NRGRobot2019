@@ -2,12 +2,16 @@ package frc.robot;
 
 import org.opencv.core.Point;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
@@ -90,7 +94,6 @@ public class Robot extends TimedRobot {
 
     oi = new OI();
     initPreferences();
-    LiveWindow.addSensor("pdp", "pdp", Robot.pdp);
     visionTargets = new VisionTargets();
 
     autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
@@ -109,8 +112,21 @@ public class Robot extends TimedRobot {
     autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
-		SmartDashboard.putData("Choose autonomous position", autoStartingPositionChooser);
-		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+    Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3, 3);
+
+    ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
+    autoTab.add("Start", autoStartingPositionChooser).
+      withWidget(BuiltInWidgets.kSplitButtonChooser).
+      withPosition(0, 0).
+      withSize(4, 1);
+    autoTab.add("First Hatch", autoMovementChooser).
+      withWidget(BuiltInWidgets.kSplitButtonChooser).
+      withPosition(0, 1).
+      withSize(4, 1);
+    autoTab.add("Feeder", autoStationPositionChooser).
+      withWidget(BuiltInWidgets.kSplitButtonChooser).
+      withPosition(0, 2).
+      withSize(4, 1);
 
 		System.out.println("robotInit() done");
   }
