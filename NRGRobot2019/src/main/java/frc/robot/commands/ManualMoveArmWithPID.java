@@ -30,8 +30,6 @@ public class ManualMoveArmWithPID extends Command {
   protected void execute() {
     double upSpeed = Robot.oi.getXboxRightTrigger();
     double downSpeed = Robot.oi.getXboxLeftTrigger();
-    SmartDashboard.putNumber("Arm Angle PID/RightTrigger", upSpeed);
-    SmartDashboard.putNumber("Arm Angle PID/LeftTrigger", downSpeed);
     double speed = upSpeed - downSpeed;
     if(speed < 0) {
       Robot.arm.setPIDOutputLimits(speed);
