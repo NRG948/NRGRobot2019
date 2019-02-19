@@ -29,7 +29,7 @@ public class CargoAcquirer extends Subsystem {
 }
   
   public void rawAcquire(double power) {
-    RobotMap.cargoAcquirerMotor.set(power);
+    RobotMap.cargoAcquirerMotor.set(power*0.5);
   }
 
   public void stop() {
