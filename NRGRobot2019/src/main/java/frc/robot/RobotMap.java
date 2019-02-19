@@ -87,8 +87,8 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    hatchClawSolenoid = new DoubleSolenoid(0, 1);          // TODO CHANGE THE CHANNELS LATER
-    hatchExtensionSolenoid = new DoubleSolenoid (2,3);
+    hatchClawSolenoid = new DoubleSolenoid(2, 3);          // TODO CHANGE THE CHANNELS LATER
+    hatchExtensionSolenoid = new DoubleSolenoid (0,1);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
     climberSolenoid = new DoubleSolenoid(6, 7);
 
