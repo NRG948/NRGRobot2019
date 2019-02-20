@@ -3,13 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.utilities.MathUtil;
+import frc.robot.utilities.PreferenceKeys;
 
 public class DriveToVisionTape extends Command {
   private static final double HATCH_STOP_DISTANCE = 16;
   private static final double CARGO_STOP_DISTANCE = 18 + HATCH_STOP_DISTANCE;
   private static final double SLOW_DOWN_DISTANCE = 15;
-  private static final double MIN_DRIVE_POWER = 0.15;
-  private static final double MAX_DRIVE_POWER = 0.5;
+  public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
+  public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;
 
   public enum Deliver {
     Hatch(HATCH_STOP_DISTANCE), Cargo(CARGO_STOP_DISTANCE);
@@ -28,7 +29,7 @@ public class DriveToVisionTape extends Command {
   private Deliver delivery;
   private double targetDistance;
 
-  public DriveToVisionTape(Deliver delivery) {
+  public  DriveToVisionTape(Deliver delivery) {
     requires(Robot.drive);
     this.delivery = delivery;
   }
@@ -43,7 +44,9 @@ public class DriveToVisionTape extends Command {
     double targetHeading = Robot.visionTargets.getHeadingToTarget();
     this.targetDistance = Robot.visionTargets.getDistanceToTarget();
     double slowDownDistance = delivery.getStopDistance() + SLOW_DOWN_DISTANCE;
-    double power = MathUtil.clamp(targetDistance/slowDownDistance, MIN_DRIVE_POWER, MAX_DRIVE_POWER);
+    double minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DEFAULT_MIN_DRIVE_POWER);
+    double maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DEFAULT_MAX_DRIVE_POWER);
+    double power = MathUtil.clamp(targetDistance/slowDownDistance, minDrivePower, maxDrivePower);
     Robot.drive.driveOnHeadingExecute(power, targetHeading);
   }
 

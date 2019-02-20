@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -11,6 +13,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualMoveArm;
 import frc.robot.commands.ManualMoveArmWithPID;
+import frc.robot.commands.MoveArmTo;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
@@ -22,16 +25,15 @@ public class Arm extends Subsystem {
 	private static final int DEAD_BAND_RANGE = 100;
 	public static final double DEFAULT_ARM_MAX_POWER = 0.5;
 	public static final double DEFAULT_HOLD_ARM_LEVEL = 0.2;
-	public static final double DEFAULT_ARM_P = 0.005;
-	public static final double DEFAULT_ARM_I = DEFAULT_ARM_P / 10;
-	public static final double DEFAULT_ARM_D = 0;
+	public static final double DEFAULT_ARM_P = 0.01;
+	public static final double DEFAULT_ARM_I = 0.002;
+	public static final double DEFAULT_ARM_D = 0.001;
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 250;
-	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 600;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 900;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1900;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS = 1200;
+	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 280;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 918;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 680;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1228;
 	public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 	public static final int DEFAULT_ARM_INVERSION_TICKS = 1680;
@@ -49,9 +51,7 @@ public class Arm extends Subsystem {
 		ARM_ACQUIRE_CARGO_ANGLE(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, DEFAULT_ARM_ACQUIRE_CARGO_TICKS),
 		ARM_CARGO_SHIP_ANGLE(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
 		ARM_ROCKET_CARGO_LOW_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
-		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS,
-				DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
-		ARM_ROCKET_CARGO_HIGH_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS),
+		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
 		ARM_MAX_ANGLE(PreferenceKeys.ARM_MAX_ANGLE_TICKS, DEFAULT_ARM_MAX_ANGLE_TICKS),
 		ARM_INVERSION_ANGLE(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS),
 		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_LEVEL_TICKS, DEFAULT_ARM_LEVEL_TICKS);
@@ -133,7 +133,7 @@ public class Arm extends Subsystem {
 	public void armAnglePIDExecute() {
 		int armTicks = RobotMap.armEncoder.get();
 		double cosTheta = calculateCosineTheta(armTicks);
-		pidController.setOutputRange(-0.3 + 0.25 * cosTheta, 0.3 + 0.25 * cosTheta);
+		pidController.setOutputRange(-0.25 + 0.3 * cosTheta, 0.25 + 0.3 * cosTheta);
 		double feedForward = calculateFeedForward(cosTheta);
 		double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
@@ -141,10 +141,9 @@ public class Arm extends Subsystem {
 		if (armTicks < DEAD_BAND_RANGE && armPIDControllerOnTarget()) {
 			armPIDOutput = 0;
 		}
-		rawMoveArm(armPIDOutput);
-
 		pidOutputWidget.getEntry().setDouble(armPIDOutput);
 		pidErrorWidget.getEntry().setDouble(pidController.getError());
+		rawMoveArm(armPIDOutput);
 	}
 
 	public void armAnglePIDEnd() {
@@ -193,7 +192,7 @@ public class Arm extends Subsystem {
 		return DEFAULT_HOLD_ARM_LEVEL * cosTheta;
 	}
 
-	// Assumes the forward horizontal arm position is 0 degrees, increasing CCW. 
+	// Assumes the forward horizontal arm position is 0 degrees, increasing CCW.
 	public double calculateCosineTheta(int armPositionTicks) {
 		double thetaInDegrees = 90.0 * (double) (armPositionTicks - DEFAULT_ARM_LEVEL_TICKS)
 				/ (DEFAULT_ARM_INVERSION_TICKS - DEFAULT_ARM_LEVEL_TICKS);
@@ -208,8 +207,15 @@ public class Arm extends Subsystem {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
 		ShuffleboardLayout armLayout = armTab.getLayout("Arm", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 3);
 		armLayout.add("Encoder", RobotMap.armEncoder);
-		pidOutputWidget = armLayout.add("PID output", 0.0);
-		pidErrorWidget = armLayout.add("PID error", 0.0);
+		armLayout.add("Back Limit", RobotMap.armBackLimitSwitch);
 		pidSetpointWidget = armLayout.add("PID setpoint", 0.0);
+		pidErrorWidget = armLayout.add("PID error", 0.0);
+		pidOutputWidget = armLayout.add("PID output", 0.0);
+		ShuffleboardLayout positionLayout = armTab.getLayout("Positions", BuiltInLayouts.kList).withPosition(2, 0).withSize(2, 3).withProperties(Map.of("Label position", "HIDDEN"));
+		positionLayout.add("Stow", new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
+		positionLayout.add("Acquire Cargo", new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
+		positionLayout.add("Low Cargo" , new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_LOW_ANGLE));
+		positionLayout.add("Cargoship", new MoveArmTo(Arm.Angle.ARM_CARGO_SHIP_ANGLE));
+		positionLayout.add("Medium Cargo", new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
 	}
 }

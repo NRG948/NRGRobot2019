@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commands.ActivateClimberPistons;
+import frc.robot.commands.DriveToVisionTape;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberMotor;
@@ -241,10 +242,12 @@ public class Robot extends TimedRobot {
       preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_HIGH_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_HIGH_TICKS);
       preferences.putInt(PreferenceKeys.ARM_MAX_ANGLE_TICKS, Arm.DEFAULT_ARM_MAX_ANGLE_TICKS);
       preferences.putInt(PreferenceKeys.ARM_INVERSION_TICKS, Arm.DEFAULT_ARM_INVERSION_TICKS);
       preferences.putInt(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, Arm.DEFAULT_ARM_ACQUIRE_CARGO_TICKS);
+
+      preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DriveToVisionTape.DEFAULT_MIN_DRIVE_POWER);
+      preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DriveToVisionTape.DEFAULT_MAX_DRIVE_POWER);
 
       // preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
       // preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);

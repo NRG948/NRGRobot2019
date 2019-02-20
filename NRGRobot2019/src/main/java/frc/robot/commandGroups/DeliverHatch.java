@@ -21,6 +21,7 @@ public class DeliverHatch extends CommandGroup {
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchClaw(CLOSE));
+    addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(RETRACT));
   }
 }

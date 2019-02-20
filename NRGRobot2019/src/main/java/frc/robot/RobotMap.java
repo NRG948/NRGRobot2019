@@ -29,8 +29,8 @@ public class RobotMap {
   private static final int ARM_FRONT_LIMIT_SWITCH_PORT = 6;
   private static final int ARM_BACK_LIMIT_SWITCH_PORT = 7;
   
-  private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009703125;
-  private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009703125;
+  private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009262;
+  private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009262;
 
   public static WPI_VictorSPX driveFrontLeftMotor;
   public static WPI_VictorSPX driveMiddleLeftMotor;
@@ -87,8 +87,8 @@ public class RobotMap {
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    hatchClawSolenoid = new DoubleSolenoid(2, 3);          // TODO CHANGE THE CHANNELS LATER
-    hatchExtensionSolenoid = new DoubleSolenoid (0,1);
+    hatchClawSolenoid = new DoubleSolenoid(3, 2);          // TODO CHANGE THE CHANNELS LATER
+    hatchExtensionSolenoid = new DoubleSolenoid (1,0);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
     climberSolenoid = new DoubleSolenoid(6, 7);
 

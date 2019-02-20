@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
@@ -108,6 +109,9 @@ public class Drive extends Subsystem {
     } else{
       this.tankDrive(power, power-powerDelta);
     }
+    SmartDashboard.putNumber("Drive/driveOnHeading/PIDOutput", powerDelta);
+    SmartDashboard.putNumber("Drive/driveOnHeading/PIDError", this.drivePIDController.getError());
+    SmartDashboard.putNumber("Drive/driveOnHeading/Setpoint", this.drivePIDController.getSetpoint());
   }
 
   public boolean driveOnHeadingIsOnTarget () {

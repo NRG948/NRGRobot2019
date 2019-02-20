@@ -11,6 +11,7 @@ import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.ManualDrive;
@@ -20,6 +21,7 @@ import frc.robot.commands.HatchExtension;
 import frc.robot.commands.InterruptAllCommands;
 import frc.robot.commands.ManualClimberMotor;
 import frc.robot.commands.TurnToHeading;
+import frc.robot.commands.DriveToVisionTape.Deliver;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
@@ -39,13 +41,16 @@ public class OI {
   // assign each side of joystick to a port
   private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); //TBD
+  private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
   private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8); 
   private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9); 
-  private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10); 
+  private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-
+  
   private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
-  private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 3);
+  private JoystickButton driveToVisionCargo = new JoystickButton(rightJoystick, 2);
+  private JoystickButton driveToVisionHatch = new JoystickButton(rightJoystick, 3);
+  private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 4);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
 
@@ -66,7 +71,7 @@ public class OI {
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
-    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
+    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(240, 0.7));
     followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
     hatchOpenButton.whenPressed(new HatchClaw(State.OPEN));
     hatchCloseButton.whenPressed(new HatchClaw(State.CLOSE));
@@ -74,6 +79,9 @@ public class OI {
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
     gearShiftButton.whenReleased(new GearShift(Gear.LOW));
+
+    driveToVisionCargo.whenPressed(new DriveToVisionTape(Deliver.Cargo));
+    driveToVisionHatch.whenPressed(new DriveToVisionTape(Deliver.Hatch));
 
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
     
@@ -86,6 +94,7 @@ public class OI {
     testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
     testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
     testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
+    testButton4.whenPressed(new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
   }
 
   /** Gets the Y value of the left joystick. */
@@ -107,11 +116,11 @@ public class OI {
   }
 
   public double getXboxLeftTrigger() {
-    return MathUtil.deadband(xboxController.getRawAxis(2), 0.05);
+    return MathUtil.deadband(xboxController.getRawAxis(3), 0.05);//axis was 2 but changed to 3
   }
 
   public double getXboxRightTrigger() {
-    return MathUtil.deadband(xboxController.getRawAxis(3), 0.05);
+    return MathUtil.deadband(xboxController.getRawAxis(2), 0.05);
   }
 
   public static AutoStartingPosition getAutoStartingPosition() {

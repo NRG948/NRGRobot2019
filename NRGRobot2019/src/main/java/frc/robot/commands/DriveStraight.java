@@ -14,25 +14,25 @@ public class DriveStraight extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("Drive Strait Init");
-    Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle ()); // getting the current driving angle from the gyro 
+    double heading = RobotMap.navx.getAngle();
+    System.out.println(String.format("Drive Straight on heading %.1f", heading));
+    Robot.drive.driveOnHeadingInit(heading); // getting the current driving angle from the gyro
   }
   @Override
   protected void execute() {
-    // we are executing driveOnHeadingExecute using the right y joystick to determine the speed.
-    Robot.drive.driveOnHeadingExecute(Robot.oi.getRightJoystickY()); 
+    // we are executing driveOnHeadingExecute using the left y joystick to determine the speed.
+    Robot.drive.driveOnHeadingExecute(Robot.oi.getLeftJoystickY()); 
   }
     
   @Override
   protected boolean isFinished() {
-    return false; // this command never finishes.
-
+    return false; // this command never finishes unless it is interrupted.
   }
 
   @Override
   protected void end() {
     Robot.drive.driveOnHeadingEnd(); // we terminate this command using driveOnHeadingEnd
-    System.out.println("Drive Strait End");
+    System.out.println("Drive Straight End");
   }
 
   @Override
