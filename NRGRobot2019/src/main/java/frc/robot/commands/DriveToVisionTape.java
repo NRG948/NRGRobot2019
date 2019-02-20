@@ -25,29 +25,38 @@ public class DriveToVisionTape extends Command {
       return this.stopDistance;
     }
   }
- 
+
   private Deliver delivery;
   private double targetDistance;
 
-  public  DriveToVisionTape(Deliver delivery) {
+  public DriveToVisionTape(Deliver delivery) {
     requires(Robot.drive);
     this.delivery = delivery;
   }
 
   @Override
   protected void initialize() {
-    Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
+    if (Robot.visionTargets.hasTargets()) {
+      Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
+      this.targetDistance = Double.MAX_VALUE;
+    } else {
+      this.targetDistance = 0;
+    }
   }
 
   @Override
   protected void execute() {
-    double targetHeading = Robot.visionTargets.getHeadingToTarget();
-    this.targetDistance = Robot.visionTargets.getDistanceToTarget();
-    double slowDownDistance = delivery.getStopDistance() + SLOW_DOWN_DISTANCE;
-    double minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DEFAULT_MIN_DRIVE_POWER);
-    double maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DEFAULT_MAX_DRIVE_POWER);
-    double power = MathUtil.clamp(targetDistance/slowDownDistance, minDrivePower, maxDrivePower);
-    Robot.drive.driveOnHeadingExecute(power, targetHeading);
+    if (Robot.visionTargets.hasTargets()) {
+      double targetHeading = Robot.visionTargets.getHeadingToTarget();
+      this.targetDistance = Robot.visionTargets.getDistanceToTarget();
+      double slowDownDistance = delivery.getStopDistance() + SLOW_DOWN_DISTANCE;
+      double minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER,
+          DEFAULT_MIN_DRIVE_POWER);
+      double maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER,
+          DEFAULT_MAX_DRIVE_POWER);
+      double power = MathUtil.clamp(targetDistance / slowDownDistance, minDrivePower, maxDrivePower);
+      Robot.drive.driveOnHeadingExecute(power, targetHeading);
+    }
   }
 
   @Override
