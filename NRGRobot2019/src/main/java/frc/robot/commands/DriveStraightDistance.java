@@ -5,7 +5,8 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**
- * Drives strait for a certain distance.
+ * Drives straight for a certain distance. Suppling a negative power 
+ * would make the robot go backwards.
  */
 public class DriveStraightDistance extends Command {
   private double xOrigin;// a class variable
