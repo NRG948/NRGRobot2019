@@ -27,6 +27,8 @@ public class PreferenceKeys {
 
 	public static final String DRIVE_TO_VISION_TAPE_MIN_POWER = "VisionMinPower";
 	public static final String DRIVE_TO_VISION_TAPE_MAX_POWER = "VisionMaxPower";
+
+	public static final String TEST_PATH_NAME = "TestPathName";
 	
 	// public static final String USE_PHYSICAL_AUTO_CHOOSER = "UsePhysicalAutoChooser";
 	// public static final String USING_PRACTICE_BOT = "Using Practice Bot";

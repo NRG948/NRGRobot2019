@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
@@ -46,6 +47,7 @@ public class OI {
   private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9); 
   private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+  private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
   
   private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton driveToVisionCargo = new JoystickButton(rightJoystick, 2);
@@ -62,6 +64,7 @@ public class OI {
   private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
   private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6);
+
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
@@ -82,6 +85,8 @@ public class OI {
 
     driveToVisionCargo.whenPressed(new DriveToVisionTape(Deliver.Cargo));
     driveToVisionHatch.whenPressed(new DriveToVisionTape(Deliver.Hatch));
+
+    testAutoPath.whenPressed(new TestAutoPaths());
 
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
     
