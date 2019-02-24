@@ -20,7 +20,7 @@ public class ManualClimberMotor extends Command {
 
   @Override
   protected void execute() {
-    double speed = Robot.oi.getXboxLeftY()*0.4;
+    double speed = Robot.oi.getXboxLeftY()*0.8;
     Robot.climberMotor.rawClimb(MathUtil.deadband(speed, 0.1));
   }
 
