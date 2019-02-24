@@ -133,7 +133,7 @@ public class Arm extends Subsystem {
 	public void armAnglePIDExecute() {
 		int armTicks = RobotMap.armEncoder.get();
 		double cosTheta = calculateCosineTheta(armTicks);
-		pidController.setOutputRange(-0.25 + 0.3 * cosTheta, 0.25 + 0.3 * cosTheta);
+		pidController.setOutputRange(-0.25 + 0.4 * cosTheta, 0.25 + 0.4 * cosTheta);
 		double feedForward = calculateFeedForward(cosTheta);
 		double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
