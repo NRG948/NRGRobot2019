@@ -7,6 +7,9 @@ import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.FollowPathWeaverFile;
+import frc.robot.commands.GearShift;
+import frc.robot.commands.TurnToHeading;
+import frc.robot.subsystems.Gearbox.Gear;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
@@ -41,6 +44,7 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
+      addSequential(new GearShift(Gear.HIGH));
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition, autoMovement)));
       addSequential(new DeliverHatch());
       break;
@@ -48,12 +52,16 @@ public class AutonomousRoutines extends CommandGroup {
 
     switch (autoFeederPosition) {
     case NONE:
+      addSequential(new GearShift(Gear.LOW));
       return;
 
     default:
+      addSequential(new DriveStraightDistance(6, -TANK_POWER));
+      addSequential(new TurnToHeading(-135, TANK_POWER));
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
       break;
     }
+    addSequential(new GearShift(Gear.LOW));
   }
 
   private String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {

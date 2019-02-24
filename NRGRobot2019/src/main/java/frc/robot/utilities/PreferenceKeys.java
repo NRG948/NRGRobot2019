@@ -10,7 +10,11 @@ public class PreferenceKeys {
     public static final String DRIVE_P_TERM = "DriveP";
 	public static final String DRIVE_I_TERM = "DriveI";
 	public static final String DRIVE_D_TERM = "DriveD";
-	
+
+	public static final String PATH_P_TERM = "PathP";
+	public static final String PATH_I_TERM = "PathI";
+	public static final String PATH_D_TERM = "PathD";
+
 	public static final String ARM_P_TERM = "ArmP";
 	public static final String ARM_I_TERM = "ArmI";
 	public static final String ARM_D_TERM = "ArmD";
@@ -31,5 +35,5 @@ public class PreferenceKeys {
 	public static final String TEST_PATH_NAME = "TestPathName";
 	
 	// public static final String USE_PHYSICAL_AUTO_CHOOSER = "UsePhysicalAutoChooser";
-	// public static final String USING_PRACTICE_BOT = "Using Practice Bot";
+	public static final String USING_PRACTICE_BOT = "UsingPracticeBot";
 }

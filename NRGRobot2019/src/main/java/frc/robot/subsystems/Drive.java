@@ -29,15 +29,12 @@ public class Drive extends Subsystem {
   public static final double DEFAULT_DRIVE_I = 0.00016;
   public static final double DEFAULT_DRIVE_D = 0.0072;
 
-  private static final double DEFAULT_PATH_P = 0.081;
-  private static final double DEFAULT_PATH_I = 0.00;
-  private static final double DEFAULT_PATH_D = 0.00;
+  public static final double DEFAULT_PATH_P = 0.4;
+  public static final double DEFAULT_PATH_I = 0.00;
+  public static final double DEFAULT_PATH_D = 0.00;
  
-  private static final double INCHES_PER_METER = 39.37;
-  private static final double DRIVE_WHEEL_BASE = 25.25;
-  private static final int DRIVE_TICKS_PER_REV = 1024;
-  private static final double DRIVE_WHEEL_DIAMETER = 8.0;
-  private static final double DRIVE_MAX_VELOCITY = 190;
+  private static final double DRIVE_WHEEL_BASE = 25.5;
+  private static final double DRIVE_MAX_VELOCITY = 162;
  
   private SpeedControllerGroup leftMotor = new SpeedControllerGroup(RobotMap.driveFrontLeftMotor,RobotMap.driveMiddleLeftMotor, RobotMap.driveBackLeftMotor);
   private SpeedControllerGroup rightMotor = new SpeedControllerGroup(RobotMap.driveFrontRightMotor, RobotMap.driveMiddleRightMotor, RobotMap.driveBackRightMotor);
@@ -124,15 +121,15 @@ public class Drive extends Subsystem {
   }
 
   public void followTrajectoryInit(Trajectory pathName) {
+    double p = Robot.preferences.getDouble(PreferenceKeys.PATH_P_TERM, DEFAULT_PATH_P);
+		double i = Robot.preferences.getDouble(PreferenceKeys.PATH_I_TERM, DEFAULT_PATH_I);
+    double d = Robot.preferences.getDouble(PreferenceKeys.PATH_D_TERM, DEFAULT_PATH_D);
+    
     TankModifier modifier = new TankModifier(pathName).modify(DRIVE_WHEEL_BASE);
-
     this.leftFollower = new DistanceFollower(modifier.getRightTrajectory()); 
     this.rightFollower = new DistanceFollower(modifier.getLeftTrajectory());
-    // this.leftFollower.configureEncoder(RobotMap.driveLeftEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
-    // this.rightFollower.configureEncoder(RobotMap.driveRightEncoder.get(), DRIVE_TICKS_PER_REV, DRIVE_WHEEL_DIAMETER);
-    this.leftFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
-    this.rightFollower.configurePIDVA(DEFAULT_PATH_P, DEFAULT_PATH_I, DEFAULT_PATH_D, 1.0 / DRIVE_MAX_VELOCITY, 0);
-    // alignes left and right sides of the robot into the pathweaver tool.
+    this.leftFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
+    this.rightFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
     leftStart = RobotMap.driveLeftEncoder.getDistance();
     rightStart = RobotMap.driveRightEncoder.getDistance();
   }
@@ -148,7 +145,6 @@ public class Drive extends Subsystem {
     double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
     double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
     double turn = 1.25 * (1.0 / 80.0) * angleDifference;
-    //turn += 0.1; //attempt to compensate for drive base pulling left
    
 
     tankDrive(left + turn, right - turn);
