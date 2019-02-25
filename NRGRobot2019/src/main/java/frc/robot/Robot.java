@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
   public static HatchExtensionSubsystem hatchExtension;
 
   public static PositionTracker positionTracker = new PositionTracker();
-  //public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+  // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public static Preferences preferences;
 
@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
+  public static SendableChooser<AutoMovement> autoMovement2Chooser;
 
   public enum AutoStartingPosition {
     LEFT, CENTER, RIGHT
@@ -87,7 +88,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
 
     preferences = Preferences.getInstance();
-  
+
     RobotMap.init();
     // initialize subsystems
     drive = new Drive();
@@ -119,7 +120,14 @@ public class Robot extends TimedRobot {
     autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
-    //Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3, 3);
+    autoMovement2Chooser = new SendableChooser<AutoMovement>();
+    autoMovement2Chooser.addDefault("None", AutoMovement.NONE);
+    autoMovement2Chooser.addObject("Forward", AutoMovement.FORWARD);
+    autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+
+    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
+    // 3);
 
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
@@ -128,9 +136,11 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("Feeder", autoStationPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 2)
         .withSize(4, 1);
-
+    autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3).withSize(4, 1);
+    
     arm.initShuffleboard();
-      
+
+        
 		System.out.println("robotInit() done");
   }
 
@@ -241,10 +251,8 @@ public class Robot extends TimedRobot {
 
       preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
       preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
-      preferences.putDouble(PreferenceKeys.PATH_D_TERM, Drive.DEFAULT_PATH_D);
 
-
-
+      
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
       preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);

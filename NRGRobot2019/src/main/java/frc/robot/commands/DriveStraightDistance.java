@@ -31,7 +31,6 @@ public class DriveStraightDistance extends Command {
   @Override
   protected void execute() {
     Robot.drive.driveOnHeadingExecute(this.maxPower);// excuting the command and puts in the maximum power that the robot is gonna run on
-    System.out.println("DriveStraightDistance Execute");
   }
 
   @Override

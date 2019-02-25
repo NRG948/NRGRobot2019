@@ -135,6 +135,10 @@ public class OI {
 	public static AutoMovement getAutoMovement() {
 		return Robot.autoMovementChooser.getSelected();
   }
+
+  public static AutoMovement getAutoMovement2() {
+    return Robot.autoMovement2Chooser.getSelected();
+  }
   
   public static AutoFeederPosition getAutoStationPosition(){
     return Robot.autoStationPositionChooser.getSelected();

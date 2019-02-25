@@ -36,6 +36,7 @@ public class DriveToVisionTape extends Command {
 
   @Override
   protected void initialize() {
+    System.out.println("DriveToVisionTape init");
     if (Robot.visionTargets.hasTargets()) {
       Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
       this.targetDistance = Double.MAX_VALUE;
@@ -67,6 +68,7 @@ public class DriveToVisionTape extends Command {
   @Override
   protected void end() {
     Robot.drive.driveOnHeadingEnd();
+    System.out.println("DriveToVisionTape end");
   }
 
   @Override
