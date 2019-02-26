@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -58,6 +59,8 @@ public class RobotMap {
   
   public static AHRS navx;
 
+  public static Solenoid cameraLights;
+
   public static void init() {
     driveMiddleLeftMotor = new WPI_VictorSPX(1);
     driveBackLeftMotor = new WPI_VictorSPX(2);
@@ -77,9 +80,13 @@ public class RobotMap {
     armMotor = new Victor(0);
     climberMotor = new Victor(2);
     cargoAcquirerMotor = new Victor(1);
-    
+
     climberMotor.setInverted(true);
     armMotor.setInverted(true);
+
+    cameraLights = new Solenoid(5);
+    cameraLights.set(false);
+    
     
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 
@@ -37,6 +38,7 @@ public class DriveToVisionTape extends Command {
   @Override
   protected void initialize() {
     System.out.println("DriveToVisionTape init");
+    RobotMap.cameraLights.set(true);
     if (Robot.visionTargets.hasTargets()) {
       Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
       this.targetDistance = Double.MAX_VALUE;
@@ -47,6 +49,7 @@ public class DriveToVisionTape extends Command {
 
   @Override
   protected void execute() {
+    RobotMap.cameraLights.set(true);
     if (Robot.visionTargets.hasTargets()) {
       double targetHeading = Robot.visionTargets.getHeadingToTarget();
       this.targetDistance = Robot.visionTargets.getDistanceToTarget();
@@ -68,6 +71,7 @@ public class DriveToVisionTape extends Command {
   @Override
   protected void end() {
     Robot.drive.driveOnHeadingEnd();
+    RobotMap.cameraLights.set(false);
     System.out.println("DriveToVisionTape end");
   }
 
