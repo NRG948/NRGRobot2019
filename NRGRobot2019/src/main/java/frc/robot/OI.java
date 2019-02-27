@@ -24,6 +24,7 @@ import frc.robot.commands.ManualClimberMotor;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.commands.DriveToVisionTape.Deliver;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Angle;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
@@ -58,17 +59,23 @@ public class OI {
 
   private JoystickButton climberPistonsExtendButton = new JoystickButton(xboxController, 8);
   private JoystickButton climberPistonsRetractButton = new JoystickButton(xboxController, 7);
-  private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1);
-  private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2);
-
+  // private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1); // A Button
+  // private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2); // B Button
+  private JoystickButton xboxButtonA = new JoystickButton(xboxController, 1); // A Button
+  private JoystickButton xboxButtonB = new JoystickButton(xboxController, 2); // B Button
   private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
   private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6);
 
 
+
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
+    }));
+    xboxButtonA.whenPressed(new InstantCommand(() -> {
+      Angle angle = this.getXboxLeftBumper() ? Arm.Angle.ARM_ROCKET_CARGO_LOW_ANGLE : Arm.Angle.ARM_STOWED_ANGLE;
+      new MoveArmTo(angle).start();
     }));
 
     driveStraightButton.whenActive(new DriveStraight());
@@ -93,8 +100,8 @@ public class OI {
     climberPistonsExtendButton.whenPressed(new ActivateClimberPistons(true));
     climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
 
-    climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
-    climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
+    // climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
+    // climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
 
     testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
     testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
@@ -126,6 +133,9 @@ public class OI {
 
   public double getXboxRightTrigger() {
     return MathUtil.deadband(xboxController.getRawAxis(2), 0.05);
+  }
+  public boolean getXboxLeftBumper(){
+    return xboxController.getBumper(Hand.kLeft);
   }
 
   public static AutoStartingPosition getAutoStartingPosition() {
