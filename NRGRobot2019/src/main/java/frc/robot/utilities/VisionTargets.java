@@ -20,9 +20,11 @@ public class VisionTargets {
     private static final double TARGET_WIDTH = 8.0;
 
     private ArrayList<TargetPair> targetPairs = new ArrayList<TargetPair>();
+    private double imageCenterX;
 
     public void update() {
         ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
+        imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", HALF_IMAGE_WIDTH);
         String[] targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -46,17 +48,17 @@ public class VisionTargets {
 
     public double getAngleToTarget() {
         double centerX = getCenterOfTargets().x;
-        double deltaX = centerX - HALF_IMAGE_WIDTH;
-        return Math.toDegrees(Math.atan2(deltaX, HALF_IMAGE_WIDTH * Math.atan(HALF_IMAGE_FOV)));
+        double deltaX = centerX - imageCenterX;
+        return Math.toDegrees(Math.atan2(deltaX, imageCenterX * Math.atan(HALF_IMAGE_FOV)));
     }
 
     public double getHeadingToTarget() {
-        return RobotMap.navx.getAngle() + getAngleToTarget();
+        return RobotMap.navx.getAngle() + getAngleToTarget()/5;
     }
 
     public double getDistanceToTarget() {
         TargetPair desiredTarget = getDesiredTargets();
         double targetWidth = (desiredTarget.right.getMinX().x - desiredTarget.left.getMaxX().x);
-        return TARGET_WIDTH * 2 * HALF_IMAGE_WIDTH / (2 * targetWidth * Math.tan(HALF_IMAGE_FOV));
+        return TARGET_WIDTH * 2 * imageCenterX / (2 * targetWidth * Math.tan(HALF_IMAGE_FOV));
     }
 }

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
+import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.subsystems.Arm;
@@ -50,7 +51,7 @@ public class Robot extends TimedRobot {
   public static HatchExtensionSubsystem hatchExtension;
 
   public static PositionTracker positionTracker = new PositionTracker();
-  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+  // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public static Preferences preferences;
 
@@ -60,6 +61,7 @@ public class Robot extends TimedRobot {
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
+  public static SendableChooser<AutoMovement> autoMovement2Chooser;
 
   public enum AutoStartingPosition {
     LEFT, CENTER, RIGHT
@@ -73,6 +75,10 @@ public class Robot extends TimedRobot {
     NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
   }
 
+  public static Boolean isPracticeBot() {
+    return preferences.getBoolean(PreferenceKeys.USING_PRACTICE_BOT, false);
+  }
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -82,6 +88,7 @@ public class Robot extends TimedRobot {
     System.out.println("robotInit()");
 
     preferences = Preferences.getInstance();
+
     RobotMap.init();
     // initialize subsystems
     drive = new Drive();
@@ -113,7 +120,14 @@ public class Robot extends TimedRobot {
     autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
-    Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3, 3);
+    autoMovement2Chooser = new SendableChooser<AutoMovement>();
+    autoMovement2Chooser.addDefault("None", AutoMovement.NONE);
+    autoMovement2Chooser.addObject("Forward", AutoMovement.FORWARD);
+    autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+
+    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
+    // 3);
 
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
@@ -122,11 +136,13 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("Feeder", autoStationPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 2)
         .withSize(4, 1);
-
+    autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3).withSize(4, 1);
+    
     arm.initShuffleboard();
-      
+
+        
 		System.out.println("robotInit() done");
-  }
+  } 
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -233,6 +249,10 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
       preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
 
+      preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
+      preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
+
+      
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
       preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
@@ -249,8 +269,10 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DriveToVisionTape.DEFAULT_MIN_DRIVE_POWER);
       preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DriveToVisionTape.DEFAULT_MAX_DRIVE_POWER);
 
+      preferences.putString(PreferenceKeys.TEST_PATH_NAME, TestAutoPaths.DEFAULT_TEST_PATH);
+
       // preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-      // preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, true);
+      preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, false);
     }
   }
 }

@@ -11,7 +11,7 @@ import frc.robot.commands.HatchClaw;
  */
 public class HatchClawSubsystem extends Subsystem {
 
-  public enum State{
+  public enum State {
     OPEN, CLOSE;
   }
 
@@ -20,11 +20,11 @@ public class HatchClawSubsystem extends Subsystem {
     // setDefaultCommand(new HatchClaw(State.OPEN));
   }
 
-  public void setClawOpen(){
-    RobotMap.hatchClawSolenoid.set(Value.kForward);
+  public void setClawOpen() {
+    RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kReverse : Value.kForward);
   }
 
-  public void setClawClose(){
-    RobotMap.hatchClawSolenoid.set(Value.kReverse);
+  public void setClawClose() {
+    RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kForward : Value.kReverse);
   }
 }
