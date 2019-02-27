@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
 
         
 		System.out.println("robotInit() done");
-  }
+  } 
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for

@@ -84,8 +84,8 @@ public class RobotMap {
     climberMotor.setInverted(true);
     armMotor.setInverted(true);
 
-    cameraLights = new Solenoid(5);
-    cameraLights.set(false);
+    // cameraLights = new Solenoid(5);
+    // cameraLights.set(false);
     
     
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
