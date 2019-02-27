@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.opencv.core.Point;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -29,6 +31,11 @@ public class DriveToVisionTape extends Command {
 
   private Deliver delivery;
   private double targetDistance;
+  private double minDrivePower;
+  private double maxDrivePower;
+  private double targetHeading;
+  private double power;
+  private Point lastPosition = new Point();
 
   public DriveToVisionTape(Deliver delivery) {
     requires(Robot.drive);
@@ -38,29 +45,40 @@ public class DriveToVisionTape extends Command {
   @Override
   protected void initialize() {
     System.out.println("DriveToVisionTape init");
-    RobotMap.cameraLights.set(true);
+
+    this.minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER,
+        DEFAULT_MIN_DRIVE_POWER);
+    this.maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER,
+        DEFAULT_MAX_DRIVE_POWER);
+
     if (Robot.visionTargets.hasTargets()) {
       Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
       this.targetDistance = Double.MAX_VALUE;
     } else {
       this.targetDistance = 0;
     }
+
+    this.power = 0;
+    this.lastPosition.x = Robot.positionTracker.getX();
+    this.lastPosition.y = Robot.positionTracker.getY();
+    this.targetHeading = Robot.drive.getCurrentHeading();
   }
 
   @Override
   protected void execute() {
-    RobotMap.cameraLights.set(true);
     if (Robot.visionTargets.hasTargets()) {
-      double targetHeading = Robot.visionTargets.getHeadingToTarget();
+      targetHeading = Robot.visionTargets.getHeadingToTarget();
       this.targetDistance = Robot.visionTargets.getDistanceToTarget();
       double slowDownDistance = delivery.getStopDistance() + SLOW_DOWN_DISTANCE;
-      double minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER,
-          DEFAULT_MIN_DRIVE_POWER);
-      double maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER,
-          DEFAULT_MAX_DRIVE_POWER);
-      double power = MathUtil.clamp(targetDistance / slowDownDistance, minDrivePower, maxDrivePower);
-      Robot.drive.driveOnHeadingExecute(power, targetHeading);
+      power = MathUtil.clamp(targetDistance / slowDownDistance, minDrivePower, maxDrivePower);
+    } else {
+      double distanceMoved = Robot.positionTracker.calculateDistance(this.lastPosition.x, this.lastPosition.y);
+      this.targetDistance -= distanceMoved;
     }
+    
+    this.lastPosition.x = Robot.positionTracker.getX();
+    this.lastPosition.y = Robot.positionTracker.getY();
+    Robot.drive.driveOnHeadingExecute(power, targetHeading);
   }
 
   @Override
@@ -71,7 +89,6 @@ public class DriveToVisionTape extends Command {
   @Override
   protected void end() {
     Robot.drive.driveOnHeadingEnd();
-    RobotMap.cameraLights.set(false);
     System.out.println("DriveToVisionTape end");
   }
 
