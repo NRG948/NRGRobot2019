@@ -53,7 +53,7 @@ public class VisionTargets {
     }
 
     public double getHeadingToTarget() {
-        return RobotMap.navx.getAngle() + getAngleToTarget();
+        return RobotMap.navx.getAngle() + getAngleToTarget()/5;
     }
 
     public double getDistanceToTarget() {
