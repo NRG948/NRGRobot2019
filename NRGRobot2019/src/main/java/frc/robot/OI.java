@@ -75,7 +75,6 @@ public class OI {
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(240, 0.7));
-    followPathButton.whenPressed(new FollowPathWeaverFile("output/CrazyAuto.pf1.csv"));
     hatchOpenButton.whenPressed(new HatchClaw(State.OPEN));
     hatchCloseButton.whenPressed(new HatchClaw(State.CLOSE));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
