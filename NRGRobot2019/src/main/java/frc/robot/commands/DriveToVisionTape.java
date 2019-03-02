@@ -3,8 +3,8 @@ package frc.robot.commands;
 import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 
@@ -55,6 +55,7 @@ public class DriveToVisionTape extends Command {
       Robot.drive.driveOnHeadingInit(Robot.visionTargets.getHeadingToTarget());
       this.targetDistance = Double.MAX_VALUE;
     } else {
+      Robot.drive.driveOnHeadingInit(Robot.drive.getCurrentHeading());
       this.targetDistance = 0;
     }
 
@@ -68,7 +69,11 @@ public class DriveToVisionTape extends Command {
   protected void execute() {
     if (Robot.visionTargets.hasTargets()) {
       targetHeading = Robot.visionTargets.getHeadingToTarget();
-      this.targetDistance = Robot.visionTargets.getDistanceToTarget();
+      //double normalizedTargetPos = Robot.visionTargets.getNormalizedTargetPosition();
+      //targetHeading = Robot.drive.getCurrentHeading() + normalizedTargetPos;
+      //SmartDashboard.putNumber("Vision/normalizedVisionTarget", normalizedTargetPos);
+      double distance = Robot.visionTargets.getDistanceToTarget();
+      this.targetDistance = MathUtil.clamp(distance, 5, 100);
       double slowDownDistance = delivery.getStopDistance() + SLOW_DOWN_DISTANCE;
       power = MathUtil.clamp(targetDistance / slowDownDistance, minDrivePower, maxDrivePower);
     } else {

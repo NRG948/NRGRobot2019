@@ -16,15 +16,15 @@ import frc.robot.RobotMap;
 public class VisionTargets {
     private static final String[] NO_TARGETS = new String[0];
     private static final double HALF_IMAGE_FOV = Math.toRadians(31.1);
-    private static final double HALF_IMAGE_WIDTH = 160;
-    private static final double TARGET_WIDTH = 8.0;
+    private static final double DEFAULT_HALF_IMAGE_WIDTH = 480 / 2;
+    private static final double TARGET_WIDTH_INCHES = 8.0;
 
     private ArrayList<TargetPair> targetPairs = new ArrayList<TargetPair>();
     private double imageCenterX;
 
     public void update() {
         ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
-        imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", HALF_IMAGE_WIDTH);
+        imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
         String[] targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -49,16 +49,24 @@ public class VisionTargets {
     public double getAngleToTarget() {
         double centerX = getCenterOfTargets().x;
         double deltaX = centerX - imageCenterX;
-        return Math.toDegrees(Math.atan2(deltaX, imageCenterX * Math.atan(HALF_IMAGE_FOV)));
+        return Math.toDegrees(Math.atan2(deltaX, imageCenterX / Math.tan(HALF_IMAGE_FOV)));
+    }
+
+    //returns the targets position in the feild of view, normalized to a range of 1 to -1.
+    //this is the same as "zeta" in the 2017 robot.
+    public double getNormalizedTargetPosition() {
+        double centerX = getCenterOfTargets().x;
+        double deltaX = centerX - imageCenterX;
+        return deltaX / imageCenterX;
     }
 
     public double getHeadingToTarget() {
-        return RobotMap.navx.getAngle() + getAngleToTarget()/5;
+        return RobotMap.navx.getAngle() + getAngleToTarget()/4;
     }
 
     public double getDistanceToTarget() {
         TargetPair desiredTarget = getDesiredTargets();
         double targetWidth = (desiredTarget.right.getMinX().x - desiredTarget.left.getMaxX().x);
-        return TARGET_WIDTH * 2 * imageCenterX / (2 * targetWidth * Math.tan(HALF_IMAGE_FOV));
+        return TARGET_WIDTH_INCHES * imageCenterX / (targetWidth * Math.tan(HALF_IMAGE_FOV));
     }
 }
