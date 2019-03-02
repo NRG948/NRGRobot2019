@@ -2,7 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
@@ -57,13 +59,13 @@ public class OI {
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
 
-  private JoystickButton climberPistonsExtendButton = new JoystickButton(xboxController, 8);
-  private JoystickButton climberPistonsRetractButton = new JoystickButton(xboxController, 7);
+  private JoystickButton cameraLightOn = new JoystickButton(xboxController, 8);
+  private JoystickButton cameraLightOff = new JoystickButton(xboxController, 7);
   // private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1); // A Button
   // private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2); // B Button
   private JoystickButton xboxButtonA = new JoystickButton(xboxController, 1); // A Button
   private JoystickButton xboxButtonB = new JoystickButton(xboxController, 2); // B Button
-  private JoystickButton xboxButtonX = new JoystickButton(xboxController, 6);
+  private JoystickButton xboxButtonX = new JoystickButton(xboxController, 3);
   private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // The Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
 
@@ -73,6 +75,14 @@ public class OI {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
     }));
+    
+    cameraLightOn.whenPressed(new InstantCommand(() -> {
+      RobotMap.cameraLights.set(Relay.Value.kForward);
+    }));
+    cameraLightOff.whenPressed(new InstantCommand(() -> {
+      RobotMap.cameraLights.set(Relay.Value.kOff);
+    }));
+
     xboxButtonA.whenPressed(new InstantCommand(() -> {
       Angle angle = this.getXboxLeftBumper() ? Arm.Angle.ARM_ROCKET_CARGO_LOW_ANGLE : Arm.Angle.ARM_STOWED_ANGLE;
       new MoveArmTo(angle).start();

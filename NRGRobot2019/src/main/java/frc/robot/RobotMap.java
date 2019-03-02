@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Relay.Value;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into0
@@ -59,7 +61,7 @@ public class RobotMap {
   
   public static AHRS navx;
 
-  public static Solenoid cameraLights;
+  public static Relay cameraLights;
 
   public static void init() {
     driveMiddleLeftMotor = new WPI_VictorSPX(1);
@@ -84,8 +86,8 @@ public class RobotMap {
     climberMotor.setInverted(true);
     armMotor.setInverted(true);
 
-    // cameraLights = new Solenoid(5);
-    // cameraLights.set(false);
+     cameraLights = new Relay(0);
+     cameraLights.set(Value.kOff);
     
     
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
