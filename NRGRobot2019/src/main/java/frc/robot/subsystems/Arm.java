@@ -37,8 +37,8 @@ public class Arm extends Subsystem {
 	public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 	public static final int DEFAULT_ARM_INVERSION_TICKS = 1680;
-	public static final int DEFAULT_ARM_LEVEL_TICKS = 750;
 	public static final int DEFAULT_ARM_HATCH_MEDIUM_TICKS = 1800; //TBD
+	public static final int DEFAULT_ARM_LEVEL_TICKS = 750;
 
 	private SimpleWidget pidOutputWidget;
 	private SimpleWidget pidErrorWidget;
@@ -58,7 +58,6 @@ public class Arm extends Subsystem {
 		ARM_HATCH_MEDIUM_ANGLE(PreferenceKeys.ARM_HATCH_MEDIUM_TICKS, DEFAULT_ARM_HATCH_MEDIUM_TICKS),
 		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_LEVEL_TICKS, DEFAULT_ARM_LEVEL_TICKS);
 		
-
 		public final String preferenceKey;
 		public final int defaultTicks;
 
@@ -136,7 +135,7 @@ public class Arm extends Subsystem {
 	public void armAnglePIDExecute() {
 		int armTicks = RobotMap.armEncoder.get();
 		double cosTheta = calculateCosineTheta(armTicks);
-		pidController.setOutputRange(-0.25 + 0.5 * cosTheta, 0.25 + 0.5 * cosTheta);
+		pidController.setOutputRange(-0.25 + 0.4 * cosTheta, 0.25 + 0.4 * cosTheta);
 		double feedForward = calculateFeedForward(cosTheta);
 		double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
