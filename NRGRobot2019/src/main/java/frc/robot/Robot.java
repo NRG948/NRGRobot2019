@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -176,12 +177,13 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is called once each time the robot enters Disabled mode. You
+   * This function is called once each time the robot e%nters Disabled mode. You
    * can use it to reset any subsystem information you want to clear when the
    * robot is disabled.
    */
   @Override
   public void disabledInit() {
+    RobotMap.cameraLights.set(Value.kOff); 
   }
 
   @Override
@@ -193,6 +195,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     System.out.println("autonomousInit()");
+    RobotMap.cameraLights.set(Value.kForward);
     RobotMap.resetSensors();
     Robot.arm.armAnglePIDInit();
 
@@ -213,6 +216,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     System.out.println("teleopInit()");
+    RobotMap.cameraLights.set(Value.kForward);
     Robot.arm.armAnglePIDInit();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
