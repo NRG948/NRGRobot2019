@@ -75,7 +75,7 @@ public class OI {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
     }));
-    
+
     cameraLightOn.whenPressed(new InstantCommand(() -> {
       RobotMap.cameraLights.set(Relay.Value.kForward);
     }));
@@ -123,9 +123,6 @@ public class OI {
     testAutoPath.whenPressed(new TestAutoPaths());
 
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
-    
-    climberPistonsExtendButton.whenPressed(new ActivateClimberPistons(true));
-    climberPistonsRetractButton.whenPressed(new ActivateClimberPistons(false));
 
     // climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
     // climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
