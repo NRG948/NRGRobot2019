@@ -35,6 +35,9 @@ public class PreferenceKeys {
 
 	public static final String TEST_PATH_NAME = "TestPathName";
 	
+	public static final String CLIBMER_REAR_POWER = "ClimberRearPower";
+	public static final String CLIMBER_ARMS_POWER = "ClimberArmsPower";
+	
 	// public static final String USE_PHYSICAL_AUTO_CHOOSER = "UsePhysicalAutoChooser";
 	public static final String USING_PRACTICE_BOT = "UsingPracticeBot";
 }

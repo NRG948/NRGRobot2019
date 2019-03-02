@@ -22,7 +22,7 @@ import frc.robot.commands.MoveArmTo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.commands.InterruptAllCommands;
-import frc.robot.commands.ManualClimberMotor;
+import frc.robot.commands.ManualClimbRear;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.commands.DriveToVisionTape.Deliver;
 import frc.robot.subsystems.Arm;
@@ -58,18 +58,16 @@ public class OI {
   private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 4);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
+  private JoystickButton cameraLightOn = new JoystickButton(rightJoystick, 11);
+  private JoystickButton cameraLightOff = new JoystickButton(rightJoystick, 12);
 
-  private JoystickButton cameraLightOn = new JoystickButton(xboxController, 8);
-  private JoystickButton cameraLightOff = new JoystickButton(xboxController, 7);
-  // private JoystickButton climberMotorButton = new JoystickButton(xboxController, 1); // A Button
-  // private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2); // B Button
+  public JoystickButton climberArmsButton = new JoystickButton(xboxController, 8); 
+  public JoystickButton climberRearButton = new JoystickButton(xboxController, 7); 
   private JoystickButton xboxButtonA = new JoystickButton(xboxController, 1); // A Button
   private JoystickButton xboxButtonB = new JoystickButton(xboxController, 2); // B Button
-  private JoystickButton xboxButtonX = new JoystickButton(xboxController, 3);
-  private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // The Y button.
+  private JoystickButton xboxButtonX = new JoystickButton(xboxController, 3); // X Button
+  private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
-
-
 
   OI() {
     resetSensorsButton.whenPressed(new InstantCommand(() -> {

@@ -1,7 +1,7 @@
 package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.subsystems.ClimberMotor;
+import frc.robot.subsystems.ClimberRear;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;

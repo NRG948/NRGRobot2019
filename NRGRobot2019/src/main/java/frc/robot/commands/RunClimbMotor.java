@@ -7,7 +7,7 @@ public class RunClimbMotor extends Command {
   private double power;
 
   public RunClimbMotor(double power) {
-    requires(Robot.climberMotor);
+    requires(Robot.climberRear);
     this.power = power;
   }
 
@@ -20,7 +20,7 @@ public class RunClimbMotor extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climberMotor.rawClimb(power);
+    Robot.climberRear.rawClimb(power);
   }
 
   // Make this return true when this Command no longer needs to run execute()

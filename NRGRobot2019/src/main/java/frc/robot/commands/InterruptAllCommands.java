@@ -16,8 +16,8 @@ public class InterruptAllCommands extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.arm);
     requires(Robot.cargoAcquirer);
-    requires(Robot.climberMotor);
-    requires(Robot.climberPistons);
+    requires(Robot.climberRear);
+    requires(Robot.climberArms);
     requires(Robot.drive);
     requires(Robot.gearbox);
     requires(Robot.hatchClaw);

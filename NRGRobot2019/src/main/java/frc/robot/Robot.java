@@ -21,8 +21,8 @@ import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
-import frc.robot.subsystems.ClimberMotor;
-import frc.robot.subsystems.ClimberPistons;
+import frc.robot.subsystems.ClimberRear;
+import frc.robot.subsystems.ClimberArms;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
   public static Drive drive;
   public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
-  public static ClimberMotor climberMotor;
-  public static ClimberPistons climberPistons;
+  public static ClimberRear climberRear;
+  public static ClimberArms climberArms;
   public static HatchClawSubsystem hatchClaw;
   public static HatchExtensionSubsystem hatchExtension;
 
@@ -94,8 +94,8 @@ public class Robot extends TimedRobot {
     drive = new Drive();
     gearbox = new Gearbox();
     arm = new Arm();
-    climberMotor = new ClimberMotor();
-    climberPistons = new ClimberPistons();
+    climberRear = new ClimberRear();
+    climberArms = new ClimberArms();
     cargoAcquirer = new CargoAcquirer();
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
