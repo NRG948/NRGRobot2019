@@ -164,11 +164,11 @@ public class Arm extends Subsystem {
 	}
 
 	public boolean atFrontLimit() {
-		return !RobotMap.armFrontLimitSwitch.get();
+		return RobotMap.armFrontLimitSwitch.get();
 	}
 
 	public boolean atBackLimit() {
-		return !RobotMap.armBackLimitSwitch.get();
+		return RobotMap.armBackLimitSwitch.get();
 	}
 
 	public int getSetpoint() {
