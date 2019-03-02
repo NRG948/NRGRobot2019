@@ -63,9 +63,9 @@ public class OI {
   // private JoystickButton climberMotorButton2 = new JoystickButton(xboxController, 2); // B Button
   private JoystickButton xboxButtonA = new JoystickButton(xboxController, 1); // A Button
   private JoystickButton xboxButtonB = new JoystickButton(xboxController, 2); // B Button
-  private JoystickButton hatchOpenButton = new JoystickButton(xboxController, 3); // TBD joystick button numbers, the X buttong.
-  private JoystickButton hatchCloseButton = new JoystickButton(xboxController, 4); // The Y button.
-  private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6);
+  private JoystickButton xboxButtonX = new JoystickButton(xboxController, 6);
+  private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // The Y button.
+  private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
 
 
 
@@ -78,12 +78,30 @@ public class OI {
       new MoveArmTo(angle).start();
     }));
 
+    xboxButtonB.whenPressed(new InstantCommand(() -> {
+      Angle angle = this.getXboxLeftBumper() ? Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE : Arm.Angle.ARM_HATCH_MEDIUM_ANGLE;
+      new MoveArmTo(angle).start();
+    }));
+    xboxButtonX.whenPressed(new InstantCommand(() -> {
+      if (this.getXboxLeftBumper()){
+        new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE).start();
+      } else {
+        new HatchClaw(State.OPEN).start();
+      }
+
+    }));
+    xboxButtonY.whenPressed(new InstantCommand(() -> {
+      if (this.getXboxLeftBumper()){
+        new MoveArmTo(Arm.Angle.ARM_CARGO_SHIP_ANGLE).start();
+      } else {
+        new HatchClaw(State.CLOSE).start();
+      }     
+    }));
+
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(240, 0.7));
-    hatchOpenButton.whenPressed(new HatchClaw(State.OPEN));
-    hatchCloseButton.whenPressed(new HatchClaw(State.CLOSE));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));

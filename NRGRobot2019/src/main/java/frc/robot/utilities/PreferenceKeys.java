@@ -27,6 +27,7 @@ public class PreferenceKeys {
 	public static final String ARM_ROCKET_CARGO_MEDIUM_TICKS = "ArmRocketCargoMediumTicks";
 	public static final String ARM_MAX_ANGLE_TICKS = "ArmMaxAngleTicks";
 	public static final String ARM_INVERSION_TICKS = "ArmInversionTicks";
+	public static final String ARM_HATCH_MEDIUM_TICKS = "ArmHatchMediumTicks";
 	public static final String ARM_LEVEL_TICKS = "ArmLevelTicks";
 
 	public static final String DRIVE_TO_VISION_TAPE_MIN_POWER = "VisionMinPower";
