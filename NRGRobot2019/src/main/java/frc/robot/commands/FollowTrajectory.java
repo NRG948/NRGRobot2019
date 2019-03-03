@@ -19,22 +19,28 @@ public class FollowTrajectory extends Command {
   @Override
   protected void initialize() {
     System.out.println("Follow Trajectory Init");
-    Robot.drive.followTrajectoryInit(trajectory);
+    if (trajectory != null) {
+      Robot.drive.followTrajectoryInit(trajectory);
+    }
   }
 
   @Override
   protected void execute() {
-    Robot.drive.followTrajectoryExecute();
+    if (trajectory != null) {
+      Robot.drive.followTrajectoryExecute();
+    }
   }
 
   @Override
   protected boolean isFinished() {
-    return Robot.drive.followTrajectoryIsFinished();
+    return trajectory == null || Robot.drive.followTrajectoryIsFinished();
   }
 
   @Override
   protected void end() {
-    Robot.drive.followTrajectoryEnd();
+    if (trajectory != null) {
+      Robot.drive.followTrajectoryEnd();
+    }
     System.out.println("Follow Trajectory End");
   }
 
