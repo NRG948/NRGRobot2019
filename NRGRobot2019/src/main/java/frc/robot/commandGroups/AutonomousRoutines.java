@@ -10,8 +10,8 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.TurnToHeading;
-import frc.robot.commands.DriveToVisionTape.Deliver;
 import frc.robot.subsystems.Gearbox.Gear;
+import frc.robot.utilities.Deliver;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
@@ -66,7 +66,7 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(
           new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, TURN_POWER));
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
-      addSequential(new DriveToVisionTape(Deliver.Hatch));
+      addSequential(new PickupHatch());
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 315 : 45, TURN_POWER));
       break;

@@ -1,3 +1,10 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot.commandGroups;
 
 import static frc.robot.subsystems.HatchClawSubsystem.State.CLOSE;
@@ -11,17 +18,20 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
+import frc.robot.subsystems.HatchClawSubsystem.State;
 import frc.robot.utilities.Deliver;
 
-public class DeliverHatch extends CommandGroup {
+public class PickupHatch extends CommandGroup {
   /**
-   * Command group for Delivering a hatch cover after the robot's in the right position.
+   * Add your docs here.
    */
-  public DeliverHatch() {
+  public PickupHatch() {
     addSequential(new DriveToVisionTapeTwo(Deliver.Hatch));
+    addSequential(new HatchClaw(State.CLOSE));
+    addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
-    addSequential(new HatchClaw(CLOSE));
+    addSequential(new HatchClaw(State.OPEN));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(RETRACT));
   }

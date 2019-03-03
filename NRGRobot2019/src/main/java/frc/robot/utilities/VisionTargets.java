@@ -60,9 +60,9 @@ public class VisionTargets {
         return deltaX / imageCenterX;
     }
 
-    public double getHeadingToTarget() {
-        return RobotMap.navx.getAngle() + getAngleToTarget()/4;
-    }
+    // public double getHeadingToTarget() {
+    //     return RobotMap.navx.getAngle() + getAngleToTarget() / 12;
+    // }
 
     public double getDistanceToTarget() {
         TargetPair desiredTarget = getDesiredTargets();

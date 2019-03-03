@@ -15,6 +15,7 @@ import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.ManualDrive;
@@ -24,7 +25,6 @@ import frc.robot.commands.HatchExtension;
 import frc.robot.commands.InterruptAllCommands;
 import frc.robot.commands.ManualClimbRear;
 import frc.robot.commands.TurnToHeading;
-import frc.robot.commands.DriveToVisionTape.Deliver;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Arm.Angle;
 import frc.robot.subsystems.Gearbox.Gear;
@@ -32,6 +32,7 @@ import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
 
+import frc.robot.utilities.Deliver;
 import frc.robot.utilities.MathUtil;
 
 /**
@@ -109,14 +110,15 @@ public class OI {
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
     turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
-    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(240, 0.7));
+    driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
     gearShiftButton.whenReleased(new GearShift(Gear.LOW));
 
     driveToVisionCargo.whenPressed(new DriveToVisionTape(Deliver.Cargo));
-    driveToVisionHatch.whenPressed(new DriveToVisionTape(Deliver.Hatch));
+    // driveToVisionHatch.whenPressed(new DriveToVisionTape(Deliver.Hatch));
+    driveToVisionHatch.whenPressed(new DriveToVisionTapeTwo(Deliver.Hatch));
 
     testAutoPath.whenPressed(new TestAutoPaths());
 

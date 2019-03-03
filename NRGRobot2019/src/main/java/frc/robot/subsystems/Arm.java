@@ -4,10 +4,12 @@ import java.util.Map;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -31,18 +33,19 @@ public class Arm extends Subsystem {
 
 	public static final int DEFAULT_ARM_STOWED_TICKS = 0;
 	public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 280;
-	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 918;
+	public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 970;
 	public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 680;
-	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1228;
+	public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1260;
 	public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
 	public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
 	public static final int DEFAULT_ARM_INVERSION_TICKS = 1680;
-	public static final int DEFAULT_ARM_HATCH_MEDIUM_TICKS = 1800; //TBD
+	public static final int DEFAULT_ARM_HATCH_MEDIUM_TICKS = 1800; // TBD
 	public static final int DEFAULT_ARM_LEVEL_TICKS = 750;
 
 	private SimpleWidget pidOutputWidget;
 	private SimpleWidget pidErrorWidget;
 	private SimpleWidget pidSetpointWidget;
+	private SimpleWidget rawOutputWidget;
 
 	private SimplePIDController pidController;
 
@@ -52,12 +55,13 @@ public class Arm extends Subsystem {
 		ARM_ACQUIRE_CARGO_ANGLE(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, DEFAULT_ARM_ACQUIRE_CARGO_TICKS),
 		ARM_CARGO_SHIP_ANGLE(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
 		ARM_ROCKET_CARGO_LOW_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
-		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
+		ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS,
+				DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
 		ARM_MAX_ANGLE(PreferenceKeys.ARM_MAX_ANGLE_TICKS, DEFAULT_ARM_MAX_ANGLE_TICKS),
 		ARM_INVERSION_ANGLE(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS),
 		ARM_HATCH_MEDIUM_ANGLE(PreferenceKeys.ARM_HATCH_MEDIUM_TICKS, DEFAULT_ARM_HATCH_MEDIUM_TICKS),
 		ARM_FORWARD_ANGLE(PreferenceKeys.ARM_LEVEL_TICKS, DEFAULT_ARM_LEVEL_TICKS);
-		
+
 		public final String preferenceKey;
 		public final int defaultTicks;
 
@@ -82,7 +86,7 @@ public class Arm extends Subsystem {
 	}
 
 	private void rawMoveArm(double power) {
-		if (power < 0) {
+		if (power > 0) {
 			if (atBackLimit()) {
 				power = 0;
 			}
@@ -91,6 +95,9 @@ public class Arm extends Subsystem {
 				power = 0;
 			}
 		}
+
+		rawOutputWidget.getEntry().setDouble(power);
+		
 		if (power != 0) {
 			// power = adjustPowerForGravity(power);
 			RobotMap.armMotor.set(power);
@@ -135,7 +142,7 @@ public class Arm extends Subsystem {
 	public void armAnglePIDExecute() {
 		int armTicks = RobotMap.armEncoder.get();
 		double cosTheta = calculateCosineTheta(armTicks);
-		pidController.setOutputRange(-0.25 + 0.4 * cosTheta, 0.25 + 0.4 * cosTheta);
+		pidController.setOutputRange(-0.4 + 0.5 * cosTheta, 0.4 + 0.5 * cosTheta);
 		double feedForward = calculateFeedForward(cosTheta);
 		double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
@@ -164,11 +171,11 @@ public class Arm extends Subsystem {
 	}
 
 	public boolean atFrontLimit() {
-		return RobotMap.armFrontLimitSwitch.get();
+		return !RobotMap.armFrontLimitSwitch.get();
 	}
 
 	public boolean atBackLimit() {
-		return RobotMap.armBackLimitSwitch.get();
+		return !RobotMap.armBackLimitSwitch.get();
 	}
 
 	public int getSetpoint() {
@@ -207,16 +214,21 @@ public class Arm extends Subsystem {
 
 	public void initShuffleboard() {
 		ShuffleboardTab armTab = Shuffleboard.getTab("Arm");
-		ShuffleboardLayout armLayout = armTab.getLayout("Arm", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 3);
+
+		ShuffleboardLayout armLayout = armTab.getLayout("Arm", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 4);
 		armLayout.add("Encoder", RobotMap.armEncoder);
-		armLayout.add("Back Limit", RobotMap.armBackLimitSwitch);
 		pidSetpointWidget = armLayout.add("PID setpoint", 0.0);
 		pidErrorWidget = armLayout.add("PID error", 0.0);
 		pidOutputWidget = armLayout.add("PID output", 0.0);
-		ShuffleboardLayout positionLayout = armTab.getLayout("Positions", BuiltInLayouts.kList).withPosition(2, 0).withSize(2, 3).withProperties(Map.of("Label position", "HIDDEN"));
+		rawOutputWidget = armLayout.add("Raw Output", 0.0);
+		// armLayout.add("Front Limit", RobotMap.armFrontLimitSwitch).withWidget(BuiltInWidgets.kToggleSwitch);
+		// armLayout.add("Back Limit", RobotMap.armBackLimitSwitch).withWidget(BuiltInWidgets.kToggleSwitch);
+		
+		ShuffleboardLayout positionLayout = armTab.getLayout("Positions", BuiltInLayouts.kList).withPosition(2, 0)
+				.withSize(2, 3).withProperties(Map.of("Label position", "HIDDEN"));
 		positionLayout.add("Stow", new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
 		positionLayout.add("Acquire Cargo", new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
-		positionLayout.add("Low Cargo" , new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_LOW_ANGLE));
+		positionLayout.add("Low Cargo", new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_LOW_ANGLE));
 		positionLayout.add("Cargoship", new MoveArmTo(Arm.Angle.ARM_CARGO_SHIP_ANGLE));
 		positionLayout.add("Medium Cargo", new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
 	}

@@ -17,7 +17,7 @@ import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
-import frc.robot.commands.DriveToVisionTape.Deliver;
+import frc.robot.utilities.Deliver;
 
 public class PickupHatchWithVision extends CommandGroup {
   /**

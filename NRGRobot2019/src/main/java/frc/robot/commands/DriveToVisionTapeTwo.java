@@ -10,8 +10,7 @@ import frc.robot.utilities.Deliver;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 
-public class DriveToVisionTape extends Command {
-  
+public class DriveToVisionTapeTwo extends Command {
   private static final double SLOW_DOWN_DISTANCE = 15;
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;
@@ -24,7 +23,7 @@ public class DriveToVisionTape extends Command {
   private double power;
   private Point lastPosition = new Point();
 
-  public DriveToVisionTape(Deliver delivery) {
+  public DriveToVisionTapeTwo(Deliver delivery) {
     requires(Robot.drive);
     this.delivery = delivery;
   }
@@ -39,8 +38,9 @@ public class DriveToVisionTape extends Command {
         DEFAULT_MAX_DRIVE_POWER);
 
     if (Robot.visionTargets.hasTargets()) {
-      Robot.drive.driveOnHeadingInit(getHeadingToTarget());
-      this.targetDistance = Double.MAX_VALUE;
+      Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle() + Robot.visionTargets.getAngleToTarget());
+      this.targetDistance = Robot.visionTargets.getDistanceToTarget();
+      System.out.println("targetDistance is : " + targetDistance);
     } else {
       Robot.drive.driveOnHeadingInit(Robot.drive.getCurrentHeading());
       this.targetDistance = 0;
@@ -54,29 +54,15 @@ public class DriveToVisionTape extends Command {
 
   @Override
   protected void execute() {
-    if (Robot.visionTargets.hasTargets()) {
-      targetHeading = getHeadingToTarget();
-      // double normalizedTargetPos =
-      // Robot.visionTargets.getNormalizedTargetPosition();
-      // targetHeading = Robot.drive.getCurrentHeading() + normalizedTargetPos;
-      // SmartDashboard.putNumber("Vision/normalizedVisionTarget",
-      // normalizedTargetPos);
-      double distance = Robot.visionTargets.getDistanceToTarget();
-      this.targetDistance = MathUtil.clamp(distance, 5, 100);
-    } else {
-      double distanceMoved = Robot.positionTracker.calculateDistance(this.lastPosition.x, this.lastPosition.y);
-      this.targetDistance -= distanceMoved;
-    }
+    double distanceMoved = Robot.positionTracker.calculateDistance(this.lastPosition.x, this.lastPosition.y);
+    this.targetDistance -= distanceMoved;
     double distanceRemaining = targetDistance - delivery.getStopDistance();
+    SmartDashboard.putNumber("Vision/distanceRemaining", distanceRemaining);
     power = MathUtil.clamp(distanceRemaining / SLOW_DOWN_DISTANCE, minDrivePower, maxDrivePower);
-    Robot.drive.driveOnHeadingExecute(power, targetHeading);
+    Robot.drive.driveOnHeadingExecute(power);
 
     this.lastPosition.x = Robot.positionTracker.getX();
     this.lastPosition.y = Robot.positionTracker.getY();
-  }
-
-  private double getHeadingToTarget() {
-    return RobotMap.navx.getAngle() + Robot.visionTargets.getAngleToTarget() / 12;
   }
 
   @Override
