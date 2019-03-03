@@ -5,6 +5,7 @@ import frc.robot.OI;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.AutoFeederPosition;
+import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
@@ -19,6 +20,7 @@ public class AutonomousRoutines extends CommandGroup {
 
   private static final double DRIVE_POWER = 0.7;
   private static final double TURN_POWER = 1.0;
+  private static final double VISION_DELAY = 0.5;
 
   private AutoMovement autoMovement;
   private AutoStartingPosition autoStartingPosition;
@@ -52,6 +54,7 @@ public class AutonomousRoutines extends CommandGroup {
     default:
       addSequential(new GearShift(Gear.HIGH));
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition, autoMovement)));
+      addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new DeliverHatch());
       break;
     }
@@ -66,6 +69,7 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(
           new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, TURN_POWER));
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
+      addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new PickupHatch());
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 315 : 45, TURN_POWER));
@@ -79,6 +83,9 @@ public class AutonomousRoutines extends CommandGroup {
 
     default:
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoFeederPosition, autoMovement2)));
+      addSequential(new DelaySeconds(VISION_DELAY));
+      addSequential(new DeliverHatch());
+      addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       break;
     }
     addSequential(new GearShift(Gear.LOW));
