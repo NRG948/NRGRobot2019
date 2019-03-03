@@ -11,6 +11,7 @@ import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 
 public class DriveToVisionTapeTwo extends Command {
+  private static final double CAMERA_SKEW = 1.6;
   private static final double SLOW_DOWN_DISTANCE = 15;
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;
@@ -38,9 +39,10 @@ public class DriveToVisionTapeTwo extends Command {
         DEFAULT_MAX_DRIVE_POWER);
 
     if (Robot.visionTargets.hasTargets()) {
-      Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle() + Robot.visionTargets.getAngleToTarget());
+      double desiredHeading = RobotMap.navx.getAngle() + Robot.visionTargets.getAngleToTarget() + CAMERA_SKEW;
+      Robot.drive.driveOnHeadingInit(desiredHeading);
       this.targetDistance = Robot.visionTargets.getDistanceToTarget();
-      System.out.println("targetDistance is : " + targetDistance);
+      System.out.println("targetDistance is : " + targetDistance + " heading is : " + desiredHeading);
     } else {
       Robot.drive.driveOnHeadingInit(Robot.drive.getCurrentHeading());
       this.targetDistance = 0;
