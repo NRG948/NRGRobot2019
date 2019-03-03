@@ -19,12 +19,16 @@ public class VisionTargets {
   private static final double DEFAULT_HALF_IMAGE_WIDTH = 480 / 2;
   private static final double TARGET_WIDTH_INCHES = 8.0;
 
+
   private ArrayList<TargetPair> targetPairs = new ArrayList<TargetPair>();
   private double imageCenterX;
+  private int genCount;
 
   public void update() {
+    this.imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
+    this.genCount = (int) SmartDashboard.getNumber("Vision/genCount", this.genCount);
+
     ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
-    imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
     String[] targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
@@ -34,6 +38,9 @@ public class VisionTargets {
     this.targetPairs = newTargetPairs;
   }
 
+  public int getGenCount(){
+    return this.genCount;
+  }
   public boolean hasTargets() {
     return !this.targetPairs.isEmpty();
   }
