@@ -137,13 +137,13 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("Feeder", autoStationPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 2)
         .withSize(4, 1);
-    autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3).withSize(4, 1);
-    
+    autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3)
+        .withSize(4, 1);
+
     arm.initShuffleboard();
 
-        
-		System.out.println("robotInit() done");
-  } 
+    System.out.println("robotInit() done");
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -183,7 +183,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    RobotMap.cameraLights.set(Value.kOff); 
+    RobotMap.cameraLights.set(Value.kOff);
   }
 
   @Override
@@ -256,7 +256,6 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
       preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
 
-      
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
       preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);

@@ -11,15 +11,15 @@ package frc.robot.utilities;
  * Add your docs here.
  */
 public enum Deliver {
-    Hatch(22), Cargo(34);
+  Hatch(22), Cargo(34);
 
-    private final double stopDistance;
+  private final double stopDistance;
 
-    private Deliver(double stopDistance) {
-      this.stopDistance = stopDistance;
-    }
-
-    public double getStopDistance() {
-      return this.stopDistance;
-    }
+  private Deliver(double stopDistance) {
+    this.stopDistance = stopDistance;
   }
+
+  public double getStopDistance() {
+    return this.stopDistance;
+  }
+}

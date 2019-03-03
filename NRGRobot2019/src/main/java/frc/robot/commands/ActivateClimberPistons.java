@@ -10,7 +10,7 @@ import frc.robot.subsystems.ClimberRear;
  * Climber Pistons.
  */
 public class ActivateClimberPistons extends Command {
-private boolean extend;
+  private boolean extend;
 
   public ActivateClimberPistons(boolean extend) {
     requires(Robot.climberArms);
@@ -24,7 +24,7 @@ private boolean extend;
 
   @Override
   protected void execute() {
-    //Robot.climberArms.activate(extend);
+    // Robot.climberArms.activate(extend);
   }
 
   @Override

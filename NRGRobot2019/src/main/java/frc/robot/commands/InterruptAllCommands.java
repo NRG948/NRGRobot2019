@@ -22,7 +22,6 @@ public class InterruptAllCommands extends Command {
     requires(Robot.gearbox);
     requires(Robot.hatchClaw);
     requires(Robot.hatchExtension);
-
   }
 
   // Called just before this Command runs the first time

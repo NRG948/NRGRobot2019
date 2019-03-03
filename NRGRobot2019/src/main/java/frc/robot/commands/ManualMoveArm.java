@@ -18,8 +18,8 @@ public class ManualMoveArm extends Command {
 
   @Override
   protected void execute() {
-    double upSpeed = Robot.oi.getXboxRightTrigger()*0.5;
-    double downSpeed = Robot.oi.getXboxLeftTrigger()*0.5;
+    double upSpeed = Robot.oi.getXboxRightTrigger() * 0.5;
+    double downSpeed = Robot.oi.getXboxLeftTrigger() * 0.5;
     double speed = upSpeed - downSpeed;
     Robot.arm.moveArm(speed);
   }

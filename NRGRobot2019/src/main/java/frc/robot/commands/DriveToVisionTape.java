@@ -11,7 +11,7 @@ import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.PreferenceKeys;
 
 public class DriveToVisionTape extends Command {
-  
+
   private static final double SLOW_DOWN_DISTANCE = 15;
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;

@@ -15,15 +15,16 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.Relay.Value;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into0
- * 
+ * The RobotMap is a mapping from the ports sensors and actuators are wired
+ * into0
+ *
  * to a variable name. This provides flexibility changing wiring, makes checking
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
 public class RobotMap {
 
-  private static final int DRIVE_LEFT_ENCODER_PORT1 = 2; 
+  private static final int DRIVE_LEFT_ENCODER_PORT1 = 2;
   private static final int DRIVE_LEFT_ENCODER_PORT2 = 3;
   private static final int DRIVE_RIGHT_ENCODER_PORT1 = 0;
   private static final int DRIVE_RIGHT_ENCODER_PORT2 = 1;
@@ -31,7 +32,7 @@ public class RobotMap {
   private static final int ARM_ENCODER_PORT_2 = 5;
   private static final int ARM_FRONT_LIMIT_SWITCH_PORT = 6;
   private static final int ARM_BACK_LIMIT_SWITCH_PORT = 7;
-  
+
   private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009262;
   private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009262;
 
@@ -59,7 +60,7 @@ public class RobotMap {
   public static DigitalInput armBackLimitSwitch;
 
   public static Compressor compressor;
-  
+
   public static AHRS navx;
 
   public static Relay cameraLights;
@@ -79,27 +80,25 @@ public class RobotMap {
     driveBackLeftMotor.setInverted(true);
     driveBackRightMotor.setInverted(true);
 
-    
     armMotor = new Victor(0);
     climberRearMotor = new Victor(2);
-    //climberArmsMotor = new Victor(4);
+    // climberArmsMotor = new Victor(4);
     cargoAcquirerMotor = new Victor(1);
 
     climberRearMotor.setInverted(true);
     armMotor.setInverted(true);
 
-     cameraLights = new Relay(0);
-     cameraLights.set(Value.kOff);
-    
-    
+    cameraLights = new Relay(0);
+    cameraLights.set(Value.kOff);
+
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
 
-    hatchClawSolenoid = new DoubleSolenoid(3, 2);          // TODO CHANGE THE CHANNELS LATER
-    hatchExtensionSolenoid = new DoubleSolenoid (1,0);
+    hatchClawSolenoid = new DoubleSolenoid(3, 2); // TODO CHANGE THE CHANNELS LATER
+    hatchExtensionSolenoid = new DoubleSolenoid(1, 0);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
     climberSolenoid = new DoubleSolenoid(6, 7);
 
@@ -109,14 +108,14 @@ public class RobotMap {
     compressor = new Compressor();
     compressor.start();
 
-    navx = new AHRS(SPI.Port.kMXP); 
+    navx = new AHRS(SPI.Port.kMXP);
   }
 
-  public static void resetSensors(){
+  public static void resetSensors() {
     Robot.positionTracker.reset();
     navx.reset();
     armEncoder.reset();
-    //TODO CHECK IF WE NEED TO RESET SOLENOIDS
+    // TODO CHECK IF WE NEED TO RESET SOLENOIDS
     System.out.println("Sensors Reset");
-  }  
+  }
 }

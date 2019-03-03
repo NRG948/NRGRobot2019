@@ -10,19 +10,20 @@ public class TurnToHeading extends Command {
   private final double DEFAULT_TURN_TOLERANCE = 5.0;
 
   private double desiredHeading; // the heading we want the robot to end at
-  private double maxPower; // gives the maximum power the robot is gonna drive when the command is executed 
+  private double maxPower; // gives the maximum power the robot is gonna drive when the command is executed
 
   public TurnToHeading(double desiredHeading, double maxPower) {
-    this.desiredHeading = desiredHeading; // assigns the heading 
-    this.maxPower = Math.abs(maxPower); // assigns the power 
-    this.requires (Robot.drive); // requires the Drive subsystem
+    this.desiredHeading = desiredHeading; // assigns the heading
+    this.maxPower = Math.abs(maxPower); // assigns the power
+    this.requires(Robot.drive); // requires the Drive subsystem
   }
-    
+
   @Override
   protected void initialize() {
-    Robot.drive.turnToHeadingInit(this.desiredHeading, DEFAULT_TURN_TOLERANCE); 
-    // this gives in the angle into the command and intializes the command and gives in the tolerance
-    System.out.println("TurnToHeading Init"); 
+    Robot.drive.turnToHeadingInit(this.desiredHeading, DEFAULT_TURN_TOLERANCE);
+    // this gives in the angle into the command and intializes the command and gives
+    // in the tolerance
+    System.out.println("TurnToHeading Init");
   }
 
   @Override
@@ -33,13 +34,14 @@ public class TurnToHeading extends Command {
 
   @Override
   protected boolean isFinished() {
-    return Robot.drive.turnToHeadingOnTarget(); // this command checks whether the robot is on target if not corrects it.
+    return Robot.drive.turnToHeadingOnTarget(); // this command checks whether the robot is on target if not corrects
+                                                // it.
   }
 
   @Override
   protected void end() {
     Robot.drive.turnToHeadingEnd(); // terminates the turn
-    System.out.println("TurnToHeading End"); 
+    System.out.println("TurnToHeading End");
   }
 
   @Override

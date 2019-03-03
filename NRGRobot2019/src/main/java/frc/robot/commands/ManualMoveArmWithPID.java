@@ -6,14 +6,16 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
 
 /**
- * Command that moves the arm with PID when manually controlled with xbox triggers.
+ * Command that moves the arm with PID when manually controlled with xbox
+ * triggers.
  */
 
 public class ManualMoveArmWithPID extends Command {
-  /*calculation: 2600 ticks is full range of the arm
-  * we want 1300 ticks per second, to move the whole arm in two seconds
-  * that's 1300 ticks/second * 1 second/1000 milliseconds * 20 milliseconds = 26 ticks
-  */
+  /*
+   * calculation: 2600 ticks is full range of the arm we want 1300 ticks per
+   * second, to move the whole arm in two seconds that's 1300 ticks/second * 1
+   * second/1000 milliseconds * 20 milliseconds = 26 ticks
+   */
   private static final int MAX_TICKS_PER_CYCLE = 26;
   private double lastArmSpeed;
 
@@ -31,16 +33,18 @@ public class ManualMoveArmWithPID extends Command {
     double upSpeed = Robot.oi.getXboxRightTrigger();
     double downSpeed = Robot.oi.getXboxLeftTrigger();
     double speed = upSpeed - downSpeed;
-    if(speed < 0) {
+
+    if (speed < 0) {
       Robot.arm.setPIDOutputLimits(speed);
       Robot.arm.setSetpoint(Arm.Angle.ARM_MAX_ANGLE.getTicks());
-    } else if(speed > 0) {
+    } else if (speed > 0) {
       Robot.arm.setPIDOutputLimits(speed);
       Robot.arm.setSetpoint(Arm.Angle.ARM_STOWED_ANGLE.getTicks());
-    } else if(speed != this.lastArmSpeed){
+    } else if (speed != this.lastArmSpeed) {
       Robot.arm.setPIDOutputLimits(1.0);
       Robot.arm.setSetpoint(Robot.arm.getCurrentArmPosition());
     }
+
     this.lastArmSpeed = speed;
   }
 

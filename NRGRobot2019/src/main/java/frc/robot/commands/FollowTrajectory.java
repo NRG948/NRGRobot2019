@@ -10,6 +10,7 @@ import jaci.pathfinder.Trajectory;
 public class FollowTrajectory extends Command {
 
   Trajectory trajectory;
+
   public FollowTrajectory(Trajectory trajectory) {
     requires(Robot.drive);
     this.trajectory = trajectory;

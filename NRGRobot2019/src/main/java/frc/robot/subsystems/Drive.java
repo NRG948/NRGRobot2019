@@ -68,7 +68,7 @@ public class Drive extends Subsystem {
     double i = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
     double d = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
     this.turnPIDController = new SimplePIDController(p, i, d).setSetpoint(desiredHeading)
-        .setAbsoluteTolerance(tolerance);
+      .setAbsoluteTolerance(tolerance);
   }
 
   public void turnToHeadingExecute(double maxPower) {

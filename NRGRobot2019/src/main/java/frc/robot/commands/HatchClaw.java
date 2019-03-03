@@ -9,6 +9,7 @@ import frc.robot.subsystems.HatchClawSubsystem.State;
  */
 public class HatchClaw extends Command {
   public State state;
+
   public HatchClaw(State state) {
     requires(Robot.hatchClaw);
     this.state = state;
@@ -21,7 +22,7 @@ public class HatchClaw extends Command {
 
   @Override
   protected void execute() {
-    if(state == State.OPEN) {
+    if (state == State.OPEN) {
       Robot.hatchClaw.setClawOpen();
     } else {
       Robot.hatchClaw.setClawClose();

@@ -9,6 +9,7 @@ import frc.robot.subsystems.HatchExtensionSubsystem.State;
  */
 public class HatchExtension extends Command {
   private State state;
+
   public HatchExtension(State state) {
     requires(Robot.hatchExtension);
     this.state = state;
@@ -21,7 +22,7 @@ public class HatchExtension extends Command {
 
   @Override
   protected void execute() {
-    if(state == State.EXTEND) {
+    if (state == State.EXTEND) {
       Robot.hatchExtension.extend();
     } else {
       Robot.hatchExtension.retract();

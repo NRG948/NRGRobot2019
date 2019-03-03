@@ -12,7 +12,7 @@ public class ClimberArms extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    //setDefaultCommand(new ManualClimberArms());
+    // setDefaultCommand(new ManualClimberArms());
   }
 
   public void rawClimb(double power) {

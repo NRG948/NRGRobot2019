@@ -17,10 +17,10 @@ public class ManualClimberArms extends Command {
 
   @Override
   protected void execute() {
-    if (Robot.oi.climberArmsButton.get()){
-      double speed = Robot.oi.getXboxLeftY()*0.8;
+    if (Robot.oi.climberArmsButton.get()) {
+      double speed = Robot.oi.getXboxLeftY() * 0.8;
       Robot.climberArms.rawClimb(MathUtil.deadband(speed, 0.1));
-    }else{
+    } else {
       Robot.climberArms.stop();
     }
   }

@@ -15,7 +15,8 @@ import frc.robot.utilities.Deliver;
 
 public class DeliverHatch extends CommandGroup {
   /**
-   * Command group for Delivering a hatch cover after the robot's in the right position.
+   * Command group for Delivering a hatch cover after the robot's in the right
+   * position.
    */
   public DeliverHatch() {
     addSequential(new DriveToVisionTapeTwo(Deliver.Hatch));

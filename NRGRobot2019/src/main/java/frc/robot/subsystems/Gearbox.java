@@ -19,11 +19,11 @@ public class Gearbox extends Subsystem {
     // setDefaultCommand(new GearShift(Gear.LOW));
   }
 
-  public void setHighGear(){
+  public void setHighGear() {
     RobotMap.gearboxSolenoid.set(Value.kForward);
   }
 
-  public void setLowGear(){
+  public void setLowGear() {
     RobotMap.gearboxSolenoid.set(Value.kReverse);
   }
 }

@@ -11,8 +11,8 @@ import frc.robot.commands.HatchExtension;
  */
 public class HatchExtensionSubsystem extends Subsystem {
   public static final double HATCH_EXTEND_DELAY = 0.5;
-  
-  public enum State{
+
+  public enum State {
     EXTEND, RETRACT;
   }
 
@@ -21,11 +21,11 @@ public class HatchExtensionSubsystem extends Subsystem {
     setDefaultCommand(null);
   }
 
-  public void extend(){
+  public void extend() {
     RobotMap.hatchExtensionSolenoid.set(Value.kForward);
   }
-    
-  public void retract(){
+
+  public void retract() {
     RobotMap.hatchExtensionSolenoid.set(Value.kReverse);
   }
 }

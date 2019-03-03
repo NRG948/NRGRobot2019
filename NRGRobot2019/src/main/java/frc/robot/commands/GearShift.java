@@ -9,6 +9,7 @@ import frc.robot.subsystems.Gearbox.Gear;
  */
 public class GearShift extends Command {
   public Gear gear;
+
   public GearShift(Gear gear) {
     requires(Robot.gearbox);
     this.gear = gear;
@@ -21,9 +22,9 @@ public class GearShift extends Command {
 
   @Override
   protected void execute() {
-    if(gear == Gear.HIGH){
+    if (gear == Gear.HIGH) {
       Robot.gearbox.setHighGear();
-    }else{
+    } else {
       Robot.gearbox.setLowGear();
     }
   }

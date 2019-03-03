@@ -8,7 +8,7 @@ import frc.robot.Robot;
  */
 public class ManualDrive extends Command {
   public ManualDrive() {
-    requires(Robot.drive); // this uses drive subsystem 
+    requires(Robot.drive); // this uses drive subsystem
   }
 
   @Override
@@ -26,14 +26,14 @@ public class ManualDrive extends Command {
 
   @Override
   protected boolean isFinished() {
-    return false; // this command never terminates to keep driving the robot. 
+    return false; // this command never terminates to keep driving the robot.
   }
 
   @Override
   protected void end() {
     Robot.drive.stopMotor();
     System.out.println("Manual Drive End");
-  }  
+  }
 
   @Override
   protected void interrupted() {
