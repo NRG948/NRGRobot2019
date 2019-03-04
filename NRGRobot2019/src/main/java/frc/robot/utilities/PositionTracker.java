@@ -1,5 +1,7 @@
 package frc.robot.utilities;
 
+import org.opencv.core.Point;
+
 /**
  * Add your docs here.
  */
@@ -22,6 +24,10 @@ public class PositionTracker {
 
   public double getY() {
     return this.y;
+  }
+
+  public Point getPosition() {
+    return new Point(this.x, this.y);
   }
 
   public void setPosition(double x, double y) {
@@ -63,6 +69,10 @@ public class PositionTracker {
     double deltaX = this.x - xOrigin;
     double deltaY = this.y - yOrigin;
     return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+  }
+
+  public double calculateDistance(Point origin) {
+    return calculateDistance(origin.x, origin.y);
   }
 
   public double getCurrentVelocity() {
