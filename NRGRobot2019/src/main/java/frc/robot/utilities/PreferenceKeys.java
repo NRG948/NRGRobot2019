@@ -11,6 +11,11 @@ public class PreferenceKeys {
   public static final String DRIVE_I_TERM = "DriveI";
   public static final String DRIVE_D_TERM = "DriveD";
 
+  public static final String DISTANCE_DRIVE_P_TERM = "DistanceDriveP";
+  public static final String DISTANCE_DRIVE_I_TERM = "DistanceDriveI";
+  public static final String DISTANCE_DRIVE_D_TERM = "DistanceDriveD";
+  public static final String DISTANCE_TOLERANCE = "DistanceTolerance";
+
   public static final String PATH_P_TERM = "PathP";
   public static final String PATH_I_TERM = "PathI";
   public static final String PATH_D_TERM = "PathD";
@@ -38,7 +43,5 @@ public class PreferenceKeys {
   public static final String CLIBMER_REAR_POWER = "ClimberRearPower";
   public static final String CLIMBER_ARMS_POWER = "ClimberArmsPower";
 
-  // public static final String USE_PHYSICAL_AUTO_CHOOSER =
-  // "UsePhysicalAutoChooser";
   public static final String USING_PRACTICE_BOT = "UsingPracticeBot";
 }

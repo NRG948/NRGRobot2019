@@ -253,8 +253,14 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
       preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
 
+      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
+      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
+      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
+      preferences.putDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
+
       preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
       preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
+      preferences.putDouble(PreferenceKeys.PATH_D_TERM, Drive.DEFAULT_PATH_D);
 
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);

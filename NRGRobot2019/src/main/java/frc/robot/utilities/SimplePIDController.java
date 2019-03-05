@@ -43,9 +43,7 @@ public class SimplePIDController {
   }
 
   public SimplePIDController(double p, double i, double d, boolean isIntegralNeededToHoldPosition) {
-    kP = p;
-    kD = d;
-    kI = i;
+    setPID(p, i, d);
     this.tolerance = new Tolerance() {
 
       @Override
@@ -60,6 +58,7 @@ public class SimplePIDController {
     this(p, i, d, false);
   }
 
+  /** Starts or resets the PID Controller. */
   public SimplePIDController start() {
     prevTime = System.nanoTime() / 1.0e9;
     this.wasPIDReset = true;
@@ -118,6 +117,13 @@ public class SimplePIDController {
     double input = pidSource.pidGet();
     double result = update(input);
     pidOutput.pidWrite(result);
+  }
+
+  public SimplePIDController setPID(double p, double i, double d) {
+    kP = p;
+    kD = d;
+    kI = i;
+    return this;
   }
 
   public SimplePIDController setSetpoint(double setpoint) {

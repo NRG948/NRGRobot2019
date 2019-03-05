@@ -30,6 +30,11 @@ public class Drive extends Subsystem {
   public static final double DEFAULT_DRIVE_I = 0.00016;
   public static final double DEFAULT_DRIVE_D = 0.0072;
 
+  public static final double DEFAULT_DISTANCE_DRIVE_P = 0.5;
+  public static final double DEFAULT_DISTANCE_DRIVE_I = 0.01;
+  public static final double DEFAULT_DISTANCE_DRIVE_D = 1.5;
+  public static final double DEFAULT_DISTANCE_TOLERANCE = 0.75;
+
   public static final double DEFAULT_PATH_P = 0.5;
   public static final double DEFAULT_PATH_I = 0.00;
   public static final double DEFAULT_PATH_D = 0.00;
@@ -68,7 +73,7 @@ public class Drive extends Subsystem {
     double i = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
     double d = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
     this.turnPIDController = new SimplePIDController(p, i, d).setSetpoint(desiredHeading)
-      .setAbsoluteTolerance(tolerance);
+        .setAbsoluteTolerance(tolerance);
   }
 
   public void turnToHeadingExecute(double maxPower) {
