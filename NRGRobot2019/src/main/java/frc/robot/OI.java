@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.commandGroups.DeliverHatch;
+import frc.robot.commandGroups.PickupHatch;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
@@ -34,12 +36,16 @@ import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
 
 import frc.robot.utilities.Deliver;
 import frc.robot.utilities.MathUtil;
+import frc.robot.utilities.PreferenceKeys;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+
+  public static final String DEFAULT_TEST_PATH = "LEFT_TO_CARGO_FRONT_LEFT_HATCH";
+
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
   private XboxController xboxController = new XboxController(2);
@@ -55,8 +61,8 @@ public class OI {
 
   private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton driveToVisionCargo = new JoystickButton(rightJoystick, 2);
-  private JoystickButton driveToVisionHatch = new JoystickButton(rightJoystick, 3);
-  private JoystickButton turnToHeadingButton = new JoystickButton(rightJoystick, 4);
+  private JoystickButton deliverToVisionHatch = new JoystickButton(rightJoystick, 3);
+  private JoystickButton pickupToVisionHatch = new JoystickButton(rightJoystick, 4);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
   private JoystickButton cameraLightOn = new JoystickButton(rightJoystick, 11);
@@ -112,7 +118,6 @@ public class OI {
 
     driveStraightButton.whenActive(new DriveStraight());
     driveStraightButton.whenInactive(new ManualDrive());
-    turnToHeadingButton.whenPressed(new TurnToHeading(90, 1.0));
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
@@ -120,10 +125,13 @@ public class OI {
     gearShiftButton.whenReleased(new GearShift(Gear.LOW));
 
     driveToVisionCargo.whenPressed(new DriveToVisionTape(Deliver.Cargo));
-    // driveToVisionHatch.whenPressed(new DriveToVisionTape(Deliver.Hatch));
-    driveToVisionHatch.whenPressed(new DriveToVisionTapeTwo(Deliver.Hatch));
+    deliverToVisionHatch.whenPressed(new DeliverHatch());
+    pickupToVisionHatch.whenPressed(new PickupHatch());
 
-    testAutoPath.whenPressed(new TestAutoPaths());
+    testAutoPath.whenPressed(new InstantCommand(() -> {
+      String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+      new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
+    }));
 
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
 

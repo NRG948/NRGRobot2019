@@ -1,81 +1,81 @@
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.Drive;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
 public class DriveOnHeadingDistance extends Command {
-  private double distance;
+  private double distanceToDrive;
   private double maxPower;
   private double heading;
   private double tolerance;
   private Point origin;
 
-  private SimplePIDController distancePID;
+  private SimplePIDController distancePID = new SimplePIDController(0, 0, 0);
   private int cyclesOnTarget;
 
   public DriveOnHeadingDistance(double heading, double distance, double maxPower) {
+    this.requires(Robot.drive);
     this.heading = heading;
-    this.distance = distance;
+    this.distanceToDrive = distance;
     this.maxPower = maxPower;
   }
 
   @Override
   protected void initialize() {
+    System.out.println("DriveOnHeadingDistance init heading: " + this.heading + " distance: " + this.distanceToDrive);
+    this.tolerance = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
     Robot.drive.driveOnHeadingInit(this.heading);
 
-    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_STRAIGHT_DISTANCE_P, 0.5);
-    double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_STRAIGHT_DISTANCE_I, 0.01);
-    double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_STRAIGHT_DISTANCE_D, 1.5);
-    this.distancePID = new SimplePIDController(p, i, d).setSetpoint(setpoint).setAbsoluteTolerance(1.0);
+    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
+    double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
+    double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
+    this.distancePID.setPID(p, i, d).setSetpoint(this.distanceToDrive).setAbsoluteTolerance(this.tolerance).start();
     this.origin = Robot.positionTracker.getPosition();
   }
 
   @Override
   protected void execute() {
-    double distanceTravelled = Robot.positionTracker.calculateDistance(this.origin);
-    double factor = this.distancePID.update(this.distance - distanceTravelled);
+    double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
+    double factor = this.distancePID.update(this.distanceToDrive - distanceTraveled);
     double revisedPower = this.maxPower * factor;
     double error = distancePID.getError();
-    SmartDashboard.putNumber("Distance PID ERROR", error);
+    SmartDashboard.putNumber("DistancePID/Error", error);
     if (Math.abs(error) < tolerance) {
       revisedPower = 0.0;
     } else if (Math.abs(error) < 1.0) {
       revisedPower = 0.3 * Math.signum(error);
     }
-    SmartDashboard.putNumber("Revised Power DriveStraightDistance", revisedPower);
-    drive.driveOnHeading(revisedPower, heading);
+    SmartDashboard.putNumber("DistancePID/Revised Power", revisedPower);
+    Robot.drive.driveOnHeadingExecute(revisedPower);
   }
 
-  // Finishes the command if the target distance has been exceeded
+  /** Finishes the command if the target distance has been reached */
+  @Override
   protected boolean isFinished() {
-    if (Math.abs(distancePID.getError()) < tolerance) {
+    if (distancePID.onTarget()) {
       cyclesOnTarget++;
     } else {
       cyclesOnTarget = 0;
     }
-    SmartDashboard.putNumber("Cycles On Target", cyclesOnTarget);
+    SmartDashboard.putNumber("DistancePID/Cycles On Target", cyclesOnTarget);
     return (cyclesOnTarget >= 6);
-    // return distancePID.getError() < tolerance;
   }
 
+  @Override
   protected void end() {
-    distancePID.reset();
-    distancePIDOutput = 0.0;
-    drive.rawStop();
-    drive.driveOnHeadingEnd();
+    Robot.drive.stopMotor();
+    Robot.drive.driveOnHeadingEnd();
+    System.out.println("DriveOnHeadingDistance end");
   }
 
+  @Override
   protected void interrupted() {
     end();
   }
-
-  public void pidWrite(double output) {
-    distancePIDOutput = output;
-  }
-
 }
-*/

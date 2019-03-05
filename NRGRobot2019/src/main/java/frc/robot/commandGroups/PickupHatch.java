@@ -26,8 +26,8 @@ public class PickupHatch extends CommandGroup {
    * Add your docs here.
    */
   public PickupHatch() {
-    addSequential(new DriveToVisionTapeTwo(Deliver.Hatch));
     addSequential(new HatchClaw(State.CLOSE));
+    addSequential(new DriveToVisionTapeTwo(Deliver.Hatch));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));

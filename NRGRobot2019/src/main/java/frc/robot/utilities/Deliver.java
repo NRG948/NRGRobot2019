@@ -11,7 +11,7 @@ package frc.robot.utilities;
  * Add your docs here.
  */
 public enum Deliver {
-  Hatch(22), Cargo(34);
+  Hatch(20), Cargo(34);//CHANGE BACT TO 10
 
   private final double stopDistance;
 

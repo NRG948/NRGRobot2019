@@ -11,6 +11,7 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
+import frc.robot.subsystems.HatchClawSubsystem.State;
 import frc.robot.utilities.Deliver;
 
 public class DeliverHatch extends CommandGroup {
@@ -25,5 +26,7 @@ public class DeliverHatch extends CommandGroup {
     addSequential(new HatchClaw(CLOSE));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(RETRACT));
+    addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
+    addSequential(new HatchClaw(State.OPEN));
   }
 }

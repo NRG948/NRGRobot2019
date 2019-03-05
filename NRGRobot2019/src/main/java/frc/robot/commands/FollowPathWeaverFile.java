@@ -19,6 +19,7 @@ public class FollowPathWeaverFile extends FollowTrajectory {
 
   private static Trajectory LoadTrajectoryFromCsvFile(String filename) {
     File path = new File(Filesystem.getDeployDirectory(), filename);
+    System.out.println("Loading file " + path.getAbsolutePath());
 
     if (!path.exists()) {
       System.out.println("ERROR: pathweaver file " + filename + " does not exist.");

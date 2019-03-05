@@ -12,7 +12,7 @@ import frc.robot.utilities.PreferenceKeys;
 
 public class DriveToVisionTapeTwo extends Command {
   private static final double CAMERA_SKEW = 1.6;
-  private static final double SLOW_DOWN_DISTANCE = 15;
+  private static final double SLOW_DOWN_DISTANCE = 6;
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;
 
@@ -23,6 +23,7 @@ public class DriveToVisionTapeTwo extends Command {
   private double targetHeading;
   private double power;
   private Point lastPosition = new Point();
+  private boolean needsSlowdown = false;
 
   public DriveToVisionTapeTwo(Deliver delivery) {
     requires(Robot.drive);
@@ -48,6 +49,9 @@ public class DriveToVisionTapeTwo extends Command {
       this.targetDistance = 0;
     }
 
+    double distanceToDrive = this.targetDistance - this.delivery.getStopDistance();
+    this.needsSlowdown = distanceToDrive > 20;
+
     this.power = 0;
     this.lastPosition.x = Robot.positionTracker.getX();
     this.lastPosition.y = Robot.positionTracker.getY();
@@ -60,7 +64,11 @@ public class DriveToVisionTapeTwo extends Command {
     this.targetDistance -= distanceMoved;
     double distanceRemaining = targetDistance - delivery.getStopDistance();
     SmartDashboard.putNumber("Vision/distanceRemaining", distanceRemaining);
-    power = MathUtil.clamp(distanceRemaining / SLOW_DOWN_DISTANCE, minDrivePower, maxDrivePower);
+    if (this.needsSlowdown) {
+      power = MathUtil.clamp(distanceRemaining / SLOW_DOWN_DISTANCE, minDrivePower, maxDrivePower);
+    } else {
+      power = maxDrivePower;
+    }
     Robot.drive.driveOnHeadingExecute(power);
 
     this.lastPosition.x = Robot.positionTracker.getX();
