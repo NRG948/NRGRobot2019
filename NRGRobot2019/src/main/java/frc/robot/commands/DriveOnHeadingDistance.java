@@ -35,14 +35,18 @@ public class DriveOnHeadingDistance extends Command {
     double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
     double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
     double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
-    this.distancePID.setPID(p, i, d).setSetpoint(this.distanceToDrive).setAbsoluteTolerance(this.tolerance).start();
+    this.distancePID.setPID(p, i, d)
+      .setSetpoint(this.distanceToDrive)
+      .setAbsoluteTolerance(this.tolerance)
+      .start();
     this.origin = Robot.positionTracker.getPosition();
+    this.cyclesOnTarget = 0;
   }
 
   @Override
   protected void execute() {
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
-    double factor = this.distancePID.update(this.distanceToDrive - distanceTraveled);
+    double factor = this.distancePID.update(distanceTraveled);
     double revisedPower = this.maxPower * factor;
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);

@@ -17,6 +17,7 @@ import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.DriveToVisionTapeThree;
 import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
@@ -124,7 +125,7 @@ public class OI {
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
     gearShiftButton.whenReleased(new GearShift(Gear.LOW));
 
-    driveToVisionCargo.whenPressed(new DriveToVisionTape(Deliver.Cargo));
+    driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(Deliver.Hatch));
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
