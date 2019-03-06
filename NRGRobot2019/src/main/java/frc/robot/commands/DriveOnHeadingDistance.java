@@ -33,9 +33,9 @@ public class DriveOnHeadingDistance extends Command {
     this.tolerance = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
     Robot.drive.driveOnHeadingInit(this.heading);
 
-    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P)/12;
-    double i = (Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I)/12)*50;
-    double d =(Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D)/12)/50;
+    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
+    double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
+    double d =Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
     this.distancePID.setPID(p, i, d)
       .setSetpoint(this.distanceToDrive)
       .setAbsoluteTolerance(this.tolerance)
