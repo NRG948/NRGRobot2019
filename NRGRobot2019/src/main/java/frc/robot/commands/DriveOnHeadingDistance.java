@@ -15,6 +15,7 @@ public class DriveOnHeadingDistance extends Command {
   private double heading;
   private double tolerance;
   private Point origin;
+  private static final double GO_SLOW_INCHES = 12.0; 
 
   private SimplePIDController distancePID = new SimplePIDController(0, 0, 0);
   private int cyclesOnTarget;
@@ -34,7 +35,7 @@ public class DriveOnHeadingDistance extends Command {
 
     double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
     double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
-    double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
+    double d =Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
     this.distancePID.setPID(p, i, d)
       .setSetpoint(this.distanceToDrive)
       .setAbsoluteTolerance(this.tolerance)
@@ -52,7 +53,7 @@ public class DriveOnHeadingDistance extends Command {
     SmartDashboard.putNumber("DistancePID/Error", error);
     if (Math.abs(error) < tolerance) {
       revisedPower = 0.0;
-    } else if (Math.abs(error) < 1.0) {
+    } else if (Math.abs(error) < GO_SLOW_INCHES) {
       revisedPower = 0.3 * Math.signum(error);
     }
     SmartDashboard.putNumber("DistancePID/Revised Power", revisedPower);
