@@ -14,6 +14,7 @@ public class ActivateClimberPistons extends Command {
 
   public ActivateClimberPistons(boolean extend) {
     requires(Robot.climberArms);
+    //requires(Robot.climberPistons);
     this.extend = extend;
   }
 
@@ -24,6 +25,7 @@ public class ActivateClimberPistons extends Command {
 
   @Override
   protected void execute() {
+    // Robot.climberPistons.activate(extend);
     // Robot.climberArms.activate(extend);
   }
 
