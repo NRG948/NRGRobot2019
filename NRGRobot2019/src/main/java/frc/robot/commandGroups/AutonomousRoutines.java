@@ -53,8 +53,9 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
+      String basepath = getPathWeaverFileName(autoStartingPosition, autoMovement);
       addSequential(new GearShift(Gear.HIGH));
-      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition, autoMovement)));
+      addSequential(new FollowPathWeaverFile(basepath + ".left.pf1.csv", basepath + ".right.pf1.csv"));
       addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new DeliverHatch());
       break;
@@ -65,11 +66,12 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
+      String basepath = getPathWeaverFileName(autoMovement, autoFeederPosition);
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       addSequential(
           new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, TURN_POWER));
-          System.out.println("Gyro heading " + RobotMap.navx.getAngle());
-      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
+      System.out.println("Gyro heading " + RobotMap.navx.getAngle());
+      addSequential(new FollowPathWeaverFile(basepath + ".left.pf1.csv", basepath + ".right.pf1.csv"));
       addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new PickupHatch());
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
@@ -82,7 +84,8 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
-      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoFeederPosition, autoMovement2)));
+      String basepath = getPathWeaverFileName(autoFeederPosition, autoMovement2);
+      addSequential(new FollowPathWeaverFile(basepath + ".left.pf1.csv", basepath + ".right.pf1.csv"));
       addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new DeliverHatch());
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
@@ -103,6 +106,6 @@ public class AutonomousRoutines extends CommandGroup {
   }
 
   private String getPathWeaverFileName(String from, String to) {
-    return "output/" + from + "_TO_" + to + ".pf1.csv";
+    return "output/" + from + "_TO_" + to;
   }
 }

@@ -11,7 +11,6 @@ import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
-import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
@@ -131,7 +130,7 @@ public class OI {
 
     testAutoPath.whenPressed(new InstantCommand(() -> {
       String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
-      new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
+      new FollowPathWeaverFile("output/" + pathname + ".left.pf1.csv", "output/" + pathname + ".right.pf1.csv").start();
     }));
 
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());

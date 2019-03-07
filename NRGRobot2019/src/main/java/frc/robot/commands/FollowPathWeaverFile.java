@@ -12,8 +12,8 @@ import jaci.pathfinder.Trajectory;
  */
 public class FollowPathWeaverFile extends FollowTrajectory {
 
-  public FollowPathWeaverFile(String filename) {
-    super(LoadTrajectoryFromCsvFile(filename));
+  public FollowPathWeaverFile(String left, String right) {
+    super(LoadTrajectoryFromCsvFile(left), LoadTrajectoryFromCsvFile(right));
     requires(Robot.drive); // this command only uses the drive subsystem
   }
 

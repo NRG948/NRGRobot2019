@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
-import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.subsystems.Arm;
@@ -281,7 +280,7 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DriveToVisionTape.DEFAULT_MIN_DRIVE_POWER);
       preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DriveToVisionTape.DEFAULT_MAX_DRIVE_POWER);
 
-      preferences.putString(PreferenceKeys.TEST_PATH_NAME, TestAutoPaths.DEFAULT_TEST_PATH);
+      preferences.putString(PreferenceKeys.TEST_PATH_NAME, "LEFT_TO_CARGO_FRONT_LEFT_HATCH");
 
       // preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
       preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, false);

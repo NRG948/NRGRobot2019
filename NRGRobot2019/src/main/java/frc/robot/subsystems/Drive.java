@@ -125,14 +125,20 @@ public class Drive extends Subsystem {
     this.drivePIDController = null;
   }
 
-  public void followTrajectoryInit(Trajectory pathName) {
+  public void followTrajectoryInit(Trajectory center) {
+    TankModifier modifier = new TankModifier(center).modify(DRIVE_WHEEL_BASE);
+    followTrajectoryInit(modifier.getLeftTrajectory(), modifier.getRightTrajectory());
+  }
+  
+  public void followTrajectoryInit(Trajectory left, Trajectory right){
     double p = Robot.preferences.getDouble(PreferenceKeys.PATH_P_TERM, DEFAULT_PATH_P);
     double i = Robot.preferences.getDouble(PreferenceKeys.PATH_I_TERM, DEFAULT_PATH_I);
     double d = Robot.preferences.getDouble(PreferenceKeys.PATH_D_TERM, DEFAULT_PATH_D);
 
-    TankModifier modifier = new TankModifier(pathName).modify(DRIVE_WHEEL_BASE);
-    this.leftFollower = new DistanceFollower(modifier.getRightTrajectory());
-    this.rightFollower = new DistanceFollower(modifier.getLeftTrajectory());
+    // pathweaver generates the paths reversed
+    this.leftFollower = new DistanceFollower(right);
+    this.rightFollower = new DistanceFollower(left);
+
     this.leftFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
     this.rightFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
     leftStart = RobotMap.driveLeftEncoder.getDistance();
