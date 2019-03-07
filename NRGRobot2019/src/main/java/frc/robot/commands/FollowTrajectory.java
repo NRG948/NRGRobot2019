@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.opencv.core.Point;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import jaci.pathfinder.Trajectory;
@@ -18,7 +20,8 @@ public class FollowTrajectory extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("Follow Trajectory Init");
+    Point position = Robot.positionTracker.getPosition();
+    System.out.println(String.format("Follow Trajectory Init: x = %.1f, y = %.1f", position.x,position.y));
     if (trajectory != null) {
       Robot.drive.followTrajectoryInit(trajectory);
     }
@@ -41,8 +44,8 @@ public class FollowTrajectory extends Command {
     if (trajectory != null) {
       Robot.drive.followTrajectoryEnd();
     }
-    System.out.println("Follow Trajectory End");
-  }
+    Point position = Robot.positionTracker.getPosition();
+    System.out.println(String.format("Follow Trajectory End: x = %.1f, y = %.1f", position.x,position.y));  }
 
   @Override
   protected void interrupted() {
