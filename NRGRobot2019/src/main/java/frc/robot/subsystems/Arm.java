@@ -24,7 +24,7 @@ import frc.robot.utilities.SimplePIDController;
  * Subsystem which controls the arm movement.
  */
 public class Arm extends Subsystem {
-  private static final int DEAD_BAND_RANGE = 100;
+  private static final int DEAD_BAND_RANGE = 200;
   public static final double DEFAULT_ARM_MAX_POWER = 0.5;
   public static final double DEFAULT_HOLD_ARM_LEVEL = 0.2;
   public static final double DEFAULT_ARM_P = 0.01;
@@ -85,20 +85,19 @@ public class Arm extends Subsystem {
   }
 
   private void rawMoveArm(double power) {
-    /*if (power > 0) {
+    if (power > 0) {
       if (atBackLimit()) {
         power = 0;
       }
-    } else {
-      if (atFrontLimit()) {
-        power = 0;
-      }
-    }*/
-    //MAKE SURE TO UNCOMMENT
+     } //else {
+    //   if (atFrontLimit()) {
+    //     power = 0;
+    //   }
+    // }
     rawOutputWidget.getEntry().setDouble(power);
 
     if (power != 0) {
-      // power = adjustPowerForGravity(power);
+      //power = adjustPowerForGravity(power);
       RobotMap.armMotor.set(power);
     } else {
       stop();
@@ -146,7 +145,7 @@ public class Arm extends Subsystem {
     double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
     // if arm is stowed, don't run PID
-    if (armTicks < DEAD_BAND_RANGE && armPIDControllerOnTarget()) {
+    if (armTicks < DEAD_BAND_RANGE && pidController.getSetpoint() < DEAD_BAND_RANGE) {
       armPIDOutput = 0;
     }
     pidOutputWidget.getEntry().setDouble(armPIDOutput);
