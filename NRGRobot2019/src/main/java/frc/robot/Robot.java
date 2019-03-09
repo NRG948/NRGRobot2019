@@ -248,13 +248,17 @@ public class Robot extends TimedRobot {
     if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
       preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
+      preferences.putBoolean(PreferenceKeys.TELEOP_SQUARE_INPUTS, true);
+
       preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
       preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
       preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
+      preferences.putBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
       preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
       preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
+      preferences.putBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
       preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
@@ -264,6 +268,7 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
       preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
       preferences.putDouble(PreferenceKeys.PATH_D_TERM, Drive.DEFAULT_PATH_D);
+      preferences.putBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
