@@ -26,17 +26,16 @@ public class Drive extends Subsystem {
    *
    */
 
-  
   public static final double DEFAULT_TURN_P = 0.081;
   public static final double DEFAULT_TURN_I = 0.00016;
   public static final double DEFAULT_TURN_D = 0.0072;
   private static final boolean DEFAULT_TURN_SQUARE_INPUTS = true;
-  
+
   public static final double DEFAULT_DRIVE_P = 0.081;
   public static final double DEFAULT_DRIVE_I = 0.00016;
   public static final double DEFAULT_DRIVE_D = 0.0072;
   private static final boolean DEFAULT_DRIVE_SQUARE_INPUTS = true;
-  
+
   public static final double DEFAULT_DISTANCE_DRIVE_P = 0.04;
   public static final double DEFAULT_DISTANCE_DRIVE_I = 0.042;
   public static final double DEFAULT_DISTANCE_DRIVE_D = 0.0025;
@@ -86,7 +85,11 @@ public class Drive extends Subsystem {
     double d = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
     this.turnPIDController = new SimplePIDController(p, i, d).setSetpoint(desiredHeading)
         .setAbsoluteTolerance(tolerance);
-    this.turnSquareInputs = Robot.preferences.getBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, DEFAULT_TURN_SQUARE_INPUTS);
+    this.turnSquareInputs = areTurnInputsSquared();
+  }
+
+  public boolean areTurnInputsSquared() {
+    return Robot.preferences.getBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, DEFAULT_TURN_SQUARE_INPUTS);
   }
 
   public void turnToHeadingExecute(double maxPower) {
@@ -109,7 +112,11 @@ public class Drive extends Subsystem {
     double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, DEFAULT_DRIVE_D);
     this.drivePIDController = new SimplePIDController(p, i, d).setSetpoint(currentHeading).setAbsoluteTolerance(0);
     setCurrentHeading(currentHeading);
-    this.driveSquareInputs = Robot.preferences.getBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, DEFAULT_DRIVE_SQUARE_INPUTS);
+    this.driveSquareInputs = areDriveInputsSquared();
+  }
+
+  public boolean areDriveInputsSquared() {
+    return Robot.preferences.getBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, DEFAULT_DRIVE_SQUARE_INPUTS);
   }
 
   public void driveOnHeadingExecute(double power, double heading) {
@@ -151,7 +158,8 @@ public class Drive extends Subsystem {
     this.rightFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
     leftStart = RobotMap.driveLeftEncoder.getDistance();
     rightStart = RobotMap.driveRightEncoder.getDistance();
-    this.pathsSquareInputs = Robot.preferences.getBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS, DEFAULT_PATHS_SQUARE_INPUTS);
+    this.pathsSquareInputs = Robot.preferences.getBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS,
+        DEFAULT_PATHS_SQUARE_INPUTS);
   }
 
   public void followTrajectoryExecute() {
