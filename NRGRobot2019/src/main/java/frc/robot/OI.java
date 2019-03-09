@@ -53,19 +53,21 @@ public class OI {
   // assign each side of joystick to a port
   private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); // TBD
+  private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
   private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
   private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
   private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9);
   private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-  private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
 
   private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
   private JoystickButton driveToVisionCargo = new JoystickButton(rightJoystick, 2);
   private JoystickButton deliverToVisionHatch = new JoystickButton(rightJoystick, 3);
   private JoystickButton pickupToVisionHatch = new JoystickButton(rightJoystick, 4);
-  private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 8);
+  private JoystickButton extendClimberPiston = new JoystickButton(rightJoystick, 7);
+  private JoystickButton retractClimberPiston = new JoystickButton(rightJoystick, 8);
   private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
+  private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 10);
   private JoystickButton cameraLightOn = new JoystickButton(rightJoystick, 11);
   private JoystickButton cameraLightOff = new JoystickButton(rightJoystick, 12);
 
@@ -129,15 +131,18 @@ public class OI {
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
+    
     testAutoPath.whenPressed(new InstantCommand(() -> {
       String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
       new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
     }));
-
+    
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
-
+    
     // climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
     // climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
+    extendClimberPiston.whenPressed(new ActivateClimberPistons(true));
+    retractClimberPiston.whenPressed(new ActivateClimberPistons(false));
 
     testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
     testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
