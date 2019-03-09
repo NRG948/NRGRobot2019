@@ -54,7 +54,7 @@ public class AutonomousRoutines extends CommandGroup {
     System.out.println("Auto Movement 2 is : " + autoMovement2);
     System.out.println("Auto Habitat level is: " + habLevel);
 
-    if (habLevel == HabitatLevel.LEVEL_1) {
+    if (habLevel != HabitatLevel.LEVEL_1) {
       addSequential(new DriveStraightDistance(40, drivePower));
     }
 
