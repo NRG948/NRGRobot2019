@@ -85,7 +85,7 @@ public class Arm extends Subsystem {
   }
 
   private void rawMoveArm(double power) {
-    if (power > 0) {
+    /*if (power > 0) {
       if (atBackLimit()) {
         power = 0;
       }
@@ -93,8 +93,8 @@ public class Arm extends Subsystem {
       if (atFrontLimit()) {
         power = 0;
       }
-    }
-
+    }*/
+    //MAKE SURE TO UNCOMMENT
     rawOutputWidget.getEntry().setDouble(power);
 
     if (power != 0) {

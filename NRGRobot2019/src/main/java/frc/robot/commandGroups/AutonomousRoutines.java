@@ -2,6 +2,7 @@ package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.OI;
+import frc.robot.RobotMap;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.AutoFeederPosition;
@@ -18,9 +19,9 @@ public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
   public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
-  private static final double DRIVE_POWER = 0.7;
+  private static final double DRIVE_POWER = 0.8;
   private static final double TURN_POWER = 1.0;
-  private static final double VISION_DELAY = 0.5;
+  private static final double VISION_DELAY = 0.25;
 
   private AutoMovement autoMovement;
   private AutoStartingPosition autoStartingPosition;
@@ -61,13 +62,13 @@ public class AutonomousRoutines extends CommandGroup {
 
     switch (autoFeederPosition) {
     case NONE:
-      addSequential(new GearShift(Gear.LOW));
       return;
 
     default:
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       addSequential(
           new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, TURN_POWER));
+          System.out.println("Gyro heading " + RobotMap.navx.getAngle());
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
       addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new PickupHatch());
@@ -78,7 +79,6 @@ public class AutonomousRoutines extends CommandGroup {
 
     switch (autoMovement2) {
     case NONE:
-      addSequential(new GearShift(Gear.LOW));
       return;
 
     default:
@@ -88,7 +88,6 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       break;
     }
-    addSequential(new GearShift(Gear.LOW));
   }
 
   private String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {
