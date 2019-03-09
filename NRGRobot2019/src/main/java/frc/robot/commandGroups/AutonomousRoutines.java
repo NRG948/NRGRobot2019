@@ -5,6 +5,7 @@ import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.Robot.HabitatLevel;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;
@@ -23,11 +24,6 @@ public class AutonomousRoutines extends CommandGroup {
   private static final double TURN_POWER = 1.0;
   private static final double VISION_DELAY = 0.25;
 
-  private AutoMovement autoMovement;
-  private AutoStartingPosition autoStartingPosition;
-  private AutoFeederPosition autoFeederPosition;
-  private AutoMovement autoMovement2;
-
   /**
    * Read autonomous choosers and build a command group to perform the desired
    * autonomous routine
@@ -35,14 +31,20 @@ public class AutonomousRoutines extends CommandGroup {
   public AutonomousRoutines() {
     // addSequential(new SetDriveScale(Drive.SCALE_LOW));
 
-    autoMovement = OI.getAutoMovement();
-    autoStartingPosition = OI.getAutoStartingPosition();
-    autoFeederPosition = OI.getAutoStationPosition();
-    autoMovement2 = OI.getAutoMovement2();
+    AutoMovement autoMovement = OI.getAutoMovement();
+    AutoStartingPosition autoStartingPosition = OI.getAutoStartingPosition();
+    AutoFeederPosition autoFeederPosition = OI.getAutoStationPosition();
+    AutoMovement autoMovement2 = OI.getAutoMovement2();
+    HabitatLevel habLevel = OI.getAutoHabitatLevel();
     System.out.println("Auto Movement is : " + autoMovement);
     System.out.println("Auto Position is : " + autoStartingPosition);
     System.out.println("Auto Station position is " + autoFeederPosition);
     System.out.println("Auto Movement 2 is : " + autoMovement2);
+    System.out.println("Auto Habitat level is: " + habLevel);
+
+    if (habLevel == HabitatLevel.LEVEL_1) {
+      addSequential(new DriveStraightDistance(40, DRIVE_POWER));
+    }
 
     switch (autoMovement) {
     case NONE:
@@ -68,7 +70,7 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(6, -DRIVE_POWER));
       addSequential(
           new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, TURN_POWER));
-          System.out.println("Gyro heading " + RobotMap.navx.getAngle());
+      System.out.println("Gyro heading " + RobotMap.navx.getAngle());
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
       addSequential(new DelaySeconds(VISION_DELAY));
       addSequential(new PickupHatch());

@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
   public static SendableChooser<AutoMovement> autoMovementChooser;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
   public static SendableChooser<AutoMovement> autoMovement2Chooser;
+  public static SendableChooser<HabitatLevel> habLevelChooser;
 
   public enum AutoStartingPosition {
     LEFT, CENTER, RIGHT
@@ -76,6 +77,10 @@ public class Robot extends TimedRobot {
 
   public enum AutoMovement {
     NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+  }
+
+  public enum HabitatLevel {
+    LEVEL_1, LEVEL_2
   }
 
   public static Boolean isPracticeBot() {
@@ -130,6 +135,10 @@ public class Robot extends TimedRobot {
     autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
+    habLevelChooser = new SendableChooser<HabitatLevel>();
+    habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
+    habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
+
     // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
     // 3);
 
@@ -142,7 +151,8 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3)
         .withSize(4, 1);
-
+    autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0).withSize(2, 1);
+    
     arm.initShuffleboard();
 
     System.out.println("robotInit() done");

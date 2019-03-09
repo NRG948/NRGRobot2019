@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.Robot.HabitatLevel;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
 import frc.robot.commandGroups.TestAutoPaths;
@@ -194,5 +195,9 @@ public class OI {
 
   public static AutoFeederPosition getAutoStationPosition() {
     return Robot.autoStationPositionChooser.getSelected();
+  }
+
+  public static HabitatLevel getAutoHabitatLevel(){
+    return Robot.habLevelChooser.getSelected();
   }
 }
