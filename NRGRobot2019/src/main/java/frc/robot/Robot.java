@@ -154,7 +154,7 @@ public class Robot extends TimedRobot {
     autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0).withSize(2, 1);
     
     arm.initShuffleboard();
-
+    climberPistons.activate(false);
     System.out.println("robotInit() done");
   }
 
