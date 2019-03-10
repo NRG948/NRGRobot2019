@@ -187,6 +187,8 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("Vision/centerX", center.x);
       SmartDashboard.putNumber("Vision/centerY", center.y);
     }
+
+    SmartDashboard.putBoolean("Hatch/DefenseOK", Robot.hatchClaw.isOpen() && Robot.hatchExtension.isRetracted());
   }
 
   /**

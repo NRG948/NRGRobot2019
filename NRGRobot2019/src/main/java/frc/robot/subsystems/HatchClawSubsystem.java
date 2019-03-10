@@ -11,23 +11,29 @@ import frc.robot.commands.HatchClaw;
  * A Subsystem to control Hatch claw to secure the hatches.
  */
 public class HatchClawSubsystem extends Subsystem {
-
+  private State state;
+  
   public enum State {
     OPEN, CLOSE;
   }
 
   @Override
   public void initDefaultCommand() {
+    state = State.OPEN;
     // setDefaultCommand(new HatchClaw(State.OPEN));
   }
 
   public void setClawOpen() {
     RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kReverse : Value.kForward);
-    SmartDashboard.putBoolean("Hatch Claw/State", true);
+    state = State.OPEN;
   }
 
   public void setClawClose() {
     RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kForward : Value.kReverse);
-    SmartDashboard.putBoolean("Hatch Claw/State", false);
+    state = State.CLOSE;
+  }
+
+  public boolean isOpen() {
+    return state == State.OPEN;
   }
 }
