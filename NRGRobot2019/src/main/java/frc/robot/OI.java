@@ -50,15 +50,15 @@ public class OI {
 
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
-  private XboxController xboxController = new XboxController(2);
+  public XboxController xboxController = new XboxController(2);
   // assign each side of joystick to a port
   private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); // TBD
-  private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
-  private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
-  private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
-  private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9);
-  private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
+  // private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
+  // private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
+  // private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
+  // private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9);
+  // private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 
   private JoystickButton gearShiftButton = new JoystickButton(rightJoystick, 1);
@@ -67,7 +67,7 @@ public class OI {
   private JoystickButton pickupToVisionHatch = new JoystickButton(rightJoystick, 4);
   private JoystickButton extendClimberPiston = new JoystickButton(rightJoystick, 7);
   private JoystickButton retractClimberPiston = new JoystickButton(rightJoystick, 8);
-  private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
+  // private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 10);
   private JoystickButton cameraLightOn = new JoystickButton(rightJoystick, 11);
   private JoystickButton cameraLightOff = new JoystickButton(rightJoystick, 12);
@@ -133,10 +133,10 @@ public class OI {
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
     
-    testAutoPath.whenPressed(new InstantCommand(() -> {
-      String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
-      new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
-    }));
+    // testAutoPath.whenPressed(new InstantCommand(() -> {
+    //   String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+    //   new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
+    // }));
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
     
@@ -145,10 +145,10 @@ public class OI {
     extendClimberPiston.whenPressed(new ActivateClimberPistons(true));
     retractClimberPiston.whenPressed(new ActivateClimberPistons(false));
 
-    testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
-    testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
-    testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
-    testButton4.whenPressed(new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
+    // testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
+    // testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
+    // testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
+    // testButton4.whenPressed(new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
   }
 
   /** Gets the Y value of the left joystick. */

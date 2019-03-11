@@ -189,6 +189,8 @@ public class Robot extends TimedRobot {
     }
 
     SmartDashboard.putBoolean("Hatch/DefenseOK", Robot.hatchClaw.isOpen() && Robot.hatchExtension.isRetracted());
+    SmartDashboard.putNumber("Trigger/Right", Robot.oi.xboxController.getRawAxis(2));
+    SmartDashboard.putNumber("Trigger/Left", Robot.oi.xboxController.getRawAxis(3));
   }
 
   /**

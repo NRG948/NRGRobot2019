@@ -72,7 +72,7 @@ public class AutonomousRoutines extends CommandGroup {
       // autoMovement)));
       switch (autoStartingPosition) {
       case LEFT:
-        addSequential(new DriveOnHeadingDistance(19.0, 100.0, drivePower));
+        addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
         addSequential(new TurnToHeading(0, turnPower));
         break;
 
@@ -82,7 +82,7 @@ public class AutonomousRoutines extends CommandGroup {
         break;
 
       case RIGHT:
-        addSequential(new DriveOnHeadingDistance(-19.0, 100.0, drivePower));
+        addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
         addSequential(new TurnToHeading(0, turnPower));
         break;
       }
