@@ -126,7 +126,7 @@ public class OI {
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
     gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
-    gearShiftButton.whenReleased(new GearShift(Gear.LOW));
+    gearShiftButton.whenPressed(new GearShift(Gear.LOW));
 
     driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(Deliver.Hatch));
     deliverToVisionHatch.whenPressed(new DeliverHatch());
