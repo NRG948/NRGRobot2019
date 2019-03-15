@@ -46,7 +46,6 @@ import frc.robot.utilities.PreferenceKeys;
  */
 public class OI {
 
-  public static final String DEFAULT_TEST_PATH = "LEFT_TO_CARGO_FRONT_LEFT_HATCH";
 
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
@@ -135,10 +134,7 @@ public class OI {
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
     
-    // testAutoPath.whenPressed(new InstantCommand(() -> {
-    //   String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
-    //   new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
-    // }));
+    
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
     

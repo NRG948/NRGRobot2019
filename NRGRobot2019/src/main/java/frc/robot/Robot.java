@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -20,6 +21,7 @@ import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberRear;
@@ -41,6 +43,8 @@ import frc.robot.utilities.VisionTargets;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static final String DEFAULT_TEST_PATH = "LEFT_TO_CARGO_FRONT_LEFT_HATCH";
+
   public static OI oi;
 
   public static Gearbox gearbox;
@@ -154,6 +158,12 @@ public class Robot extends TimedRobot {
     autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0).withSize(2, 1);
     
     arm.initShuffleboard();
+
+    ShuffleboardTab testTab = Shuffleboard.getTab("Test");
+    testTab.add("Test Path", (new InstantCommand(() -> {
+      String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+      new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
+    })));
     climberPistons.activate(false);
     System.out.println("robotInit() done");
   }
