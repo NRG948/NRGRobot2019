@@ -81,6 +81,10 @@ public class OI {
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
 
   OI() {
+    gearShiftButton.whenPressed(new InstantCommand(() -> {
+      Robot.gearbox.toggleGears();
+    }));
+    
     resetSensorsButton.whenPressed(new InstantCommand(() -> {
       RobotMap.resetSensors();
     }));
@@ -125,8 +129,6 @@ public class OI {
     driveStraightDistanceButton.whenPressed(new DriveStraightDistance(120, 0.7));
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
-    gearShiftButton.whenPressed(new GearShift(Gear.HIGH));
-    gearShiftButton.whenPressed(new GearShift(Gear.LOW));
 
     driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(Deliver.Hatch));
     deliverToVisionHatch.whenPressed(new DeliverHatch());
