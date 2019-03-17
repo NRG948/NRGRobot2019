@@ -163,16 +163,30 @@ public class Drive extends Subsystem {
   }
 
   public void followTrajectoryExecute() {
+    double leftPostion = leftFollower.getSegment().position;
+    double rightPosition = rightFollower.getSegment().position;
     double leftEncoder = RobotMap.driveLeftEncoder.getDistance() - leftStart;
-    double left = this.leftFollower.calculate(leftEncoder);
     double rightEncoder = RobotMap.driveRightEncoder.getDistance() - rightStart;
-    double right = this.rightFollower.calculate(rightEncoder);
     double currentHeading = RobotMap.navx.getAngle();
     double desiredHeading = Math.toDegrees(this.leftFollower.getHeading());
     double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - currentHeading);
-    double turn = 1.25 * (1.0 / 80.0) * angleDifference;
+    double turn = 2.50 * (1.0 / 80.0) * angleDifference;
+    double left = this.leftFollower.calculate(leftEncoder);
+    double right = this.rightFollower.calculate(rightEncoder);
+    left += turn;
+    right -= turn;
+    // we divide left and right by max because we dont want the max value to go
+    // above 1.0
+    double max = Math.max(left, right);
+    if (max > 1.0) {
+      left = left / max;
+      right = right / max;
+    }
 
-    tankDrive(left + turn, right - turn, this.pathsSquareInputs);
+    tankDrive(left, right, this.pathsSquareInputs);
+  //   System.out.println(String.format(
+  //       "l: %.2f r: %.2f t: %.2f le: %.2f re: %.2f lp: %.2f rp: %.2f ch: %.1f dh: %.1f ad: %.1f", left, right, turn,
+  //       leftEncoder, rightEncoder, leftPostion, rightPosition, currentHeading, desiredHeading, angleDifference));
   }
 
   public boolean followTrajectoryIsFinished() {

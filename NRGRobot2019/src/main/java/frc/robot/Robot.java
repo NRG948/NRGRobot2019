@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -61,12 +62,13 @@ public class Robot extends TimedRobot {
   // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public static Preferences preferences;
+  public static Watchdog watchdog = new Watchdog(0.02, ()->{});
 
-  public static VisionTargets visionTargets;
-
+  
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
+  public static VisionTargets visionTargets;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
   public static SendableChooser<AutoMovement> autoMovement2Chooser;
   public static SendableChooser<HabitatLevel> habLevelChooser;
@@ -155,15 +157,17 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3)
         .withSize(4, 1);
-    autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0).withSize(2, 1);
-    
+    autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0)
+        .withSize(2, 1);
+
     arm.initShuffleboard();
 
     ShuffleboardTab testTab = Shuffleboard.getTab("Test");
     testTab.add("Test Path", (new InstantCommand(() -> {
       String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
       new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
-    })));
+    }))).withSize(2, 1).withPosition(0, 0);
+    testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
     climberPistons.activate(false);
     System.out.println("robotInit() done");
   }
@@ -234,10 +238,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    watchdog.reset();
     positionTracker.updatePosition();
+    watchdog.addEpoch("position tracker");
     visionTargets.update();
+    watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
+    watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
+    watchdog.addEpoch("scheduler");
+    if (watchdog.isExpired()) {
+      watchdog.printEpochs();
+    }
   }
 
   @Override

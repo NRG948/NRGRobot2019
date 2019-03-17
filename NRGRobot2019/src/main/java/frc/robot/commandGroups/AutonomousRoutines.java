@@ -15,6 +15,7 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.TurnToHeading;
+import frc.robot.commands.WaitForNewVisionData;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.utilities.Deliver;
 
@@ -55,7 +56,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     addSequential(new GearShift(Gear.HIGH));
     if (habLevel != HabitatLevel.LEVEL_1) {
-      addSequential(new DriveStraightDistance(40, drivePower));
+      addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
     switch (autoMovement) {
@@ -67,26 +68,26 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
-      // addSequential(new
-      // FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
-      // autoMovement)));
-      switch (autoStartingPosition) {
-      case LEFT:
-        addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
-        addSequential(new TurnToHeading(0, turnPower));
-        break;
+      addSequential(new
+      FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
+      autoMovement)));
+      // switch (autoStartingPosition) {
+      // case LEFT:
+      //   addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
+      //   addSequential(new TurnToHeading(0, turnPower));
+      //   break;
 
-      case CENTER:
-        addSequential(
-            new DriveOnHeadingDistance(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
-        break;
+      // case CENTER:
+      //   addSequential(
+      //       new DriveOnHeadingDistance(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
+      //   break;
 
-      case RIGHT:
-        addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
-        addSequential(new TurnToHeading(0, turnPower));
-        break;
-      }
-      addSequential(new DelaySeconds(VISION_DELAY));
+      // case RIGHT:
+      //   addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
+      //   addSequential(new TurnToHeading(0, turnPower));
+      //   break;
+      // }
+      addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
       break;
     }
@@ -100,7 +101,7 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, turnPower));
       System.out.println("Gyro heading " + RobotMap.navx.getAngle());
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
-      addSequential(new DelaySeconds(VISION_DELAY));
+      addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());
       addSequential(new DriveStraightDistance(6, -drivePower));
       addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 315 : 45, turnPower));
@@ -113,7 +114,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     default:
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoFeederPosition, autoMovement2)));
-      addSequential(new DelaySeconds(VISION_DELAY));
+      addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
       // addSequential(new DriveStraightDistance(6, -drivePower));
       break;

@@ -35,7 +35,7 @@ public class WaitForNewVisionData extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.visionTargets.getGenCount() != this.genCount;
+    return Robot.visionTargets.getGenCount() != this.genCount && Robot.visionTargets.hasTargets();
   }
 
   // Called once after isFinished returns true

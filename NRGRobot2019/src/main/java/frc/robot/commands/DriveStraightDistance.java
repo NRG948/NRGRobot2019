@@ -13,11 +13,17 @@ public class DriveStraightDistance extends Command {
   private double yOrigin;
   private final double distance;// this is a constant
   private final double maxPower;
+  private final boolean stopMotors;
 
-  public DriveStraightDistance(double distance, double maxPower) {
+  public DriveStraightDistance(double distance, double maxPower, boolean stopMotors) {
     this.requires(Robot.drive);// requires Robot.drive in order to Drive straight
     this.distance = distance;// sets the value of the distance that we want to travel
     this.maxPower = maxPower;// sets the maximum power
+    this.stopMotors = stopMotors;
+  }
+
+  public DriveStraightDistance(double distance, double maxPower) {
+    this(distance, maxPower, true);
   }
 
   @Override
@@ -45,7 +51,9 @@ public class DriveStraightDistance extends Command {
 
   @Override
   protected void end() {
-    Robot.drive.driveOnHeadingEnd();
+    if (stopMotors) {
+      Robot.drive.driveOnHeadingEnd();
+    }
     System.out.println("DriveStraightDistance End");
   } // terminated the command as the robot has reached the distance that needs to be
     // traveled or if it needs to be interrupted
