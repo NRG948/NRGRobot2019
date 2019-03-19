@@ -47,6 +47,9 @@ public class RobotMap {
   public static Victor cargoAcquirerMotor;
   public static Victor climberRearMotor;
   public static Victor climberArmsMotor;
+  public static Victor climberArmLeftWheelMotor;
+  public static Victor climberArmRightWheelMotor;
+
   public static Encoder armEncoder;
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
@@ -84,6 +87,9 @@ public class RobotMap {
     climberRearMotor = new Victor(2);
     // climberArmsMotor = new Victor(4);
     cargoAcquirerMotor = new Victor(1);
+    climberArmLeftWheelMotor = new Victor(4);
+    climberArmRightWheelMotor = new Victor(5);
+
 
     climberRearMotor.setInverted(true);
     armMotor.setInverted(true);

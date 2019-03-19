@@ -10,18 +10,10 @@ package frc.robot.utilities;
 import frc.robot.Robot;
 
 /**
- * Add your docs here.
+ * Defines enums for all robot preferences.
  */
 public class Preferences {
 
-    private static final boolean DEFAULT_DRIVE_SQUARE_INPUTS = true;
-    private static final boolean DEFAULT_TURN_SQUARE_INPUTS = true;
-    private static final boolean DEFAULT_PATHS_SQUARE_INPUTS = true;
-    public static final String WRITE_DEFAULT = "WriteDefault";
-    public static final String TURN_SQUARE_INPUTS = "TurnSquareInputs";
-    public static final String TELEOP_SQUARE_INPUTS = "TeleopSquareInputs";
-    public static final String DRIVE_SQUARE_INPUTS = "DriveSquareInputs";
-    public static final String PATHS_SQUARE_INPUTS = "PathsSquareInputs";
     
     public enum NumberPrefs {
         DRIVE_P_TERM("DriveP", 0.081),
@@ -36,17 +28,16 @@ public class Preferences {
         DISTANCE_DRIVE_I_TERM("DistanceDriveI", 0.042),
         DISTANCE_DRIVE_D_TERM("DistanceDriveD", 0.0025),
         DISTANCE_TOLERANCE("DistanceTolerance", 0.75),
-
+        
         PATH_P_TERM("PathP", 0.1),
         PATH_I_TERM("PathI", 0.0),
-        PATH_D_TERM("PathD", 0.0);
-        // PATHS_SQUARE_INPUTS("PathsSquareInputs";
-      
-        // ARM_P_TERM("ArmP";
-        // ARM_I_TERM("ArmI";
-        // ARM_D_TERM("ArmD";
-        // ARM_MAX_POWER("ArmMaxPower";
-      
+        PATH_D_TERM("PathD", 0.0),
+        
+        ARM_P_TERM("ArmP", 0.01),
+        ARM_I_TERM("ArmI", 0.002),
+        ARM_D_TERM("ArmD", 0.001),
+        ARM_MAX_POWER("ArmMaxPower", 0.50);
+        
         // ARM_STOWED_TICKS("ArmStowedTicks";
         // ARM_ACQUIRE_CARGO_TICKS("ArmAcquireCargoTicks";
         // ARM_CARGO_SHIP_TICKS("ArmCargoShipTicks";
@@ -56,21 +47,64 @@ public class Preferences {
         // ARM_INVERSION_TICKS("ArmInversionTicks";
         // ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks";
         // ARM_LEVEL_TICKS("ArmLevelTicks";
-      
+        
         // DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower";
         // DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower";
-      
-        // TEST_PATH_NAME("TestPathName";
-      
+        
         // CLIBMER_REAR_POWER("ClimberRearPower";
         // CLIMBER_ARMS_POWER("ClimberArmsPower";
-      
-        // USING_PRACTICE_BOT("UsingPracticeBot";
-
+        
         private String key;
         private double defaultValue;
-
+        
         NumberPrefs(String key, double defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+        
+        public String getKey() {
+            return key;
+        }
+        
+        public double getValue() {
+            return Robot.preferences.getDouble(key, defaultValue);
+        }
+    }
+    
+    public enum BooleanPrefs {
+        
+        USING_PRACTICE_BOT("UsingPracticeBot", false),
+        PATHS_SQUARE_INPUTS("PathsSquareInputs", false),
+        TURN_SQUARE_INPUTS("TurnSquareInputs", true),
+        TELEOP_SQUARE_INPUTS("TeleopSquareInputs", true),
+        DRIVE_SQUARE_INPUTS("DriveSquareInputs", true);
+        
+        private String key;
+        private boolean defaultValue;
+        
+        BooleanPrefs(String key, boolean defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+        }
+        
+        public String getKey() {
+            return key;
+        }
+        
+        public boolean getValue() {
+            return Robot.preferences.getBoolean(key, defaultValue);
+        }
+    }
+    
+    public enum StringPrefs {
+        
+        TEST_PATH_NAME("TestPathName", "LEFT_TO_CARGO_FRONT_LEFT_HATCH");
+        
+        public static final String WRITE_DEFAULT = "WriteDefault";
+        private String key;
+        private String defaultValue;
+        
+        StringPrefs(String key, String defaultValue) {
             this.key = key;
             this.defaultValue = defaultValue;
         }
@@ -79,11 +113,8 @@ public class Preferences {
             return key;
         }
 
-        public double getValue() {
-            return Robot.preferences.getDouble(key, defaultValue);
+        public String getValue() {
+            return Robot.preferences.getString(key, defaultValue);
         }
-    }
-    void a () {
-
     }
 }
