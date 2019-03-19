@@ -14,7 +14,7 @@ public class DriveOnHeadingDistance extends Command {
    *
    */
 
-  private static final double MIN_DRIVE_POWER = 0.4
+  private static final double MIN_DRIVE_POWER = 0.3
   ;
   private double distanceToDrive;
   private double maxPower;
@@ -45,6 +45,7 @@ public class DriveOnHeadingDistance extends Command {
     this.distancePID.setPID(p, i, d)
       .setSetpoint(this.distanceToDrive)
       .setAbsoluteTolerance(this.tolerance)
+      .setOutputRange(-Math.abs(this.maxPower), Math.abs(this.maxPower))
       .start();
     this.origin = Robot.positionTracker.getPosition();
     this.cyclesOnTarget = 0;
@@ -53,18 +54,17 @@ public class DriveOnHeadingDistance extends Command {
   @Override
   protected void execute() {
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
-    double factor = this.distancePID.update(distanceTraveled);
-    double revisedPower = this.maxPower * factor;
+    double power = this.distancePID.update(distanceTraveled);
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);
     // if (error > 0 && error < tolerance) {
     //   revisedPower = 0.0;
     // } else
      if (error < 0) {
-      revisedPower = MIN_DRIVE_POWER * Math.signum(error);
+      power = MIN_DRIVE_POWER * Math.signum(error);
     }
-    SmartDashboard.putNumber("DistancePID/Revised Power", revisedPower);
-    Robot.drive.driveOnHeadingExecute(revisedPower);
+    SmartDashboard.putNumber("DistancePID/Revised Power", power);
+    Robot.drive.driveOnHeadingExecute(power);
   }
 
   /** Finishes the command if the target distance has been reached */

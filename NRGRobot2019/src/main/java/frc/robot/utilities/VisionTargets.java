@@ -14,6 +14,11 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class VisionTargets {
+  /**
+   *
+   */
+
+  private static final double DISTANCE_THRESHOLD = 100.0;
   private static final String[] NO_TARGETS = new String[0];
   private static final double HALF_IMAGE_FOV = (Math.atan(36.0 / 57.125));
   private static final double DEFAULT_HALF_IMAGE_WIDTH = 480 / 2;
@@ -43,7 +48,7 @@ public class VisionTargets {
   }
 
   public boolean hasTargets() {
-    return !this.targetPairs.isEmpty();
+    return !this.targetPairs.isEmpty() && getDistanceToTarget()<DISTANCE_THRESHOLD;
   }
 
   private TargetPair getDesiredTargets() {
