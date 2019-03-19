@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -66,9 +67,9 @@ public class Robot extends TimedRobot {
   // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public static Preferences preferences;
-  public static Watchdog watchdog = new Watchdog(0.02, ()->{});
+  public static Watchdog watchdog = new Watchdog(0.02, () -> {
+  });
 
-  
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
@@ -172,10 +173,11 @@ public class Robot extends TimedRobot {
       String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
       new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
     }))).withSize(2, 1).withPosition(0, 0);
-    ShuffleboardLayout distanceButtonLayout = testTab.getLayout("Test Distance").withPosition(0, 1).withSize(2, 2);
-    distanceButtonLayout.add(new DriveOnHeadingDistance(0,12,0.7));
-    distanceButtonLayout.add(new DriveOnHeadingDistance(0,24,0.7));
-    distanceButtonLayout.add(new DriveOnHeadingDistance(0,48,0.7));
+    ShuffleboardLayout distanceButtonLayout = testTab.getLayout("Test Distance", BuiltInLayouts.kList)
+        .withPosition(0, 1).withSize(2, 2);
+    distanceButtonLayout.add("12 Inches", new DriveOnHeadingDistance(0, 12, 0.7));
+    distanceButtonLayout.add("24 Inches", new DriveOnHeadingDistance(0, 24, 0.7));
+    distanceButtonLayout.add("48 Inches", new DriveOnHeadingDistance(0, 48, 0.7));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
     climberPistons.activate(false);
     System.out.println("robotInit() done");
