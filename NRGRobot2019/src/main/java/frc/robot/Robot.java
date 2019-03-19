@@ -25,6 +25,7 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
+import frc.robot.subsystems.ClimberArmWheels;
 import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.ClimberArms;
 import frc.robot.subsystems.ClimberPistons;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
   public static Arm arm;
   public static ClimberRear climberRear;
   public static ClimberArms climberArms;
+  public static ClimberArmWheels climberArmWheels;
   public static ClimberPistons climberPistons;
   public static HatchClawSubsystem hatchClaw;
   public static HatchExtensionSubsystem hatchExtension;
@@ -111,6 +113,7 @@ public class Robot extends TimedRobot {
     climberPistons = new ClimberPistons();
     climberRear = new ClimberRear();
     climberArms = new ClimberArms();
+    climberArmWheels = new ClimberArmWheels();
     cargoAcquirer = new CargoAcquirer();
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
