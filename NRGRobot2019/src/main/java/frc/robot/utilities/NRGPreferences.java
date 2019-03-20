@@ -41,6 +41,7 @@ public class NRGPreferences {
         ARM_I_TERM("ArmI", 0.002),
         ARM_D_TERM("ArmD", 0.001),
         ARM_MAX_POWER("ArmMaxPower", 0.50),
+        HOLD_ARM_LEVEL("ArmHoldLevel", 0.2),
         
         ARM_STOWED_TICKS("ArmStowedTicks", 0),
         ARM_ACQUIRE_CARGO_TICKS("ArmAcquireCargoTicks", 280),
