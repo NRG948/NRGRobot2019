@@ -12,7 +12,7 @@ import frc.robot.utilities.PreferenceKeys;
 
 public class DriveToVisionTapeTwo extends Command {
   private static final double CAMERA_SKEW = -0.6;
-  private static final double SLOW_DOWN_DISTANCE = 6;
+  private static final double SLOW_DOWN_DISTANCE = 9;
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.65;
 

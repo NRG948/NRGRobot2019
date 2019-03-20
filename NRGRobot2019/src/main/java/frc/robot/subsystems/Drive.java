@@ -36,9 +36,9 @@ public class Drive extends Subsystem {
   public static final double DEFAULT_DRIVE_D = 0.0072;
   private static final boolean DEFAULT_DRIVE_SQUARE_INPUTS = true;
 
-  public static final double DEFAULT_DISTANCE_DRIVE_P = 0.04;
-  public static final double DEFAULT_DISTANCE_DRIVE_I = 0.042;
-  public static final double DEFAULT_DISTANCE_DRIVE_D = 0.0025;
+  public static final double DEFAULT_DISTANCE_DRIVE_P = 0.03;
+  public static final double DEFAULT_DISTANCE_DRIVE_I = 0.0;
+  public static final double DEFAULT_DISTANCE_DRIVE_D = 0.005;
   public static final double DEFAULT_DISTANCE_TOLERANCE = 0.75;
 
   public static final double DEFAULT_PATH_P = 0.5;
