@@ -36,6 +36,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
+import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.VisionTargets;
@@ -109,6 +110,8 @@ public class Robot extends TimedRobot {
     preferences = Preferences.getInstance();
 
     RobotMap.init();
+    NRGPreferences.init();
+
     // initialize subsystems
     drive = new Drive();
     gearbox = new Gearbox();
@@ -121,7 +124,6 @@ public class Robot extends TimedRobot {
     hatchExtension = new HatchExtensionSubsystem();
 
     oi = new OI();
-    initPreferences();
     visionTargets = new VisionTargets();
 
     autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
@@ -288,54 +290,5 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     positionTracker.updatePosition();
     visionTargets.update();
-  }
-
-  public void initPreferences() {
-    if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
-      preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
-
-      preferences.putBoolean(PreferenceKeys.TELEOP_SQUARE_INPUTS, true);
-
-      preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
-      preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
-      preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
-      preferences.putBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, true);
-
-      preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
-      preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
-      preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
-      preferences.putBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, true);
-
-      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
-      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
-      preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
-      preferences.putDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
-
-      preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
-      preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
-      preferences.putDouble(PreferenceKeys.PATH_D_TERM, Drive.DEFAULT_PATH_D);
-      preferences.putBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS, true);
-
-      preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
-      preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);
-      preferences.putDouble(PreferenceKeys.ARM_D_TERM, Arm.DEFAULT_ARM_D);
-      preferences.putDouble(PreferenceKeys.ARM_MAX_POWER, Arm.DEFAULT_ARM_MAX_POWER);
-
-      preferences.putInt(PreferenceKeys.ARM_STOWED_TICKS, Arm.DEFAULT_ARM_STOWED_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_CARGO_SHIP_TICKS, Arm.DEFAULT_ARM_CARGO_SHIP_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, Arm.DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_MAX_ANGLE_TICKS, Arm.DEFAULT_ARM_MAX_ANGLE_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_INVERSION_TICKS, Arm.DEFAULT_ARM_INVERSION_TICKS);
-      preferences.putInt(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, Arm.DEFAULT_ARM_ACQUIRE_CARGO_TICKS);
-
-      preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER, DriveToVisionTape.DEFAULT_MIN_DRIVE_POWER);
-      preferences.putDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER, DriveToVisionTape.DEFAULT_MAX_DRIVE_POWER);
-
-      preferences.putString(PreferenceKeys.TEST_PATH_NAME, TestAutoPaths.DEFAULT_TEST_PATH);
-
-      // preferences.putBoolean(PreferenceKeys.USE_PHYSICAL_AUTO_CHOOSER, true);
-      preferences.putBoolean(PreferenceKeys.USING_PRACTICE_BOT, false);
-    }
   }
 }
