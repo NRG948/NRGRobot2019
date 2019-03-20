@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
+import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 import jaci.pathfinder.Trajectory;
@@ -80,16 +81,16 @@ public class Drive extends Subsystem {
   }
 
   public void turnToHeadingInit(double desiredHeading, double tolerance) {
-    double p = Robot.preferences.getDouble(PreferenceKeys.TURN_P_TERM, DEFAULT_TURN_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.TURN_I_TERM, DEFAULT_TURN_I);
-    double d = Robot.preferences.getDouble(PreferenceKeys.TURN_D_TERM, DEFAULT_TURN_D);
+    double p = NRGPreferences.NumberPrefs.TURN_P_TERM.getValue();
+    double i = NRGPreferences.NumberPrefs.TURN_I_TERM.getValue();
+    double d = NRGPreferences.NumberPrefs.TURN_D_TERM.getValue();
     this.turnPIDController = new SimplePIDController(p, i, d).setSetpoint(desiredHeading)
         .setAbsoluteTolerance(tolerance);
     this.turnSquareInputs = areTurnInputsSquared();
   }
 
   public boolean areTurnInputsSquared() {
-    return Robot.preferences.getBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, DEFAULT_TURN_SQUARE_INPUTS);
+    return NRGPreferences.BooleanPrefs.TURN_SQUARE_INPUTS.getValue();
   }
 
   public void turnToHeadingExecute(double maxPower) {
@@ -107,16 +108,16 @@ public class Drive extends Subsystem {
   }
 
   public void driveOnHeadingInit(double currentHeading) {
-    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, DEFAULT_DRIVE_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, DEFAULT_DRIVE_I);
-    double d = Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, DEFAULT_DRIVE_D);
+    double p = NRGPreferences.NumberPrefs.DRIVE_P_TERM.getValue();
+    double i = NRGPreferences.NumberPrefs.DRIVE_I_TERM.getValue();
+    double d = NRGPreferences.NumberPrefs.DRIVE_D_TERM.getValue();
     this.drivePIDController = new SimplePIDController(p, i, d).setSetpoint(currentHeading).setAbsoluteTolerance(0);
     setCurrentHeading(currentHeading);
     this.driveSquareInputs = areDriveInputsSquared();
   }
 
   public boolean areDriveInputsSquared() {
-    return Robot.preferences.getBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, DEFAULT_DRIVE_SQUARE_INPUTS);
+    return NRGPreferences.BooleanPrefs.DRIVE_SQUARE_INPUTS.getValue();
   }
 
   public void driveOnHeadingExecute(double power, double heading) {
@@ -147,9 +148,9 @@ public class Drive extends Subsystem {
   }
 
   public void followTrajectoryInit(Trajectory pathName) {
-    double p = Robot.preferences.getDouble(PreferenceKeys.PATH_P_TERM, DEFAULT_PATH_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.PATH_I_TERM, DEFAULT_PATH_I);
-    double d = Robot.preferences.getDouble(PreferenceKeys.PATH_D_TERM, DEFAULT_PATH_D);
+    double p = NRGPreferences.NumberPrefs.PATH_P_TERM.getValue();
+    double i = NRGPreferences.NumberPrefs.PATH_I_TERM.getValue();
+    double d = NRGPreferences.NumberPrefs.PATH_D_TERM.getValue();
 
     TankModifier modifier = new TankModifier(pathName).modify(DRIVE_WHEEL_BASE);
     this.leftFollower = new DistanceFollower(modifier.getRightTrajectory());
@@ -158,8 +159,7 @@ public class Drive extends Subsystem {
     this.rightFollower.configurePIDVA(p, i, d, 1.0 / DRIVE_MAX_VELOCITY, 0);
     leftStart = RobotMap.driveLeftEncoder.getDistance();
     rightStart = RobotMap.driveRightEncoder.getDistance();
-    this.pathsSquareInputs = Robot.preferences.getBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS,
-        DEFAULT_PATHS_SQUARE_INPUTS);
+    this.pathsSquareInputs = NRGPreferences.BooleanPrefs.PATHS_SQUARE_INPUTS.getValue();
   }
 
   public void followTrajectoryExecute() {
