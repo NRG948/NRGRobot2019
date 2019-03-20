@@ -37,7 +37,7 @@ public class Arm extends Subsystem {
   public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 700;
   public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1260;
   public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
-  public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
+  public static final int ARM_TICK_TOLERANCE = 10; // TODO : figure out a good value line 21-26
   public static final int DEFAULT_ARM_INVERSION_TICKS = 1680;
   public static final int DEFAULT_ARM_HATCH_MEDIUM_TICKS = 1800; // TBD
   public static final int DEFAULT_ARM_LEVEL_TICKS = 750;
@@ -134,7 +134,7 @@ public class Arm extends Subsystem {
   }
 
   public void armAnglePIDInit() {
-    Robot.arm.armAnglePIDInit(RobotMap.armEncoder.get(), Arm.DEFAULT_ARM_TICK_TOLORANCE);
+    Robot.arm.armAnglePIDInit(RobotMap.armEncoder.get(), Arm.ARM_TICK_TOLERANCE);
   }
 
   public void armAnglePIDExecute() {

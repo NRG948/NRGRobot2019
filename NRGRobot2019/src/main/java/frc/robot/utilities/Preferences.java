@@ -38,24 +38,18 @@ public class Preferences {
         ARM_D_TERM("ArmD", 0.001),
         ARM_MAX_POWER("ArmMaxPower", 0.50),
         
-  
-  //public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
-  
         ARM_STOWED_TICKS("ArmStowedTicks", 0),
         ARM_ACQUIRE_CARGO_TICKS("ArmAcquireCargoTicks", 280),
         ARM_CARGO_SHIP_TICKS("ArmCargoShipTicks", 970),
         ARM_ROCKET_CARGO_LOW_TICKS("ArmRocketCargoLowTicks", 700),
         ARM_ROCKET_CARGO_MEDIUM_TICKS("ArmRocketCargoMediumTicks", 1260),
-        ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 2600), //TODO : figure out latest max value
+        ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 1800), //TODO : figure out latest max value
         ARM_INVERSION_TICKS("ArmInversionTicks", 1680),
         ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks", 1800), // TBD
-        ARM_LEVEL_TICKS("ArmLevelTicks", 750);
+        ARM_LEVEL_TICKS("ArmLevelTicks", 750),
         
-        // DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower";
-        // DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower";
-        
-        // CLIBMER_REAR_POWER("ClimberRearPower";
-        // CLIMBER_ARMS_POWER("ClimberArmsPower";
+        DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower", 0.15),
+        DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower", 0.65 );   
         
         private String key;
         private double defaultValue;
