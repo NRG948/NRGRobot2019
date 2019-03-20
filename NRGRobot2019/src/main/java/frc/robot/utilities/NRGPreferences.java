@@ -9,10 +9,14 @@ package frc.robot.utilities;
 
 import frc.robot.Robot;
 
+import java.util.stream.Stream;
+
+import edu.wpi.first.wpilibj.Preferences;
+
 /**
  * Defines enums for all robot preferences.
  */
-public class Preferences {
+public class NRGPreferences {
 
     
     public enum NumberPrefs {
@@ -64,12 +68,17 @@ public class Preferences {
         }
         
         public double getValue() {
-            return Robot.preferences.getDouble(key, defaultValue);
+            return Preferences.getInstance().getDouble(key, defaultValue);
+        }
+
+        void writeDefaultValue(){
+            Preferences.getInstance().putDouble(key, defaultValue);          
         }
     }
     
     public enum BooleanPrefs {
         
+        WRITE_DEFAULT("WriteDefault", false),
         USING_PRACTICE_BOT("UsingPracticeBot", false),
         PATHS_SQUARE_INPUTS("PathsSquareInputs", false),
         TURN_SQUARE_INPUTS("TurnSquareInputs", true),
@@ -89,7 +98,11 @@ public class Preferences {
         }
         
         public boolean getValue() {
-            return Robot.preferences.getBoolean(key, defaultValue);
+            return Preferences.getInstance().getBoolean(key, defaultValue);
+        }
+
+        void writeDefaultValue(){
+            Preferences.getInstance().putBoolean(key, defaultValue);          
         }
     }
     
@@ -97,7 +110,6 @@ public class Preferences {
         
         TEST_PATH_NAME("TestPathName", "LEFT_TO_CARGO_FRONT_LEFT_HATCH");
         
-        public static final String WRITE_DEFAULT = "WriteDefault";
         private String key;
         private String defaultValue;
         
@@ -111,7 +123,21 @@ public class Preferences {
         }
 
         public String getValue() {
-            return Robot.preferences.getString(key, defaultValue);
+            return Preferences.getInstance().getString(key, defaultValue);
+        }
+
+        void writeDefaultValue(){
+            Preferences.getInstance().putString(key, defaultValue);          
         }
     }
+
+    public static void init(){
+        if (BooleanPrefs.WRITE_DEFAULT.getValue()){
+            Stream.of(NumberPrefs.values()).forEach(p -> p.writeDefaultValue()); 
+            Stream.of(BooleanPrefs.values()).forEach(p -> p.writeDefaultValue());
+            Stream.of(StringPrefs.values()).forEach(p -> p.writeDefaultValue());
+        }
+
+    }
+    
 }
