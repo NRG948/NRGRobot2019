@@ -6,12 +6,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,11 +23,15 @@ import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
+import frc.robot.commands.DriveOnHeadingDistance;
 import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
+import frc.robot.subsystems.ClimberArmWheels;
 import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.ClimberArms;
+import frc.robot.subsystems.ClimberPistons;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
@@ -40,6 +48,8 @@ import frc.robot.utilities.VisionTargets;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static final String DEFAULT_TEST_PATH = "LEFT_TO_CARGO_FRONT_LEFT_HATCH";
+
   public static OI oi;
 
   public static Gearbox gearbox;
@@ -48,6 +58,7 @@ public class Robot extends TimedRobot {
   public static Arm arm;
   public static ClimberRear climberRear;
   public static ClimberArms climberArms;
+  public static ClimberArmWheels climberArmWheels;
   //public static ClimberPistons climberPistons;
   public static HatchClawSubsystem hatchClaw;
   public static HatchExtensionSubsystem hatchExtension;
@@ -56,14 +67,16 @@ public class Robot extends TimedRobot {
   // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   public static Preferences preferences;
-
-  public static VisionTargets visionTargets;
+  public static Watchdog watchdog = new Watchdog(0.02, () -> {
+  });
 
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
   public static SendableChooser<AutoMovement> autoMovementChooser;
+  public static VisionTargets visionTargets;
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
   public static SendableChooser<AutoMovement> autoMovement2Chooser;
+  public static SendableChooser<HabitatLevel> habLevelChooser;
 
   public enum AutoStartingPosition {
     LEFT, CENTER, RIGHT
@@ -75,6 +88,10 @@ public class Robot extends TimedRobot {
 
   public enum AutoMovement {
     NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+  }
+
+  public enum HabitatLevel {
+    LEVEL_1, LEVEL_2
   }
 
   public static Boolean isPracticeBot() {
@@ -96,6 +113,7 @@ public class Robot extends TimedRobot {
     drive = new Drive();
     gearbox = new Gearbox();
     arm = new Arm();
+    climberPistons = new ClimberPistons();
     climberRear = new ClimberRear();
     climberArms = new ClimberArms();
     //climberPistons = new ClimberPistons();
@@ -129,6 +147,10 @@ public class Robot extends TimedRobot {
     autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
+    habLevelChooser = new SendableChooser<HabitatLevel>();
+    habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
+    habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
+
     // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
     // 3);
 
@@ -141,9 +163,23 @@ public class Robot extends TimedRobot {
         .withSize(4, 1);
     autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3)
         .withSize(4, 1);
+    autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0)
+        .withSize(2, 1);
 
     arm.initShuffleboard();
 
+    ShuffleboardTab testTab = Shuffleboard.getTab("Test");
+    testTab.add("Test Path", (new InstantCommand(() -> {
+      String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+      new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
+    }))).withSize(2, 1).withPosition(0, 0);
+    ShuffleboardLayout distanceButtonLayout = testTab.getLayout("Test Distance", BuiltInLayouts.kList)
+        .withPosition(0, 1).withSize(2, 2);
+    distanceButtonLayout.add("12 Inches", new DriveOnHeadingDistance(0, 12, 0.7));
+    distanceButtonLayout.add("24 Inches", new DriveOnHeadingDistance(0, 24, 0.7));
+    distanceButtonLayout.add("48 Inches", new DriveOnHeadingDistance(0, 48, 0.7));
+    testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
+    climberPistons.activate(false);
     System.out.println("robotInit() done");
   }
 
@@ -176,6 +212,10 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("Vision/centerX", center.x);
       SmartDashboard.putNumber("Vision/centerY", center.y);
     }
+
+    SmartDashboard.putBoolean("Hatch/DefenseOK", Robot.hatchClaw.isOpen() && Robot.hatchExtension.isRetracted());
+    SmartDashboard.putNumber("Trigger/Right", Robot.oi.xboxController.getRawAxis(2));
+    SmartDashboard.putNumber("Trigger/Left", Robot.oi.xboxController.getRawAxis(3));
   }
 
   /**
@@ -209,10 +249,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    watchdog.reset();
     positionTracker.updatePosition();
+    watchdog.addEpoch("position tracker");
     visionTargets.update();
+    watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
+    watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
+    watchdog.addEpoch("scheduler");
+    if (watchdog.isExpired()) {
+      watchdog.printEpochs();
+    }
   }
 
   @Override
@@ -247,13 +295,17 @@ public class Robot extends TimedRobot {
     if (preferences.getBoolean(PreferenceKeys.WRITE_DEFAULT, true)) {
       preferences.putBoolean(PreferenceKeys.WRITE_DEFAULT, false);
 
+      preferences.putBoolean(PreferenceKeys.TELEOP_SQUARE_INPUTS, true);
+
       preferences.putDouble(PreferenceKeys.TURN_P_TERM, Drive.DEFAULT_TURN_P);
       preferences.putDouble(PreferenceKeys.TURN_I_TERM, Drive.DEFAULT_TURN_I);
       preferences.putDouble(PreferenceKeys.TURN_D_TERM, Drive.DEFAULT_TURN_D);
+      preferences.putBoolean(PreferenceKeys.TURN_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DRIVE_P);
       preferences.putDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DRIVE_I);
       preferences.putDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DRIVE_D);
+      preferences.putBoolean(PreferenceKeys.DRIVE_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
       preferences.putDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
@@ -263,6 +315,7 @@ public class Robot extends TimedRobot {
       preferences.putDouble(PreferenceKeys.PATH_P_TERM, Drive.DEFAULT_PATH_P);
       preferences.putDouble(PreferenceKeys.PATH_I_TERM, Drive.DEFAULT_PATH_I);
       preferences.putDouble(PreferenceKeys.PATH_D_TERM, Drive.DEFAULT_PATH_D);
+      preferences.putBoolean(PreferenceKeys.PATHS_SQUARE_INPUTS, true);
 
       preferences.putDouble(PreferenceKeys.ARM_P_TERM, Arm.DEFAULT_ARM_P);
       preferences.putDouble(PreferenceKeys.ARM_I_TERM, Arm.DEFAULT_ARM_I);

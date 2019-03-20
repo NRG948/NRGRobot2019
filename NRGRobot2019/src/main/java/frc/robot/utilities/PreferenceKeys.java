@@ -2,23 +2,28 @@ package frc.robot.utilities;
 
 public class PreferenceKeys {
   public static final String WRITE_DEFAULT = "WriteDefault";
+  
+  public static final String TELEOP_SQUARE_INPUTS = "TeleopSquareInputs";
 
   public static final String TURN_P_TERM = "TurnP";
   public static final String TURN_I_TERM = "TurnI";
   public static final String TURN_D_TERM = "TurnD";
-
+  public static final String TURN_SQUARE_INPUTS = "TurnSquareInputs";
+  
   public static final String DRIVE_P_TERM = "DriveP";
   public static final String DRIVE_I_TERM = "DriveI";
   public static final String DRIVE_D_TERM = "DriveD";
-
+  public static final String DRIVE_SQUARE_INPUTS = "DriveSquareInputs";
+  
   public static final String DISTANCE_DRIVE_P_TERM = "DistanceDriveP";
   public static final String DISTANCE_DRIVE_I_TERM = "DistanceDriveI";
   public static final String DISTANCE_DRIVE_D_TERM = "DistanceDriveD";
   public static final String DISTANCE_TOLERANCE = "DistanceTolerance";
-
+  
   public static final String PATH_P_TERM = "PathP";
   public static final String PATH_I_TERM = "PathI";
   public static final String PATH_D_TERM = "PathD";
+  public static final String PATHS_SQUARE_INPUTS = "PathsSquareInputs";
 
   public static final String ARM_P_TERM = "ArmP";
   public static final String ARM_I_TERM = "ArmI";
@@ -44,4 +49,5 @@ public class PreferenceKeys {
   public static final String CLIMBER_ARMS_POWER = "ClimberArmsPower";
 
   public static final String USING_PRACTICE_BOT = "UsingPracticeBot";
+
 }

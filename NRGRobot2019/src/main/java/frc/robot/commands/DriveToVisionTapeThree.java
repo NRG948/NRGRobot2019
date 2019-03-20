@@ -17,7 +17,7 @@ import frc.robot.utilities.Deliver;
  */
 public class DriveToVisionTapeThree extends InstantCommand {
   private static final double DRIVE_POWER = 0.7;
-  private static final double CAMERA_SKEW = 1.6;
+  private static final double CAMERA_SKEW = -4.0;
   private Deliver delivery;
 
   /**

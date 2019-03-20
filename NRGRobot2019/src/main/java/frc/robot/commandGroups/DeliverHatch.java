@@ -7,6 +7,7 @@ import static frc.robot.subsystems.HatchExtensionSubsystem.HATCH_EXTEND_DELAY;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DelaySeconds;
+import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.HatchClaw;
@@ -25,6 +26,7 @@ public class DeliverHatch extends CommandGroup {
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchClaw(CLOSE));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
+    addParallel(new DriveStraightDistance(6, -0.8));
     addSequential(new HatchExtension(RETRACT));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchClaw(State.OPEN));

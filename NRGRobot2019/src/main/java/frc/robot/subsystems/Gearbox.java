@@ -14,6 +14,8 @@ public class Gearbox extends Subsystem {
     HIGH, LOW;
   }
 
+  public Gear state = Gear.HIGH;
+
   @Override
   public void initDefaultCommand() {
     // setDefaultCommand(new GearShift(Gear.LOW));
@@ -21,9 +23,19 @@ public class Gearbox extends Subsystem {
 
   public void setHighGear() {
     RobotMap.gearboxSolenoid.set(Value.kForward);
+    state = Gear.HIGH;
   }
 
   public void setLowGear() {
     RobotMap.gearboxSolenoid.set(Value.kReverse);
+    state = Gear.LOW;
+  }
+
+  public void toggleGears(){
+    if(state == Gear.HIGH){
+      setLowGear();
+    }else{
+      setHighGear();
+    }
   }
 }

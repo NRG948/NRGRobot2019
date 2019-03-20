@@ -13,7 +13,7 @@ public class ActivateClimberPistons extends Command {
   private boolean extend;
 
   public ActivateClimberPistons(boolean extend) {
-    requires(Robot.climberArms);
+    requires(Robot.climberPistons);
     this.extend = extend;
   }
 
@@ -24,7 +24,7 @@ public class ActivateClimberPistons extends Command {
 
   @Override
   protected void execute() {
-    // Robot.climberArms.activate(extend);
+    Robot.climberPistons.activate(extend);
   }
 
   @Override
@@ -38,5 +38,6 @@ public class ActivateClimberPistons extends Command {
 
   @Override
   protected void interrupted() {
+    end();
   }
 }

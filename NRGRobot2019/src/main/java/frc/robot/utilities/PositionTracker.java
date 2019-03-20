@@ -2,13 +2,16 @@ package frc.robot.utilities;
 
 import org.opencv.core.Point;
 
+import edu.wpi.first.wpilibj.SendableBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+
 /**
  * Add your docs here.
  */
 
 import frc.robot.RobotMap;
 
-public class PositionTracker {
+public class PositionTracker extends SendableBase {
 
   private double x;
   private double y;
@@ -81,5 +84,18 @@ public class PositionTracker {
 
   public double getMaxVelocity() {
     return maxVelocity;
+  }
+
+  public double getCurrentHeading() {
+    return RobotMap.navx.getAngle();
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    builder.addDoubleProperty("Max Velocity", this::getMaxVelocity, null);
+    builder.addDoubleProperty("Current Velocity", this::getCurrentVelocity, null);
+    builder.addDoubleProperty("x", this::getX, null);
+    builder.addDoubleProperty("y", this::getY, null);
+    builder.addDoubleProperty("Current Heading", this::getCurrentHeading, null);
   }
 }

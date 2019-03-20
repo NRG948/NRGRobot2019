@@ -24,7 +24,7 @@ import frc.robot.utilities.SimplePIDController;
  * Subsystem which controls the arm movement.
  */
 public class Arm extends Subsystem {
-  private static final int DEAD_BAND_RANGE = 100;
+  private static final int DEAD_BAND_RANGE = 200;
   public static final double DEFAULT_ARM_MAX_POWER = 0.5;
   public static final double DEFAULT_HOLD_ARM_LEVEL = 0.2;
   public static final double DEFAULT_ARM_P = 0.01;
@@ -34,7 +34,7 @@ public class Arm extends Subsystem {
   public static final int DEFAULT_ARM_STOWED_TICKS = 0;
   public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 280;
   public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 970;
-  public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 680;
+  public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 700;
   public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1260;
   public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
   public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26
@@ -89,16 +89,15 @@ public class Arm extends Subsystem {
       if (atBackLimit()) {
         power = 0;
       }
-    } else {
-      if (atFrontLimit()) {
-        power = 0;
-      }
-    }
-
+     } //else {
+    //   if (atFrontLimit()) {
+    //     power = 0;
+    //   }
+    // }
     rawOutputWidget.getEntry().setDouble(power);
 
     if (power != 0) {
-      // power = adjustPowerForGravity(power);
+      //power = adjustPowerForGravity(power);
       RobotMap.armMotor.set(power);
     } else {
       stop();
@@ -146,7 +145,7 @@ public class Arm extends Subsystem {
     double armPIDOutput = pidController.updateWithFeedForward(armTicks, feedForward);
 
     // if arm is stowed, don't run PID
-    if (armTicks < DEAD_BAND_RANGE && armPIDControllerOnTarget()) {
+    if (armTicks < DEAD_BAND_RANGE && pidController.getSetpoint() < DEAD_BAND_RANGE) {
       armPIDOutput = 0;
     }
     pidOutputWidget.getEntry().setDouble(armPIDOutput);

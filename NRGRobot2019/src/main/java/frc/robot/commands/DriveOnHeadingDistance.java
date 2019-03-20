@@ -10,6 +10,12 @@ import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
 public class DriveOnHeadingDistance extends Command {
+  /**
+   *
+   */
+
+  private static final double MIN_DRIVE_POWER = 0.3
+  ;
   private double distanceToDrive;
   private double maxPower;
   private double heading;
@@ -33,12 +39,13 @@ public class DriveOnHeadingDistance extends Command {
     this.tolerance = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
     Robot.drive.driveOnHeadingInit(this.heading);
 
-    double p = Robot.preferences.getDouble(PreferenceKeys.DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
-    double d =Robot.preferences.getDouble(PreferenceKeys.DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
+    double p = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
+    double i = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
+    double d =Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
     this.distancePID.setPID(p, i, d)
       .setSetpoint(this.distanceToDrive)
       .setAbsoluteTolerance(this.tolerance)
+      .setOutputRange(-Math.abs(this.maxPower), Math.abs(this.maxPower))
       .start();
     this.origin = Robot.positionTracker.getPosition();
     this.cyclesOnTarget = 0;
@@ -47,17 +54,17 @@ public class DriveOnHeadingDistance extends Command {
   @Override
   protected void execute() {
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
-    double factor = this.distancePID.update(distanceTraveled);
-    double revisedPower = this.maxPower * factor;
+    double power = this.distancePID.update(distanceTraveled);
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);
-    if (Math.abs(error) < tolerance) {
-      revisedPower = 0.0;
-    } else if (Math.abs(error) < GO_SLOW_INCHES) {
-      revisedPower = 0.3 * Math.signum(error);
+    // if (error > 0 && error < tolerance) {
+    //   revisedPower = 0.0;
+    // } else
+     if (error < 0) {
+      power = MIN_DRIVE_POWER * Math.signum(error);
     }
-    SmartDashboard.putNumber("DistancePID/Revised Power", revisedPower);
-    Robot.drive.driveOnHeadingExecute(revisedPower);
+    SmartDashboard.putNumber("DistancePID/Revised Power", power);
+    Robot.drive.driveOnHeadingExecute(power);
   }
 
   /** Finishes the command if the target distance has been reached */
