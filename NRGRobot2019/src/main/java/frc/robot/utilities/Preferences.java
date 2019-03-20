@@ -36,7 +36,7 @@ public class Preferences {
         ARM_P_TERM("ArmP", 0.01),
         ARM_I_TERM("ArmI", 0.002),
         ARM_D_TERM("ArmD", 0.001),
-        ARM_MAX_POWER("ArmMaxPower", 0.50),s
+        ARM_MAX_POWER("ArmMaxPower", 0.50),
         
   
   //public static final int DEFAULT_ARM_TICK_TOLORANCE = 10; // TODO : figure out a good value line 21-26

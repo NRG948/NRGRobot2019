@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   public static ClimberRear climberRear;
   public static ClimberArms climberArms;
   public static ClimberArmWheels climberArmWheels;
-  //public static ClimberPistons climberPistons;
+  public static ClimberPistons climberPistons;
   public static HatchClawSubsystem hatchClaw;
   public static HatchExtensionSubsystem hatchExtension;
 
@@ -116,7 +116,6 @@ public class Robot extends TimedRobot {
     climberPistons = new ClimberPistons();
     climberRear = new ClimberRear();
     climberArms = new ClimberArms();
-    //climberPistons = new ClimberPistons();
     cargoAcquirer = new CargoAcquirer();
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();

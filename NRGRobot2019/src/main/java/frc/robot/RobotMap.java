@@ -106,7 +106,7 @@ public class RobotMap {
     hatchClawSolenoid = new DoubleSolenoid(3, 2); // TODO CHANGE THE CHANNELS LATER
     hatchExtensionSolenoid = new DoubleSolenoid(1, 0);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
-    climberSolenoid = new DoubleSolenoid(6, 7);
+    //climberSolenoid = new DoubleSolenoid(6, 7);
 
     armFrontLimitSwitch = new DigitalInput(ARM_FRONT_LIMIT_SWITCH_PORT);
     armBackLimitSwitch = new DigitalInput(ARM_BACK_LIMIT_SWITCH_PORT);
