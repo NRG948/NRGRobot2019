@@ -74,6 +74,10 @@ public class NRGPreferences {
         void writeDefaultValue(){
             Preferences.getInstance().putDouble(key, defaultValue);          
         }
+        
+        public String toString(){
+            return this.key + " Value:" + this.getValue();
+        }
     }
     
     public enum BooleanPrefs {
@@ -104,6 +108,10 @@ public class NRGPreferences {
         void writeDefaultValue(){
             Preferences.getInstance().putBoolean(key, defaultValue);          
         }
+
+        public String toString(){
+            return this.key + " Value:" + this.getValue();
+        }
     }
     
     public enum StringPrefs {
@@ -129,6 +137,10 @@ public class NRGPreferences {
         void writeDefaultValue(){
             Preferences.getInstance().putString(key, defaultValue);          
         }
+
+        public String toString(){
+            return this.key + " Value:" + this.getValue();
+        }
     }
 
     public static void init(){
@@ -136,6 +148,10 @@ public class NRGPreferences {
             Stream.of(NumberPrefs.values()).forEach(p -> p.writeDefaultValue()); 
             Stream.of(BooleanPrefs.values()).forEach(p -> p.writeDefaultValue());
             Stream.of(StringPrefs.values()).forEach(p -> p.writeDefaultValue());
+        } else{
+            Stream.of(NumberPrefs.values()).filter(p -> p.getValue()!= p.defaultValue).forEach(System.out::println);
+            Stream.of(BooleanPrefs.values()).filter(p -> p.getValue()!= p.defaultValue).forEach(System.out::println);
+            Stream.of(StringPrefs.values()).filter(p -> p.getValue()!= p.defaultValue).forEach(System.out::println);
         }
 
     }
