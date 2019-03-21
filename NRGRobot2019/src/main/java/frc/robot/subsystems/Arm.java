@@ -17,6 +17,7 @@ import frc.robot.commands.ManualMoveArm;
 import frc.robot.commands.ManualMoveArmWithPID;
 import frc.robot.commands.MoveArmTo;
 import frc.robot.utilities.MathUtil;
+import frc.robot.utilities.NRGPreferences.NumberPrefs;
 import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
@@ -25,22 +26,7 @@ import frc.robot.utilities.SimplePIDController;
  */
 public class Arm extends Subsystem {
   private static final int DEAD_BAND_RANGE = 200;
-  public static final double DEFAULT_ARM_MAX_POWER = 0.5;
-  public static final double DEFAULT_HOLD_ARM_LEVEL = 0.2;
-  public static final double DEFAULT_ARM_P = 0.01;
-  public static final double DEFAULT_ARM_I = 0.002;
-  public static final double DEFAULT_ARM_D = 0.001;
-
-  public static final int DEFAULT_ARM_STOWED_TICKS = 0;
-  public static final int DEFAULT_ARM_ACQUIRE_CARGO_TICKS = 280;
-  public static final int DEFAULT_ARM_CARGO_SHIP_TICKS = 970;
-  public static final int DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS = 700;
-  public static final int DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS = 1260;
-  public static final int DEFAULT_ARM_MAX_ANGLE_TICKS = 2600; // slightly smaller than actual range (max = 2670)
   public static final int ARM_TICK_TOLERANCE = 10; // TODO : figure out a good value line 21-26
-  public static final int DEFAULT_ARM_INVERSION_TICKS = 1680;
-  public static final int DEFAULT_ARM_HATCH_MEDIUM_TICKS = 1800; // TBD
-  public static final int DEFAULT_ARM_LEVEL_TICKS = 750;
 
   private SimpleWidget pidOutputWidget;
   private SimpleWidget pidErrorWidget;
@@ -51,26 +37,25 @@ public class Arm extends Subsystem {
 
   public enum Angle {
 
-    ARM_STOWED_ANGLE(PreferenceKeys.ARM_STOWED_TICKS, DEFAULT_ARM_STOWED_TICKS),
-    ARM_ACQUIRE_CARGO_ANGLE(PreferenceKeys.ARM_ACQUIRE_CARGO_TICKS, DEFAULT_ARM_ACQUIRE_CARGO_TICKS),
-    ARM_CARGO_SHIP_ANGLE(PreferenceKeys.ARM_CARGO_SHIP_TICKS, DEFAULT_ARM_CARGO_SHIP_TICKS),
-    ARM_ROCKET_CARGO_LOW_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_LOW_TICKS, DEFAULT_ARM_ROCKET_CARGO_LOW_TICKS),
-    ARM_ROCKET_CARGO_MEDIUM_ANGLE(PreferenceKeys.ARM_ROCKET_CARGO_MEDIUM_TICKS, DEFAULT_ARM_ROCKET_CARGO_MEDIUM_TICKS),
-    ARM_MAX_ANGLE(PreferenceKeys.ARM_MAX_ANGLE_TICKS, DEFAULT_ARM_MAX_ANGLE_TICKS),
-    ARM_INVERSION_ANGLE(PreferenceKeys.ARM_INVERSION_TICKS, DEFAULT_ARM_INVERSION_TICKS),
-    ARM_HATCH_MEDIUM_ANGLE(PreferenceKeys.ARM_HATCH_MEDIUM_TICKS, DEFAULT_ARM_HATCH_MEDIUM_TICKS),
-    ARM_FORWARD_ANGLE(PreferenceKeys.ARM_LEVEL_TICKS, DEFAULT_ARM_LEVEL_TICKS);
+    ARM_STOWED_ANGLE(NumberPrefs.ARM_STOWED_TICKS),
+    ARM_ACQUIRE_CARGO_ANGLE(NumberPrefs.ARM_ACQUIRE_CARGO_TICKS),
+    ARM_CARGO_SHIP_ANGLE(NumberPrefs.ARM_CARGO_SHIP_TICKS),
+    ARM_ROCKET_CARGO_LOW_ANGLE(NumberPrefs.ARM_ROCKET_CARGO_LOW_TICKS),
+    ARM_ROCKET_CARGO_MEDIUM_ANGLE(NumberPrefs.ARM_ROCKET_CARGO_MEDIUM_TICKS),
+    ARM_MAX_ANGLE(NumberPrefs.ARM_MAX_ANGLE_TICKS),
+    ARM_INVERSION_ANGLE(NumberPrefs.ARM_INVERSION_TICKS),
+    ARM_HATCH_MEDIUM_ANGLE(NumberPrefs.ARM_HATCH_MEDIUM_TICKS),
+    ARM_FORWARD_ANGLE(NumberPrefs.ARM_LEVEL_TICKS);
 
-    public final String preferenceKey;
-    public final int defaultTicks;
+  
+    public final NumberPrefs pref;
 
-    private Angle(String prefKey, int defaultTicks) {
-      this.preferenceKey = prefKey;
-      this.defaultTicks = defaultTicks;
+    private Angle(NumberPrefs pref ) {
+      this.pref = pref;
     }
 
     public int getTicks() {
-      return Robot.preferences.getInt(preferenceKey, defaultTicks);
+      return (int) this.pref.getValue();
     }
   }
 
@@ -106,7 +91,7 @@ public class Arm extends Subsystem {
 
   // Limit max power when the arm is moving toward the floor.
   private double adjustPowerForGravity(double power) {
-    double maxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
+    double maxPower = NumberPrefs.ARM_MAX_POWER.getValue();
     int position = getCurrentArmPosition();
     if (position <= Angle.ARM_INVERSION_ANGLE.getTicks()) {
       power = MathUtil.clamp(power, -0.5 * maxPower, maxPower);
@@ -121,15 +106,15 @@ public class Arm extends Subsystem {
   }
 
   public void armPIDControllerInit(double p, double i, double d, double setpoint, double tolerance) {
-    double maxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
+    double maxPower = NumberPrefs.ARM_MAX_POWER.getValue();
     pidController = new SimplePIDController(p, i, d, true).setOutputRange(-maxPower, maxPower)
         .setAbsoluteTolerance(tolerance).setSetpoint(setpoint).start();
   }
 
   public void armAnglePIDInit(double setpoint, double tolerance) {
-    double p = Robot.preferences.getDouble(PreferenceKeys.ARM_P_TERM, DEFAULT_ARM_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.ARM_I_TERM, DEFAULT_ARM_I);
-    double d = Robot.preferences.getDouble(PreferenceKeys.ARM_D_TERM, DEFAULT_ARM_D);
+    double p = NumberPrefs.ARM_P_TERM.getValue();
+    double i = NumberPrefs.ARM_I_TERM.getValue();
+    double d = NumberPrefs.ARM_D_TERM.getValue();
     armPIDControllerInit(p, i, d, setpoint, tolerance);
   }
 
@@ -163,7 +148,7 @@ public class Arm extends Subsystem {
   }
 
   public void setPIDOutputLimits(double maxSpeed) {
-    double armMaxPower = Robot.preferences.getDouble(PreferenceKeys.ARM_MAX_POWER, DEFAULT_ARM_MAX_POWER);
+    double armMaxPower = NumberPrefs.ARM_MAX_POWER.getValue();
     double power = Math.min(Math.abs(maxSpeed), armMaxPower);
     pidController.setOutputRange(-power, power);
   }
@@ -196,13 +181,13 @@ public class Arm extends Subsystem {
   // https://www.chiefdelphi.com/t/smoothly-controlling-an-arm/343880
   // based on cheesy poofs comments about kf * cos(theta) on this post ^
   public double calculateFeedForward(double cosTheta) {
-    return DEFAULT_HOLD_ARM_LEVEL * cosTheta;
+    return NumberPrefs.HOLD_ARM_LEVEL.getValue() * cosTheta;
   }
 
   // Assumes the forward horizontal arm position is 0 degrees, increasing CCW.
   public double calculateCosineTheta(int armPositionTicks) {
-    double thetaInDegrees = 90.0 * (double) (armPositionTicks - DEFAULT_ARM_LEVEL_TICKS)
-        / (DEFAULT_ARM_INVERSION_TICKS - DEFAULT_ARM_LEVEL_TICKS);
+    double thetaInDegrees = 90.0 * (double) (armPositionTicks - NumberPrefs.ARM_LEVEL_TICKS.getValue())
+        / (NumberPrefs.ARM_INVERSION_TICKS.getValue() - NumberPrefs.ARM_LEVEL_TICKS.getValue());
     return Math.cos(Math.toRadians(thetaInDegrees));
   }
 
