@@ -15,6 +15,7 @@ import static frc.robot.subsystems.HatchExtensionSubsystem.HATCH_EXTEND_DELAY;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.DriveToVisionTapeThree;
 import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
@@ -27,7 +28,7 @@ public class PickupHatch extends CommandGroup {
    */
   public PickupHatch() {
     addSequential(new HatchClaw(State.CLOSE));
-    addSequential(new DriveToVisionTapeTwo(Deliver.Hatch));
+    addSequential(new DriveToVisionTapeThree(Deliver.Hatch));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
