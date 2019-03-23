@@ -10,13 +10,14 @@ package frc.robot.utilities;
 /**
  * Add your docs here.
  */
-public enum Deliver {
-  Hatch(12.25), Cargo(34),
-  HatchPickUp(6.25);//CHANGE BACK TO 10
+public enum VisionTargetsApproach {
+  Cargo(34),
+  HatchDeliver(12.25),
+  HatchPickUp(6.25);
 
   private final double stopDistance;
 
-  private Deliver(double stopDistance) {
+  private VisionTargetsApproach(double stopDistance) {
     this.stopDistance = stopDistance;
   }
 

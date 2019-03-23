@@ -17,7 +17,7 @@ import frc.robot.commands.GearShift;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.commands.WaitForNewVisionData;
 import frc.robot.subsystems.Gearbox.Gear;
-import frc.robot.utilities.Deliver;
+import frc.robot.utilities.VisionTargetsApproach;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;

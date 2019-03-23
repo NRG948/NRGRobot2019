@@ -36,7 +36,7 @@ import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
 
-import frc.robot.utilities.Deliver;
+import frc.robot.utilities.VisionTargetsApproach;
 import frc.robot.utilities.MathUtil;
 
 /**
@@ -128,7 +128,7 @@ public class OI {
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
 
-    driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(Deliver.Hatch));
+    driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver));
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 

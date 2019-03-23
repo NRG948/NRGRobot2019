@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.utilities.Deliver;
+import frc.robot.utilities.VisionTargetsApproach;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.NRGPreferences;
 
@@ -16,7 +16,7 @@ public class DriveToVisionTape extends Command {
   public static final double DEFAULT_MIN_DRIVE_POWER = 0.15;
   public static final double DEFAULT_MAX_DRIVE_POWER = 0.7;
 
-  private Deliver delivery;
+  private VisionTargetsApproach delivery;
   private double targetDistance;
   private double minDrivePower;
   private double maxDrivePower;
@@ -24,7 +24,7 @@ public class DriveToVisionTape extends Command {
   private double power;
   private Point lastPosition = new Point();
 
-  public DriveToVisionTape(Deliver delivery) {
+  public DriveToVisionTape(VisionTargetsApproach delivery) {
     requires(Robot.drive);
     this.delivery = delivery;
   }

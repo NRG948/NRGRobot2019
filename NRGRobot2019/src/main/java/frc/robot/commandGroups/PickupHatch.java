@@ -20,7 +20,7 @@ import frc.robot.commands.DriveToVisionTapeTwo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.subsystems.HatchClawSubsystem.State;
-import frc.robot.utilities.Deliver;
+import frc.robot.utilities.VisionTargetsApproach;
 
 public class PickupHatch extends CommandGroup {
   /**
@@ -28,7 +28,7 @@ public class PickupHatch extends CommandGroup {
    */
   public PickupHatch() {
     addSequential(new HatchClaw(State.CLOSE));
-    addSequential(new DriveToVisionTapeThree(Deliver.Hatch));
+    addSequential(new DriveToVisionTapeThree(VisionTargetsApproach.HatchPickUp));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
