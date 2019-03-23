@@ -24,12 +24,12 @@ public class HatchClawSubsystem extends Subsystem {
   }
 
   public void setClawOpen() {
-    RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kReverse : Value.kForward);
+    RobotMap.hatchClawSolenoid.set(Value.kForward);
     state = State.OPEN;
   }
 
   public void setClawClose() {
-    RobotMap.hatchClawSolenoid.set(Robot.isPracticeBot() ? Value.kForward : Value.kReverse);
+    RobotMap.hatchClawSolenoid.set(Value.kReverse);
     state = State.CLOSE;
   }
 
