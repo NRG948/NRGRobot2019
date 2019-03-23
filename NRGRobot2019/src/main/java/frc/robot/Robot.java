@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
   }
 
   public enum AutoMovement {
-    NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH
+    NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH, ROCKET_CLOSE
   }
 
   public enum HabitatLevel {
