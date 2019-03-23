@@ -28,9 +28,9 @@ public class NRGPreferences {
         TURN_I_TERM("TurnI", 0.00016),
         TURN_D_TERM("TurnD", 0.0072),
         
-        DISTANCE_DRIVE_P_TERM("DistanceDriveP", 0.04),
-        DISTANCE_DRIVE_I_TERM("DistanceDriveI", 0.042),
-        DISTANCE_DRIVE_D_TERM("DistanceDriveD", 0.0025),
+        DISTANCE_DRIVE_P_TERM("DistanceDriveP", 0.03),
+        DISTANCE_DRIVE_I_TERM("DistanceDriveI", 0.0125),
+        DISTANCE_DRIVE_D_TERM("DistanceDriveD", 0.0075),
         DISTANCE_TOLERANCE("DistanceTolerance", 0.75),
         
         PATH_P_TERM("PathP", 0.1),
@@ -48,9 +48,9 @@ public class NRGPreferences {
         ARM_CARGO_SHIP_TICKS("ArmCargoShipTicks", 970),
         ARM_ROCKET_CARGO_LOW_TICKS("ArmRocketCargoLowTicks", 700),
         ARM_ROCKET_CARGO_MEDIUM_TICKS("ArmRocketCargoMediumTicks", 1260),
-        ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 1800), //TODO : figure out latest max value
-        ARM_INVERSION_TICKS("ArmInversionTicks", 1680),
-        ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks", 1800), // TBD
+        ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 1440), //TODO : figure out latest max value
+        ARM_INVERSION_TICKS("ArmInversionTicks", 1300),
+        ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks", 1440), // TBD
         ARM_LEVEL_TICKS("ArmLevelTicks", 750),
         
         DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower", 0.15),
@@ -86,9 +86,9 @@ public class NRGPreferences {
         WRITE_DEFAULT("WriteDefault", false),
         USING_PRACTICE_BOT("UsingPracticeBot", false),
         PATHS_SQUARE_INPUTS("PathsSquareInputs", false),
-        TURN_SQUARE_INPUTS("TurnSquareInputs", true),
+        TURN_SQUARE_INPUTS("TurnSquareInputs", false),
         TELEOP_SQUARE_INPUTS("TeleopSquareInputs", true),
-        DRIVE_SQUARE_INPUTS("DriveSquareInputs", true);
+        DRIVE_SQUARE_INPUTS("DriveSquareInputs", false);
         
         private String key;
         private boolean defaultValue;
