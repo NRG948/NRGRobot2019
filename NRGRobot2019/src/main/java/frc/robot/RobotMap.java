@@ -85,7 +85,7 @@ public class RobotMap {
 
     armMotor = new Victor(0);
     climberRearMotor = new Victor(2);
-    // climberArmsMotor = new Victor(4);
+    // climberArmsMotor = new Victor(3);
     cargoAcquirerMotor = new Victor(1);
     climberArmLeftWheelMotor = new Victor(4);
     climberArmRightWheelMotor = new Victor(5);
