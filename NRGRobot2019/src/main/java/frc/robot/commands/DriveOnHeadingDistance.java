@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drive;
-import frc.robot.utilities.PreferenceKeys;
+import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.SimplePIDController;
 
 public class DriveOnHeadingDistance extends Command {
@@ -36,12 +36,13 @@ public class DriveOnHeadingDistance extends Command {
   @Override
   protected void initialize() {
     System.out.println("DriveOnHeadingDistance init heading: " + this.heading + " distance: " + this.distanceToDrive);
-    this.tolerance = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE, Drive.DEFAULT_DISTANCE_TOLERANCE);
+    this.tolerance = NRGPreferences.NumberPrefs.DISTANCE_TOLERANCE.getValue();
     Robot.drive.driveOnHeadingInit(this.heading);
 
-    double p = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_P_TERM, Drive.DEFAULT_DISTANCE_DRIVE_P);
-    double i = Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_I_TERM, Drive.DEFAULT_DISTANCE_DRIVE_I);
-    double d =Robot.preferences.getDouble(PreferenceKeys.DISTANCE_DRIVE_D_TERM, Drive.DEFAULT_DISTANCE_DRIVE_D);
+    double p = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_P_TERM.getValue();
+    double i = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_I_TERM.getValue();
+    double d = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_D_TERM.getValue();
+
     this.distancePID.setPID(p, i, d)
       .setSetpoint(this.distanceToDrive)
       .setAbsoluteTolerance(this.tolerance)

@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.utilities.Deliver;
 import frc.robot.utilities.MathUtil;
-import frc.robot.utilities.PreferenceKeys;
+import frc.robot.utilities.NRGPreferences;
 
 public class DriveToVisionTapeTwo extends Command {
   private static final double CAMERA_SKEW = -0.6;
@@ -34,10 +34,8 @@ public class DriveToVisionTapeTwo extends Command {
   protected void initialize() {
     System.out.println("DriveToVisionTape init");
 
-    this.minDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MIN_POWER,
-        DEFAULT_MIN_DRIVE_POWER);
-    this.maxDrivePower = Robot.preferences.getDouble(PreferenceKeys.DRIVE_TO_VISION_TAPE_MAX_POWER,
-        DEFAULT_MAX_DRIVE_POWER);
+    this.minDrivePower = NRGPreferences.NumberPrefs.DRIVE_TO_VISION_TAPE_MIN_POWER.getValue();
+    this.maxDrivePower = NRGPreferences.NumberPrefs.DRIVE_TO_VISION_TAPE_MAX_POWER.getValue();
 
     if (Robot.visionTargets.hasTargets()) {
       double desiredHeading = RobotMap.navx.getAngle() + Robot.visionTargets.getAngleToTarget() + CAMERA_SKEW;

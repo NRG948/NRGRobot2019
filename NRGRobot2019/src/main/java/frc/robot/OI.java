@@ -38,7 +38,6 @@ import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
 
 import frc.robot.utilities.Deliver;
 import frc.robot.utilities.MathUtil;
-import frc.robot.utilities.PreferenceKeys;
 
 /**
  * This class is the glue that binds the controls on the physical operator
