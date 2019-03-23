@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.utilities.PreferenceKeys;
+import frc.robot.utilities.NRGPreferences;
 
 /**
  * Command to get the joysticks' states and send them to the tank drive.
@@ -19,7 +19,7 @@ public class ManualDrive extends Command {
   @Override
   protected void initialize() {
     System.out.println("Manual Drive Init");
-    this.squareInputs = Robot.preferences.getBoolean(PreferenceKeys.TELEOP_SQUARE_INPUTS, DEFAULT_TELEOP_SQUARE_INPUTS);
+    this.squareInputs = NRGPreferences.BooleanPrefs.TELEOP_SQUARE_INPUTS.getValue();
   }
 
   @Override

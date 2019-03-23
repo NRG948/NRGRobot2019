@@ -10,13 +10,13 @@ package frc.robot.commandGroups;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.FollowPathWeaverFile;
-import frc.robot.utilities.PreferenceKeys;
+import frc.robot.utilities.NRGPreferences;
 
 public class TestAutoPaths extends CommandGroup {
   public static final String DEFAULT_TEST_PATH = "LEFT_TO_CARGO_FRONT_LEFT_HATCH";
 
   public TestAutoPaths() {
-    String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+    String pathname = NRGPreferences.StringPrefs.TEST_PATH_NAME.getValue();
     addSequential(new FollowPathWeaverFile("output/" + pathname + ".pf1.csv"));
 
   }

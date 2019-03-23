@@ -38,7 +38,6 @@ import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
-import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.VisionTargets;
 
 /**
@@ -67,7 +66,6 @@ public class Robot extends TimedRobot {
   public static PositionTracker positionTracker = new PositionTracker();
   // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  public static Preferences preferences;
   public static Watchdog watchdog = new Watchdog(0.02, () -> {
   });
 
@@ -96,7 +94,7 @@ public class Robot extends TimedRobot {
   }
 
   public static Boolean isPracticeBot() {
-    return preferences.getBoolean(PreferenceKeys.USING_PRACTICE_BOT, false);
+    return NRGPreferences.BooleanPrefs.USING_PRACTICE_BOT.getValue();
   }
 
   /**
@@ -107,7 +105,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     System.out.println("robotInit()");
 
-    preferences = Preferences.getInstance();
 
     RobotMap.init();
     NRGPreferences.init();
@@ -171,7 +168,7 @@ public class Robot extends TimedRobot {
 
     ShuffleboardTab testTab = Shuffleboard.getTab("Test");
     testTab.add("Test Path", (new InstantCommand(() -> {
-      String pathname = Robot.preferences.getString(PreferenceKeys.TEST_PATH_NAME, DEFAULT_TEST_PATH);
+      String pathname = NRGPreferences.StringPrefs.TEST_PATH_NAME.getValue();
       new FollowPathWeaverFile("output/" + pathname + ".pf1.csv").start();
     }))).withSize(2, 1).withPosition(0, 0);
     ShuffleboardLayout distanceButtonLayout = testTab.getLayout("Test Distance", BuiltInLayouts.kList)

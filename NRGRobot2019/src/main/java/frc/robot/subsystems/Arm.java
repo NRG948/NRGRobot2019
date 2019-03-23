@@ -18,7 +18,6 @@ import frc.robot.commands.ManualMoveArmWithPID;
 import frc.robot.commands.MoveArmTo;
 import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
-import frc.robot.utilities.PreferenceKeys;
 import frc.robot.utilities.SimplePIDController;
 
 /**
