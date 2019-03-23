@@ -14,11 +14,11 @@ public class DriveOnHeadingDistance extends Command {
    *
    */
 
-  private static final double MIN_DRIVE_POWER = 0.3
-  ;
-  private double distanceToDrive;
+  private static final double MIN_DRIVE_POWER = 0.3;
+  
+  protected double heading;
+  protected double distanceToDrive;
   private double maxPower;
-  private double heading;
   private double tolerance;
   private Point origin;
   private static final double GO_SLOW_INCHES = 12.0; 

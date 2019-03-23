@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -15,16 +16,17 @@ import frc.robot.utilities.Deliver;
 /**
  * Add your docs here.
  */
-public class DriveToVisionTapeThree extends InstantCommand {
-  private static final double DRIVE_POWER = 0.7;
-  private static final double CAMERA_SKEW = -4.0;
+public class DriveToVisionTapeThree extends DriveOnHeadingDistance {
+  private static final double DRIVE_POWER = 0.65;
+  private static final double CAMERA_SKEW = 0.0;
   private Deliver delivery;
+  private Command currentCommand;
 
   /**
    * Add your docs here.
    */
   public DriveToVisionTapeThree(Deliver delivery) {
-    super();
+    super(0, 0, DRIVE_POWER);
     this.delivery = delivery;
   }
 
@@ -32,10 +34,13 @@ public class DriveToVisionTapeThree extends InstantCommand {
   @Override
   protected void initialize() {
     if (Robot.visionTargets.hasTargets()) {
-      double distanceToDrive = Robot.visionTargets.getDistanceToTarget() - this.delivery.getStopDistance();
-      double heading = Robot.visionTargets.getAngleToTarget() + RobotMap.navx.getAngle() + CAMERA_SKEW;
-
-      new DriveOnHeadingDistance(heading, distanceToDrive, DRIVE_POWER).start();
+      this.distanceToDrive = Robot.visionTargets.getDistanceToTarget() - this.delivery.getStopDistance();
+      this.heading = Robot.visionTargets.getAngleToTarget() + RobotMap.navx.getAngle() + CAMERA_SKEW;
+    } else {
+      this.distanceToDrive = 0;
+      this.heading = RobotMap.navx.getAngle();
     }
+
+    super.initialize();
   }
 }
