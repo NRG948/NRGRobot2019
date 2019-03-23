@@ -18,7 +18,7 @@ import frc.robot.utilities.Deliver;
  */
 public class DriveToVisionTapeThree extends DriveOnHeadingDistance {
   private static final double DRIVE_POWER = 0.65;
-  private static final double CAMERA_SKEW = 0.0;
+  private static final double CAMERA_SKEW = -1.0;
   private Deliver delivery;
   private Command currentCommand;
 
