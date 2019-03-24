@@ -15,13 +15,13 @@ public class DriveOnHeadingDistance extends Command {
    */
 
   private static final double MIN_DRIVE_POWER = 0.3;
-  
+
   protected double heading;
   protected double distanceToDrive;
   private double maxPower;
   private double tolerance;
   private Point origin;
-  private static final double GO_SLOW_INCHES = 12.0; 
+  private static final double GO_SLOW_INCHES = 12.0;
 
   private SimplePIDController distancePID = new SimplePIDController(0, 0, 0);
   private int cyclesOnTarget;
@@ -43,11 +43,8 @@ public class DriveOnHeadingDistance extends Command {
     double i = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_I_TERM.getValue();
     double d = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_D_TERM.getValue();
 
-    this.distancePID.setPID(p, i, d)
-      .setSetpoint(this.distanceToDrive)
-      .setAbsoluteTolerance(this.tolerance)
-      .setOutputRange(-Math.abs(this.maxPower), Math.abs(this.maxPower))
-      .start();
+    this.distancePID.setPID(p, i, d).setSetpoint(this.distanceToDrive).setAbsoluteTolerance(this.tolerance)
+        .setOutputRange(-Math.abs(this.maxPower), Math.abs(this.maxPower)).start();
     this.origin = Robot.positionTracker.getPosition();
     this.cyclesOnTarget = 0;
   }
@@ -59,9 +56,9 @@ public class DriveOnHeadingDistance extends Command {
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);
     // if (error > 0 && error < tolerance) {
-    //   revisedPower = 0.0;
+    // revisedPower = 0.0;
     // } else
-     if (error < 0) {
+    if (error < 0) {
       power = MIN_DRIVE_POWER * Math.signum(this.maxPower);
     }
     SmartDashboard.putNumber("DistancePID/Revised Power", power);
@@ -84,7 +81,8 @@ public class DriveOnHeadingDistance extends Command {
   protected void end() {
     Robot.drive.stopMotor();
     Robot.drive.driveOnHeadingEnd();
-    System.out.println("DriveOnHeadingDistance end");
+    System.out.println(String.format("DriveOnHeadingDistance End x:%.1f y:%.1f", Robot.positionTracker.getX(),
+        Robot.positionTracker.getY()));
   }
 
   @Override
