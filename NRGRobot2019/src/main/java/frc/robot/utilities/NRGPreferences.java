@@ -49,9 +49,9 @@ public class NRGPreferences {
         ARM_ROCKET_CARGO_LOW_TICKS("ArmRocketCargoLowTicks", 700),
         ARM_ROCKET_CARGO_MEDIUM_TICKS("ArmRocketCargoMediumTicks", 1260),
         ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 1440), //TODO : figure out latest max value
-        ARM_INVERSION_TICKS("ArmInversionTicks", 1300),
+        ARM_INVERSION_TICKS("ArmInversionTicks", 1430),
         ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks", 1440), // TBD
-        ARM_LEVEL_TICKS("ArmLevelTicks", 750),
+        ARM_LEVEL_TICKS("ArmLevelTicks", 500),
         
         DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower", 0.15),
         DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower", 0.65 ),
