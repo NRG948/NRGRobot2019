@@ -55,14 +55,14 @@ public class DriveOnHeadingDistance extends Command {
   @Override
   protected void execute() {
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
-    double power = this.distancePID.update(distanceTraveled);
+    double power = this.distancePID.update(distanceTraveled) * Math.signum(this.maxPower);
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);
     // if (error > 0 && error < tolerance) {
     //   revisedPower = 0.0;
     // } else
      if (error < 0) {
-      power = MIN_DRIVE_POWER * Math.signum(error);
+      power = MIN_DRIVE_POWER * Math.signum(this.maxPower);
     }
     SmartDashboard.putNumber("DistancePID/Revised Power", power);
     Robot.drive.driveOnHeadingExecute(power);

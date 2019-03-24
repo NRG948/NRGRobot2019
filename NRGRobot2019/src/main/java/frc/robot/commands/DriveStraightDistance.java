@@ -14,6 +14,8 @@ public class DriveStraightDistance extends Command {
   private final double distance;// this is a constant
   private final double maxPower;
   private final boolean stopMotors;
+  private boolean useRobotHeading = true;
+  private double heading = 0;
 
   public DriveStraightDistance(double distance, double maxPower, boolean stopMotors) {
     this.requires(Robot.drive);// requires Robot.drive in order to Drive straight
@@ -26,13 +28,22 @@ public class DriveStraightDistance extends Command {
     this(distance, maxPower, true);
   }
 
+  public DriveStraightDistance(double heading, double distance, double maxPower, boolean stopMotors) {
+    this(distance, maxPower, stopMotors);
+    this.useRobotHeading = false;
+    this.heading = heading;
+  }
+
   @Override
   protected void initialize() {
     System.out.println("DriveStraightDistance Init");
     this.xOrigin = Robot.positionTracker.getX(); // gets our current X position from the poistion tracker command
-    this.yOrigin = Robot.positionTracker.getY();// gets our current Y position from the poistion tracker command
-    Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle()); // We are getting our current heading and putting it into
-                                                              // driveOnHeadingInit to adjust our current heading
+    this.yOrigin = Robot.positionTracker.getY(); // gets our current Y position from the poistion tracker command
+    if (useRobotHeading) {
+      heading = RobotMap.navx.getAngle();
+    }
+    Robot.drive.driveOnHeadingInit(heading); // We are getting our current heading and putting it into
+                                             // driveOnHeadingInit to adjust our current heading
   }
 
   @Override
@@ -54,7 +65,9 @@ public class DriveStraightDistance extends Command {
     if (stopMotors) {
       Robot.drive.driveOnHeadingEnd();
     }
-    System.out.println("DriveStraightDistance End");
+    System.out.println(String.format("DriveStraightDistance End x:%.1f y:%.1f", 
+        Robot.positionTracker.getX(),
+        Robot.positionTracker.getY()));
   } // terminated the command as the robot has reached the distance that needs to be
     // traveled or if it needs to be interrupted
 

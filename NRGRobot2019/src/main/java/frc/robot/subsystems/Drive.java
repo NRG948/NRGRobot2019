@@ -26,26 +26,6 @@ public class Drive extends Subsystem {
    *
    */
 
-  public static final double DEFAULT_TURN_P = 0.081;
-  public static final double DEFAULT_TURN_I = 0.00016;
-  public static final double DEFAULT_TURN_D = 0.0072;
-  private static final boolean DEFAULT_TURN_SQUARE_INPUTS = true;
-
-  public static final double DEFAULT_DRIVE_P = 0.081;
-  public static final double DEFAULT_DRIVE_I = 0.00016;
-  public static final double DEFAULT_DRIVE_D = 0.0072;
-  private static final boolean DEFAULT_DRIVE_SQUARE_INPUTS = true;
-
-  public static final double DEFAULT_DISTANCE_DRIVE_P = 0.03;
-  public static final double DEFAULT_DISTANCE_DRIVE_I = 0.0;
-  public static final double DEFAULT_DISTANCE_DRIVE_D = 0.005;
-  public static final double DEFAULT_DISTANCE_TOLERANCE = 0.75;
-
-  public static final double DEFAULT_PATH_P = 0.5;
-  public static final double DEFAULT_PATH_I = 0.00;
-  public static final double DEFAULT_PATH_D = 0.00;
-  private static final boolean DEFAULT_PATHS_SQUARE_INPUTS = true;
-
   private static final double DRIVE_WHEEL_BASE = 25.5;
   private static final double DRIVE_MAX_VELOCITY = 162;
 
@@ -63,7 +43,6 @@ public class Drive extends Subsystem {
   private double currentHeading = 0;
 
   private boolean turnSquareInputs;
-  private boolean driveSquareInputs;
   private boolean pathsSquareInputs;
 
   @Override
@@ -112,11 +91,6 @@ public class Drive extends Subsystem {
     double d = NRGPreferences.NumberPrefs.DRIVE_D_TERM.getValue();
     this.drivePIDController = new SimplePIDController(p, i, d).setSetpoint(currentHeading).setAbsoluteTolerance(0);
     setCurrentHeading(currentHeading);
-    this.driveSquareInputs = areDriveInputsSquared();
-  }
-
-  public boolean areDriveInputsSquared() {
-    return NRGPreferences.BooleanPrefs.DRIVE_SQUARE_INPUTS.getValue();
   }
 
   public void driveOnHeadingExecute(double power, double heading) {
@@ -127,10 +101,10 @@ public class Drive extends Subsystem {
 
   public void driveOnHeadingExecute(double power) {
     double powerDelta = this.drivePIDController.update(RobotMap.navx.getAngle());
-    if (powerDelta < 0) {
-      this.tankDrive(power + powerDelta, power, this.driveSquareInputs);
+    if (Math.signum(powerDelta) != Math.signum(power)) {
+      this.tankDrive(power + powerDelta, power, false);
     } else {
-      this.tankDrive(power, power - powerDelta, this.driveSquareInputs);
+      this.tankDrive(power, power - powerDelta, false);
     }
     SmartDashboard.putNumber("Drive/driveOnHeading/PIDOutput", powerDelta);
     SmartDashboard.putNumber("Drive/driveOnHeading/PIDError", this.drivePIDController.getError());

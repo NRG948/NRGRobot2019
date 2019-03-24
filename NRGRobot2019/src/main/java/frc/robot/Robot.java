@@ -138,12 +138,15 @@ public class Robot extends TimedRobot {
     autoMovementChooser.addObject("Forward", AutoMovement.FORWARD);
     autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+    autoMovementChooser.addObject("Rocket_close", AutoMovement.ROCKET_CLOSE);
 
     autoMovement2Chooser = new SendableChooser<AutoMovement>();
     autoMovement2Chooser.addDefault("None", AutoMovement.NONE);
     autoMovement2Chooser.addObject("Forward", AutoMovement.FORWARD);
     autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
     autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+    autoMovement2Chooser.addObject("Rocket_close", AutoMovement.ROCKET_CLOSE);
+
 
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
@@ -277,10 +280,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    watchdog.reset();
     positionTracker.updatePosition();
+    watchdog.addEpoch("position tracker");
     visionTargets.update();
+    watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
+    watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
+    watchdog.addEpoch("scheduler");
+    if (watchdog.isExpired()) {
+      watchdog.printEpochs();
+    }
   }
 
   @Override

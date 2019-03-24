@@ -22,7 +22,7 @@ public class DeliverHatch extends CommandGroup {
    * position.
    */
   public DeliverHatch() {
-    addSequential(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver));
+    addSequential(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver), 3.0);
     addParallel(new HatchClaw(CLOSE));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));

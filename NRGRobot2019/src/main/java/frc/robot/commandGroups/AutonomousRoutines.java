@@ -23,7 +23,7 @@ public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
   public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
-  private static final double DRIVE_POWER = 0.8;
+  private static final double DRIVE_POWER = 0.65;
   private static final double TURN_POWER = 1.0;
   private static final double VISION_DELAY = 0.25;
 
@@ -33,9 +33,6 @@ public class AutonomousRoutines extends CommandGroup {
    */
   public AutonomousRoutines() {
     double drivePower = DRIVE_POWER;
-    if (!Robot.drive.areDriveInputsSquared()) {
-      drivePower *= drivePower;
-    }
 
     double turnPower = TURN_POWER;
     if (!Robot.drive.areTurnInputsSquared()) {
@@ -68,25 +65,28 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
-      addSequential(new
-      FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
-      autoMovement)));
-      // switch (autoStartingPosition) {
-      // case LEFT:
-      //   addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
-      //   addSequential(new TurnToHeading(0, turnPower));
-      //   break;
+      // addSequential(new
+      // FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
+      // autoMovement)));
+      switch (autoStartingPosition) {
+      case LEFT:
+        addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
+        // addSequential(new TurnToHeading(0, turnPower));
+        break;
 
-      // case CENTER:
-      //   addSequential(
-      //       new DriveOnHeadingDistance(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
-      //   break;
+      case CENTER:
+        addSequential(
+            new DriveOnHeadingDistance(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
+        break;
 
-      // case RIGHT:
-      //   addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
-      //   addSequential(new TurnToHeading(0, turnPower));
-      //   break;
-      // }
+      case RIGHT:
+        // addSequential(new DriveStraightDistance(-10.0, 18, drivePower, false));
+        // addSequential(new DriveStraightDistance(-30.0, 50.0, drivePower, false));
+        // addSequential(new DriveOnHeadingDistance(0.0, 32.0, drivePower * 1.2));
+        addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
+        addSequential(new TurnToHeading(0, turnPower));
+        break;
+      }
       addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
       break;
@@ -95,6 +95,14 @@ public class AutonomousRoutines extends CommandGroup {
     switch (autoFeederPosition) {
     case NONE:
       return;
+
+    case RIGHT_FEEDER:
+      addSequential(new DriveOnHeadingDistance(-50.0, 160.0, -drivePower));
+      addSequential(new TurnToHeading(-180, turnPower));
+      addSequential(new WaitForNewVisionData());
+      addSequential(new PickupHatch());
+      addSequential(new DriveStraightDistance(6, -drivePower));
+      break;
 
     default:
       //addSequential(new DriveStraightDistance(6, -drivePower));
