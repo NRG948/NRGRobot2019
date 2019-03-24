@@ -117,6 +117,7 @@ public class Robot extends TimedRobot {
     climberRear = new ClimberRear();
     climberArms = new ClimberArms();
     cargoAcquirer = new CargoAcquirer();
+    climberArmWheels = new ClimberArmWheels();
     hatchClaw = new HatchClawSubsystem();
     hatchExtension = new HatchExtensionSubsystem();
 

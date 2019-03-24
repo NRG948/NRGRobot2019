@@ -7,26 +7,26 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualClimberArmWheels;
+import frc.robot.commands.ManualArmPiston;
 
 /**
  * Add your docs here.
  */
-public class ClimberArmWheels extends Subsystem {
+public class ArmPistons extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManualClimberArmWheels());
+    setDefaultCommand(new ManualArmPiston());
   }
-  public void spin(double power){
-    power = Math.abs(power);
-    RobotMap.climberArmLeftWheelMotor.set(power);
-    RobotMap.climberArmRightWheelMotor.set(power);
+
+  public void activate(boolean extend) {
+    Value direction = extend ? Value.kForward : Value.kReverse;
+    
+  RobotMap.climberSolenoid.set(direction);
   }
-public void stop() {
-}
 }

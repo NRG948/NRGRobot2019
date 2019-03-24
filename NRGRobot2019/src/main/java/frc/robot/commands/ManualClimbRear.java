@@ -21,7 +21,7 @@ public class ManualClimbRear extends Command {
   @Override
   protected void execute() {
     if (Robot.oi.climberRearButton.get()) {
-      double speed = Robot.oi.getXboxLeftY() * 0.5;
+      double speed = Robot.oi.getXboxLeftY() * 0.75;
       Robot.climberRear.rawClimb(MathUtil.deadband(speed, 0.1));
     } else {
       Robot.climberRear.stop();
