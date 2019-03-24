@@ -65,8 +65,8 @@ public class Robot extends TimedRobot {
   public static PositionTracker positionTracker = new PositionTracker();
   // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  public static Watchdog watchdog = new Watchdog(0.02, () -> {
-  });
+  // public static Watchdog watchdog = new Watchdog(0.02, () -> {
+  // });
 
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
@@ -249,18 +249,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    watchdog.reset();
+    // watchdog.reset();
     positionTracker.updatePosition();
-    watchdog.addEpoch("position tracker");
+    // watchdog.addEpoch("position tracker");
     visionTargets.update();
-    watchdog.addEpoch("vision targets");
+    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
-    watchdog.addEpoch("arm angle PID");
+    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    watchdog.addEpoch("scheduler");
-    if (watchdog.isExpired()) {
-      watchdog.printEpochs();
-    }
+    // watchdog.addEpoch("scheduler");
+    // if (watchdog.isExpired()) {
+    //   watchdog.printEpochs();
+    // }
   }
 
   @Override
@@ -279,18 +279,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    watchdog.reset();
+    // watchdog.reset();
     positionTracker.updatePosition();
-    watchdog.addEpoch("position tracker");
+    // watchdog.addEpoch("position tracker");
     visionTargets.update();
-    watchdog.addEpoch("vision targets");
+    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
-    watchdog.addEpoch("arm angle PID");
+    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    watchdog.addEpoch("scheduler");
-    if (watchdog.isExpired()) {
-      watchdog.printEpochs();
-    }
+    // watchdog.addEpoch("scheduler");
+    // if (watchdog.isExpired()) {
+    //   watchdog.printEpochs();
+    // }
   }
 
   @Override
