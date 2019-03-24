@@ -35,6 +35,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
+import frc.robot.subsystems.ClimberPistons.State;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
@@ -178,7 +179,7 @@ public class Robot extends TimedRobot {
     distanceButtonLayout.add("24 Inches", new DriveOnHeadingDistance(0, 24, 0.7));
     distanceButtonLayout.add("48 Inches", new DriveOnHeadingDistance(0, 48, 0.7));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
-    climberPistons.activate(false);
+    climberPistons.setState(State.RETRACT);
     System.out.println("robotInit() done");
   }
 

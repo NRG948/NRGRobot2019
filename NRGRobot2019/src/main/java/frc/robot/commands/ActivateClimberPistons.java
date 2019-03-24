@@ -5,26 +5,27 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.ClimberRear;
+import frc.robot.subsystems.ClimberPistons.State;
 
 /**
  * Climber Pistons.
  */
 public class ActivateClimberPistons extends Command {
-  private boolean extend;
+  private State state;
 
-  public ActivateClimberPistons(boolean extend) {
+  public ActivateClimberPistons(State state) {
     requires(Robot.climberPistons);
-    this.extend = extend;
+    this.state = state;
   }
 
   @Override
   protected void initialize() {
-    System.out.println("Climber Pistons " + extend);
+    System.out.println("Climber Pistons " + state);
   }
 
   @Override
   protected void execute() {
-    Robot.climberPistons.activate(extend);
+    Robot.climberPistons.setState(state);
   }
 
   @Override

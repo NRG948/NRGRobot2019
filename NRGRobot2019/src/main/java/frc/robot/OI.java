@@ -31,6 +31,7 @@ import frc.robot.commands.ManualClimbRear;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Arm.Angle;
+import frc.robot.subsystems.ClimberPistons;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
 import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
@@ -139,8 +140,8 @@ public class OI {
     
     // climberMotorButton.whileHeld(new ManualClimberMotor(0.25)); //TBD
     // climberMotorButton2.whileHeld(new ManualClimberMotor(-0.25)); //TBD
-    extendClimberPiston.whenPressed(new ActivateClimberPistons(true));
-    retractClimberPiston.whenPressed(new ActivateClimberPistons(false));
+    extendClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.EXTEND));
+    retractClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.RETRACT));
 
     // testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
     // testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
