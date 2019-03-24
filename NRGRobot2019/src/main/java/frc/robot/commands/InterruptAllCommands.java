@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Arm;
 
 public class InterruptAllCommands extends Command {
   public InterruptAllCommands() {
@@ -17,7 +16,7 @@ public class InterruptAllCommands extends Command {
     requires(Robot.arm);
     requires(Robot.cargoAcquirer);
     requires(Robot.climberRear);
-    requires(Robot.climberArms);
+    requires(Robot.climberPistons);
     requires(Robot.drive);
     requires(Robot.gearbox);
     requires(Robot.hatchClaw);

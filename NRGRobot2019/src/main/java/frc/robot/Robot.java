@@ -30,7 +30,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
 import frc.robot.subsystems.ClimberRear;
-import frc.robot.subsystems.ClimberArms;
 import frc.robot.subsystems.ClimberPistons;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
@@ -57,7 +56,6 @@ public class Robot extends TimedRobot {
   public static CargoAcquirer cargoAcquirer;
   public static Arm arm;
   public static ClimberRear climberRear;
-  public static ClimberArms climberArms;
   public static ClimberArmWheels climberArmWheels;
   public static ClimberPistons climberPistons;
   public static HatchClawSubsystem hatchClaw;
@@ -115,7 +113,6 @@ public class Robot extends TimedRobot {
     arm = new Arm();
     climberPistons = new ClimberPistons();
     climberRear = new ClimberRear();
-    climberArms = new ClimberArms();
     cargoAcquirer = new CargoAcquirer();
     climberArmWheels = new ClimberArmWheels();
     hatchClaw = new HatchClawSubsystem();
