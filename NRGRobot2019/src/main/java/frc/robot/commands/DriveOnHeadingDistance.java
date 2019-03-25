@@ -9,10 +9,10 @@ import frc.robot.subsystems.Drive;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.SimplePIDController;
 
+/**
+ *
+ */
 public class DriveOnHeadingDistance extends Command {
-  /**
-   *
-   */
 
   private static final double MIN_DRIVE_POWER = 0.3;
 
@@ -35,7 +35,7 @@ public class DriveOnHeadingDistance extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("DriveOnHeadingDistance init heading: " + this.heading + " distance: " + this.distanceToDrive);
+    System.out.println("xDriveOnHeadingDistance init heading: " + this.heading + " distance: " + this.distanceToDrive);
     this.tolerance = NRGPreferences.NumberPrefs.DISTANCE_TOLERANCE.getValue();
     Robot.drive.driveOnHeadingInit(this.heading);
 
@@ -51,15 +51,15 @@ public class DriveOnHeadingDistance extends Command {
 
   @Override
   protected void execute() {
+    System.out.println("executed");
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
     double power = this.distancePID.update(distanceTraveled) * Math.signum(this.maxPower);
     double error = distancePID.getError();
     SmartDashboard.putNumber("DistancePID/Error", error);
-    // if (error > 0 && error < tolerance) {
-    // revisedPower = 0.0;
-    // } else
-    if (error < 0) {
-      power = MIN_DRIVE_POWER * Math.signum(this.maxPower);
+
+    if (error < 0.0) {
+      power = -MIN_DRIVE_POWER * Math.signum(this.maxPower);
+      System.out.println("overshot");
     }
     SmartDashboard.putNumber("DistancePID/Revised Power", power);
     Robot.drive.driveOnHeadingExecute(power);
@@ -68,6 +68,7 @@ public class DriveOnHeadingDistance extends Command {
   /** Finishes the command if the target distance has been reached */
   @Override
   protected boolean isFinished() {
+    System.out.println("is finished");
     if (distancePID.onTarget()) {
       cyclesOnTarget++;
     } else {
@@ -81,7 +82,7 @@ public class DriveOnHeadingDistance extends Command {
   protected void end() {
     Robot.drive.stopMotor();
     Robot.drive.driveOnHeadingEnd();
-    System.out.println(String.format("DriveOnHeadingDistance End x:%.1f y:%.1f", Robot.positionTracker.getX(),
+    System.out.println(String.format("xDriveOnHeadingDistance End x:%.1f y:%.1f", Robot.positionTracker.getX(),
         Robot.positionTracker.getY()));
   }
 
