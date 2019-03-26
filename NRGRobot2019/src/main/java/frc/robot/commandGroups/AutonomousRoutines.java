@@ -73,6 +73,14 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DeliverHatch());
       return;
 
+    case CARGO_FIRST_HATCH_CLOSE:
+      addSequential(new DriveStraightDistance(autoStartingPosition == AutoStartingPosition.RIGHT ? 15.0 : -15.0, 170.0,
+          drivePower, false));
+      addSequential(new TurnToHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? -90.0 : 90.0, turnPower));
+      addSequential(new WaitForNewVisionData());
+      addSequential(new DeliverHatch());
+      return;
+
     default:
       // addSequential(new
       // FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,

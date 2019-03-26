@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
   }
 
   public enum AutoMovement {
-    NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH, ROCKET_CLOSE
+    NONE, FORWARD, CARGO_FRONT_LEFT_HATCH, CARGO_FRONT_RIGHT_HATCH, ROCKET_CLOSE, CARGO_FIRST_HATCH_CLOSE
   }
 
   public enum HabitatLevel {
@@ -123,28 +123,29 @@ public class Robot extends TimedRobot {
     visionTargets = new VisionTargets();
 
     autoStartingPositionChooser = new SendableChooser<AutoStartingPosition>();
-    autoStartingPositionChooser.addDefault("Left", AutoStartingPosition.LEFT);
-    autoStartingPositionChooser.addObject("Center", AutoStartingPosition.CENTER);
-    autoStartingPositionChooser.addObject("Right", AutoStartingPosition.RIGHT);
+    autoStartingPositionChooser.setDefaultOption("Left", AutoStartingPosition.LEFT);
+    autoStartingPositionChooser.addOption("Center", AutoStartingPosition.CENTER);
+    autoStartingPositionChooser.addOption("Right", AutoStartingPosition.RIGHT);
 
     autoStationPositionChooser = new SendableChooser<AutoFeederPosition>();
-    autoStationPositionChooser.addDefault("None", AutoFeederPosition.NONE);
-    autoStationPositionChooser.addObject("Left", AutoFeederPosition.LEFT_FEEDER);
-    autoStationPositionChooser.addObject("Right", AutoFeederPosition.RIGHT_FEEDER);
+    autoStationPositionChooser.setDefaultOption("None", AutoFeederPosition.NONE);
+    autoStationPositionChooser.addOption("Left", AutoFeederPosition.LEFT_FEEDER);
+    autoStationPositionChooser.addOption("Right", AutoFeederPosition.RIGHT_FEEDER);
 
     autoMovementChooser = new SendableChooser<AutoMovement>();
-    autoMovementChooser.addDefault("None", AutoMovement.NONE);
-    autoMovementChooser.addObject("Forward", AutoMovement.FORWARD);
-    autoMovementChooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
-    autoMovementChooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
-    autoMovementChooser.addObject("Rocket_close", AutoMovement.ROCKET_CLOSE);
+    autoMovementChooser.setDefaultOption("None", AutoMovement.NONE);
+    autoMovementChooser.addOption("Forward", AutoMovement.FORWARD);
+    autoMovementChooser.addOption("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovementChooser.addOption("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
+    autoMovementChooser.addOption("Cargo_first_hatch_close", AutoMovement.CARGO_FIRST_HATCH_CLOSE);
+    autoMovementChooser.addOption("Rocket_close", AutoMovement.ROCKET_CLOSE);
 
     autoMovement2Chooser = new SendableChooser<AutoMovement>();
-    autoMovement2Chooser.addDefault("None", AutoMovement.NONE);
-    autoMovement2Chooser.addObject("Forward", AutoMovement.FORWARD);
-    autoMovement2Chooser.addObject("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
-    autoMovement2Chooser.addObject("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
-    autoMovement2Chooser.addObject("Rocket_close", AutoMovement.ROCKET_CLOSE);
+    autoMovement2Chooser.setDefaultOption("None", AutoMovement.NONE);
+    autoMovement2Chooser.addOption("Forward", AutoMovement.FORWARD);
+    autoMovement2Chooser.addOption("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
+    autoMovement2Chooser.addOption("Rocket_close", AutoMovement.ROCKET_CLOSE);
+    autoMovement2Chooser.addOption("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
 
 
     habLevelChooser = new SendableChooser<HabitatLevel>();
@@ -158,11 +159,11 @@ public class Robot extends TimedRobot {
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
         .withSize(4, 1);
     autoTab.add("First Hatch", autoMovementChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 1)
-        .withSize(4, 1);
+        .withSize(6, 1);
     autoTab.add("Feeder", autoStationPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 2)
         .withSize(4, 1);
     autoTab.add("End", autoMovement2Chooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 3)
-        .withSize(4, 1);
+        .withSize(6, 1);
     autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0)
         .withSize(2, 1);
 

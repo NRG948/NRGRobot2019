@@ -36,12 +36,12 @@ public class DriveStraightDistance extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("DriveStraightDistance Init");
-    this.xOrigin = Robot.positionTracker.getX(); // gets our current X position from the poistion tracker command
-    this.yOrigin = Robot.positionTracker.getY(); // gets our current Y position from the poistion tracker command
     if (useRobotHeading) {
       heading = RobotMap.navx.getAngle();
     }
+    System.out.println("DriveStraightDistance Init heading: " + heading + " distance: " + distance);
+    this.xOrigin = Robot.positionTracker.getX(); // gets our current X position from the poistion tracker command
+    this.yOrigin = Robot.positionTracker.getY(); // gets our current Y position from the poistion tracker command
     Robot.drive.driveOnHeadingInit(heading); // We are getting our current heading and putting it into
                                              // driveOnHeadingInit to adjust our current heading
   }
@@ -65,8 +65,7 @@ public class DriveStraightDistance extends Command {
     if (stopMotors) {
       Robot.drive.driveOnHeadingEnd();
     }
-    System.out.println(String.format("DriveStraightDistance End x:%.1f y:%.1f", 
-        Robot.positionTracker.getX(),
+    System.out.println(String.format("DriveStraightDistance End x:%.1f y:%.1f", Robot.positionTracker.getX(),
         Robot.positionTracker.getY()));
   } // terminated the command as the robot has reached the distance that needs to be
     // traveled or if it needs to be interrupted
