@@ -66,6 +66,13 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(80, drivePower), 3);
       return;
 
+    case ROCKET_CLOSE:
+      addSequential(new DriveDistanceOnHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? 35.0 : -35.0, 120,
+          drivePower));
+      addSequential(new WaitForNewVisionData());
+      addSequential(new DeliverHatch());
+      return;
+
     default:
       // addSequential(new
       // FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
