@@ -14,8 +14,10 @@ import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
+import frc.robot.commands.SetCompressorState;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.commands.WaitForNewVisionData;
+import frc.robot.commands.SetCompressorState.CompressorState;
 import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.utilities.VisionTargetsApproach;
 
@@ -70,7 +72,10 @@ public class AutonomousRoutines extends CommandGroup {
       // autoMovement)));
       switch (autoStartingPosition) {
       case LEFT:
-        addSequential(new DriveDistanceOnHeading(20.0, 106.0, drivePower));
+        addSequential(new DriveStraightDistance(10.0, 18, drivePower, false));
+        addSequential(new DriveStraightDistance(30.0, 50.0, drivePower, false));
+        addSequential(new DriveDistanceOnHeading(0.0, 32.0, drivePower * 1.2));
+        // addSequential(new DriveDistanceOnHeading(20.0, 106.0, drivePower));
         // addSequential(new TurnToHeading(0, turnPower));
         break;
 
@@ -80,11 +85,11 @@ public class AutonomousRoutines extends CommandGroup {
         break;
 
       case RIGHT:
-        // addSequential(new DriveStraightDistance(-10.0, 18, drivePower, false));
-        // addSequential(new DriveStraightDistance(-30.0, 50.0, drivePower, false));
-        // addSequential(new DriveOnHeadingDistance(0.0, 32.0, drivePower * 1.2));
-        addSequential(new DriveDistanceOnHeading(-20.0, 106.0, drivePower));
-        addSequential(new TurnToHeading(0, turnPower));
+        addSequential(new DriveStraightDistance(-10.0, 18, drivePower, false));
+        addSequential(new DriveStraightDistance(-30.0, 50.0, drivePower, false));
+        addSequential(new DriveDistanceOnHeading(0.0, 32.0, drivePower * 1.2));
+        // addSequential(new DriveDistanceOnHeading(-20.0, 106.0, drivePower));
+        // addSequential(new TurnToHeading(0, turnPower));
         break;
       }
       addSequential(new WaitForNewVisionData());
@@ -97,15 +102,17 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     case RIGHT_FEEDER:
+      // addSequential(new SetCompressorState(CompressorState.DISABLED));
       addSequential(new DriveDistanceOnHeading(-50.0, 160.0, -drivePower));
       addSequential(new TurnToHeading(-180, turnPower));
+      // addSequential(new SetCompressorState(CompressorState.ENABLED));
       addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());
       addSequential(new DriveStraightDistance(6, -drivePower));
       break;
 
     default:
-      //addSequential(new DriveStraightDistance(6, -drivePower));
+      // addSequential(new DriveStraightDistance(6, -drivePower));
       addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, turnPower));
       System.out.println("Gyro heading " + RobotMap.navx.getAngle());
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
