@@ -12,7 +12,7 @@ import frc.robot.utilities.SimplePIDController;
 /**
  *
  */
-public class DriveOnHeadingDistance extends Command {
+public class DriveDistanceOnHeading extends Command {
 
   private static final double MIN_DRIVE_POWER = 0.3;
 
@@ -26,7 +26,7 @@ public class DriveOnHeadingDistance extends Command {
   private SimplePIDController distancePID = new SimplePIDController(0, 0, 0);
   private int cyclesOnTarget;
 
-  public DriveOnHeadingDistance(double heading, double distance, double maxPower) {
+  public DriveDistanceOnHeading(double heading, double distance, double maxPower) {
     this.requires(Robot.drive);
     this.heading = heading;
     this.distanceToDrive = distance;
@@ -35,7 +35,7 @@ public class DriveOnHeadingDistance extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("xDriveOnHeadingDistance init heading: " + this.heading + " distance: " + this.distanceToDrive);
+    System.out.println("DriveDistanceOnHeading init heading: " + this.heading + " distance: " + this.distanceToDrive);
     this.tolerance = NRGPreferences.NumberPrefs.DISTANCE_TOLERANCE.getValue();
     Robot.drive.driveOnHeadingInit(this.heading);
 
@@ -51,24 +51,23 @@ public class DriveOnHeadingDistance extends Command {
 
   @Override
   protected void execute() {
-    System.out.println("executed");
     double distanceTraveled = Robot.positionTracker.calculateDistance(this.origin);
     double power = this.distancePID.update(distanceTraveled) * Math.signum(this.maxPower);
     double error = distancePID.getError();
-    SmartDashboard.putNumber("DistancePID/Error", error);
 
     if (error < 0.0) {
       power = -MIN_DRIVE_POWER * Math.signum(this.maxPower);
-      System.out.println("overshot");
     }
-    SmartDashboard.putNumber("DistancePID/Revised Power", power);
+
     Robot.drive.driveOnHeadingExecute(power);
+
+    SmartDashboard.putNumber("DistancePID/Error", error);
+    SmartDashboard.putNumber("DistancePID/Revised Power", power);
   }
 
   /** Finishes the command if the target distance has been reached */
   @Override
   protected boolean isFinished() {
-    System.out.println("is finished");
     if (distancePID.onTarget()) {
       cyclesOnTarget++;
     } else {
@@ -82,7 +81,7 @@ public class DriveOnHeadingDistance extends Command {
   protected void end() {
     Robot.drive.stopMotor();
     Robot.drive.driveOnHeadingEnd();
-    System.out.println(String.format("xDriveOnHeadingDistance End x:%.1f y:%.1f", Robot.positionTracker.getX(),
+    System.out.println(String.format("DriveDistanceOnHeading End x:%.1f y:%.1f", Robot.positionTracker.getX(),
         Robot.positionTracker.getY()));
   }
 

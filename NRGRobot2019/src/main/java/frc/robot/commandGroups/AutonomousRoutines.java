@@ -9,7 +9,7 @@ import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.HabitatLevel;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DelaySeconds;
-import frc.robot.commands.DriveOnHeadingDistance;
+import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
@@ -70,20 +70,20 @@ public class AutonomousRoutines extends CommandGroup {
       // autoMovement)));
       switch (autoStartingPosition) {
       case LEFT:
-        addSequential(new DriveOnHeadingDistance(20.0, 106.0, drivePower));
+        addSequential(new DriveDistanceOnHeading(20.0, 106.0, drivePower));
         // addSequential(new TurnToHeading(0, turnPower));
         break;
 
       case CENTER:
         addSequential(
-            new DriveOnHeadingDistance(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
+            new DriveDistanceOnHeading(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH ? 6 : -6, 90, drivePower));
         break;
 
       case RIGHT:
         // addSequential(new DriveStraightDistance(-10.0, 18, drivePower, false));
         // addSequential(new DriveStraightDistance(-30.0, 50.0, drivePower, false));
         // addSequential(new DriveOnHeadingDistance(0.0, 32.0, drivePower * 1.2));
-        addSequential(new DriveOnHeadingDistance(-20.0, 106.0, drivePower));
+        addSequential(new DriveDistanceOnHeading(-20.0, 106.0, drivePower));
         addSequential(new TurnToHeading(0, turnPower));
         break;
       }
@@ -97,7 +97,7 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     case RIGHT_FEEDER:
-      addSequential(new DriveOnHeadingDistance(-50.0, 160.0, -drivePower));
+      addSequential(new DriveDistanceOnHeading(-50.0, 160.0, -drivePower));
       addSequential(new TurnToHeading(-180, turnPower));
       addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());

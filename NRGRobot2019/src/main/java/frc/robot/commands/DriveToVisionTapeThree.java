@@ -17,7 +17,7 @@ import frc.robot.utilities.NRGPreferences.NumberPrefs;
 /**
  * Add your docs here.
  */
-public class DriveToVisionTapeThree extends DriveOnHeadingDistance {
+public class DriveToVisionTapeThree extends DriveDistanceOnHeading {
   private static final double DRIVE_POWER = 0.65;
   private VisionTargetsApproach delivery;
   private Command currentCommand;

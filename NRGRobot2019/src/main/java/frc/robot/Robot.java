@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
-import frc.robot.commands.DriveOnHeadingDistance;
+import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.subsystems.Arm;
@@ -175,9 +175,9 @@ public class Robot extends TimedRobot {
     }))).withSize(2, 1).withPosition(0, 0);
     ShuffleboardLayout distanceButtonLayout = testTab.getLayout("Test Distance", BuiltInLayouts.kList)
         .withPosition(0, 1).withSize(2, 2);
-    distanceButtonLayout.add("12 Inches", new DriveOnHeadingDistance(0, 12, 0.7));
-    distanceButtonLayout.add("24 Inches", new DriveOnHeadingDistance(0, 24, 0.7));
-    distanceButtonLayout.add("48 Inches", new DriveOnHeadingDistance(0, 48, 0.7));
+    distanceButtonLayout.add("12 Inches", new DriveDistanceOnHeading(0, 12, 0.7));
+    distanceButtonLayout.add("24 Inches", new DriveDistanceOnHeading(0, 24, 0.7));
+    distanceButtonLayout.add("48 Inches", new DriveDistanceOnHeading(0, 48, 0.7));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
     climberPistons.setState(State.RETRACT);
     System.out.println("robotInit() done");
