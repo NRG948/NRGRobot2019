@@ -44,10 +44,10 @@ public class NRGPreferences {
         HOLD_ARM_LEVEL("ArmHoldLevel", 0.2),
         
         ARM_STOWED_TICKS("ArmStowedTicks", 0),
-        ARM_ACQUIRE_CARGO_TICKS("ArmAcquireCargoTicks", 280),
+        ARM_ACQUIRE_CARGO_TICKS("ArmAcquireCargoTicks", 290),
         ARM_CARGO_SHIP_TICKS("ArmCargoShipTicks", 970),
-        ARM_ROCKET_CARGO_LOW_TICKS("ArmRocketCargoLowTicks", 700),
-        ARM_ROCKET_CARGO_MEDIUM_TICKS("ArmRocketCargoMediumTicks", 1260),
+        ARM_ROCKET_CARGO_LOW_TICKS("ArmRocketCargoLowTicks", 720),
+        ARM_ROCKET_CARGO_MEDIUM_TICKS("ArmRocketCargoMediumTicks", 1270),
         ARM_MAX_ANGLE_TICKS("ArmMaxAngleTicks", 1440), //TODO : figure out latest max value
         ARM_INVERSION_TICKS("ArmInversionTicks", 1430),
         ARM_HATCH_MEDIUM_TICKS("ArmHatchMediumTicks", 1440), // TBD
