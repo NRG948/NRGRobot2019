@@ -144,9 +144,9 @@ public class Robot extends TimedRobot {
     autoMovement2Chooser.setDefaultOption("None", AutoMovement.NONE);
     autoMovement2Chooser.addOption("Forward", AutoMovement.FORWARD);
     autoMovement2Chooser.addOption("Cargo_front_left_hatch", AutoMovement.CARGO_FRONT_LEFT_HATCH);
-    autoMovement2Chooser.addOption("Rocket_close", AutoMovement.ROCKET_CLOSE);
     autoMovement2Chooser.addOption("Cargo_front_right_hatch", AutoMovement.CARGO_FRONT_RIGHT_HATCH);
-
+    autoMovement2Chooser.addOption("Cargo_first_hatch_close", AutoMovement.CARGO_FIRST_HATCH_CLOSE);
+    autoMovement2Chooser.addOption("Rocket_close", AutoMovement.ROCKET_CLOSE);
 
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);

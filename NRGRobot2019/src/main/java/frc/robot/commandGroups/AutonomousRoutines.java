@@ -25,7 +25,7 @@ public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
   public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
-  private static final double DRIVE_POWER = 0.65;
+  private static final double DRIVE_POWER = 0.7;
   private static final double TURN_POWER = 1.0;
   private static final double VISION_DELAY = 0.25;
 
@@ -118,12 +118,14 @@ public class AutonomousRoutines extends CommandGroup {
 
     case RIGHT_FEEDER:
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
-      addSequential(new DriveDistanceOnHeading(-50.0, 160.0, -drivePower));
+      addSequential(new DriveStraightDistance(-60.0, 125.0, -1.0, false));
       addSequential(new TurnToHeading(-180, turnPower));
+      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
+      // addSequential(new DelaySeconds(4));
       addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());
-      addSequential(new DriveStraightDistance(6, -drivePower));
+      // addSequential(new DriveStraightDistance(6, -drivePower));
       break;
 
     default:
@@ -141,6 +143,13 @@ public class AutonomousRoutines extends CommandGroup {
     switch (autoMovement2) {
     case NONE:
       return;
+    
+    case CARGO_FIRST_HATCH_CLOSE:
+      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 240, -1.0));
+      addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -90 : 90, turnPower));
+      addSequential(new WaitForNewVisionData());
+      addSequential(new DeliverHatch());
+      break;
 
     default:
       addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoFeederPosition, autoMovement2)));
