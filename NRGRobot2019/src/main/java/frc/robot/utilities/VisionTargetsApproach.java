@@ -13,7 +13,7 @@ package frc.robot.utilities;
 public enum VisionTargetsApproach {
   Cargo(34),
   HatchDeliver(12.25),
-  HatchPickUp(13.5);
+  HatchPickUp(13.5 - 6.25);
 
   private final double stopDistance;
 
