@@ -145,7 +145,7 @@ public class AutonomousRoutines extends CommandGroup {
       return;
     
     case CARGO_FIRST_HATCH_CLOSE:
-      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 240, -1.0));
+      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 245, -1.0));
       addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -85 : 85, turnPower));
       addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
