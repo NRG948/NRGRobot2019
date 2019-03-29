@@ -81,7 +81,8 @@ public class VisionTargets {
   public double getDistanceToTarget() {
     TargetPair desiredTarget = getDesiredTargets();
     double targetWidth = (desiredTarget.right.getMinX().x - desiredTarget.left.getMaxX().x);
-    return (TARGET_WIDTH_INCHES * imageCenterX / (targetWidth * Math.tan(HALF_IMAGE_FOV)))
+    double distance = (TARGET_WIDTH_INCHES * imageCenterX / (targetWidth * Math.tan(HALF_IMAGE_FOV)))
         * NumberPrefs.CAMERA_DISTANCE_SCALE.getValue();
+    return distance/Math.cos(Math.toRadians(this.getAngleToTarget()));
   }
 }
