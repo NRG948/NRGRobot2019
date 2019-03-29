@@ -56,7 +56,9 @@ public class NRGPreferences {
         DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower", 0.15),
         DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower", 0.65 ),
         CAMERA_ANGLE_SKEW("CameraAngleSkew", 0.0),
-        CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0);   
+        CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0),   
+
+        CLIMBER_REAR_POWER("ClimberRearPower", 0.75);
         
         private String key;
         private double defaultValue;
