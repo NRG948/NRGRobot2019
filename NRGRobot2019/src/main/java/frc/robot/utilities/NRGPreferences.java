@@ -58,7 +58,8 @@ public class NRGPreferences {
         CAMERA_ANGLE_SKEW("CameraAngleSkew", 0.0),
         CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0),   
 
-        CLIMBER_REAR_POWER("ClimberRearPower", 0.75);
+        CLIMBER_REAR_POWER("ClimberRearPower", 0.75),
+        CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 1.0);
         
         private String key;
         private double defaultValue;
