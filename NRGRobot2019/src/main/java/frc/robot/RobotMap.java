@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
@@ -61,6 +62,7 @@ public class RobotMap {
 
   public static DigitalInput armFrontLimitSwitch;
   public static DigitalInput armBackLimitSwitch;
+  public static AnalogInput IRSensor;
 
   public static Compressor compressor;
 
@@ -90,11 +92,12 @@ public class RobotMap {
     climberArmLeftWheelMotor = new Victor(4);
     climberArmRightWheelMotor = new Victor(3);
 
-
+    
+    
     climberRearMotor.setInverted(true);
     armMotor.setInverted(true);
     climberArmRightWheelMotor.setInverted(true);
-
+    
     cameraLights = new Relay(0);
     cameraLights.set(Value.kOff);
 
@@ -103,15 +106,17 @@ public class RobotMap {
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
     driveRightEncoder.setDistancePerPulse(DRIVE_RIGHT_ENCODER_DIST_PER_PULSE);
-
+    
     hatchClawSolenoid = new DoubleSolenoid(3, 2); // TODO CHANGE THE CHANNELS LATER
     hatchExtensionSolenoid = new DoubleSolenoid(1, 0);
     gearboxSolenoid = new DoubleSolenoid(4, 5);
     climberSolenoid = new DoubleSolenoid(6, 7);
-
+    
     armFrontLimitSwitch = new DigitalInput(ARM_FRONT_LIMIT_SWITCH_PORT);
     armBackLimitSwitch = new DigitalInput(ARM_BACK_LIMIT_SWITCH_PORT);
-
+    
+    IRSensor = new AnalogInput(1);
+    
     compressor = new Compressor();
     compressor.start();
 
