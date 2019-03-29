@@ -120,7 +120,7 @@ public class AutonomousRoutines extends CommandGroup {
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
       addSequential(new DriveStraightDistance(-60.0, 125.0, -1.0, false));
       addSequential(new TurnToHeading(-180, turnPower));
-      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower));
+      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower*0.9));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
       // addSequential(new DelaySeconds(4));
       addSequential(new WaitForNewVisionData());
@@ -146,7 +146,7 @@ public class AutonomousRoutines extends CommandGroup {
     
     case CARGO_FIRST_HATCH_CLOSE:
       addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 240, -1.0));
-      addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -90 : 90, turnPower));
+      addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -85 : 85, turnPower));
       addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
       break;
