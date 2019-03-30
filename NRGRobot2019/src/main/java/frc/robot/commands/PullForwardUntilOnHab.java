@@ -13,7 +13,7 @@ import frc.robot.RobotMap;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
-  private static final double OVER_HAB_THRESHOLD = 0.3;
+  private static final double OVER_HAB_THRESHOLD = 1.0;
   public PullForwardUntilOnHab() {
     requires(Robot.climberArmWheels);
   }

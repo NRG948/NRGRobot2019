@@ -227,6 +227,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Trigger/Right", Robot.oi.xboxController.getRawAxis(2));
     SmartDashboard.putNumber("Trigger/Left", Robot.oi.xboxController.getRawAxis(3));
     SmartDashboard.putNumber("IRSensor", RobotMap.IRSensor.getVoltage());
+    SmartDashboard.putNumber("Climber Encoder", RobotMap.climberRearEncoder.getDistance());
+    SmartDashboard.putNumber("Roll", RobotMap.navx.getRoll());
+    SmartDashboard.putNumber("Pitch", RobotMap.navx.getPitch());
   }
 
   /**
