@@ -8,7 +8,7 @@ import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.PullForwardUntilOnHab;
 import frc.robot.commands.SetClimberHeight;
-import frc.robot.commands.SetRobotPitch;
+import frc.robot.commands.SetRobotRoll;
 
 public class Climb extends CommandGroup {
   /**
@@ -17,7 +17,7 @@ public class Climb extends CommandGroup {
   public Climb() {
     addSequential(new DriveStraightDistance(10, -0.3));
     addParallel(new ActivateClimberPistons(State.EXTEND));
-    addSequential(new SetRobotPitch(-10.0));
+    addSequential(new SetRobotRoll(-10.0));
     addSequential(new PullForwardUntilOnHab());
     addSequential(new SetClimberHeight(0.0));
     addParallel(new DriveStraightDistance(8, 0.3));

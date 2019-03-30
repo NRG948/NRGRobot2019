@@ -28,7 +28,7 @@ import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
 import frc.robot.commands.SetClimberHeight;
-import frc.robot.commands.SetRobotPitch;
+import frc.robot.commands.SetRobotRoll;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
@@ -185,7 +185,7 @@ public class Robot extends TimedRobot {
 
     ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
         .withPosition(2, 1).withSize(2, 2);
-    climbButtonLayout.add("Set Pitch", new SetRobotPitch(-10));
+    climbButtonLayout.add("Set Pitch", new SetRobotRoll(-10));
     climbButtonLayout.add("Drive Until On Hab", new PullForwardUntilOnHab());
     climbButtonLayout.add("Set Climber Height", new SetClimberHeight(0));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);

@@ -14,24 +14,24 @@ import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
-public class SetRobotPitch extends Command {
-  private double pitch;
+public class SetRobotRoll extends Command {
+  private double roll;
 
-  public SetRobotPitch(double pitch) {
+  public SetRobotRoll(double roll) {
     requires(Robot.climberRear);
-    this.pitch = pitch;
+    this.roll = roll;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("SetRobotPitch init pitch: " + this.pitch);
+    System.out.println("SetRobotPitch init pitch: " + this.roll);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double error = pitch - RobotMap.navx.getPitch();
+    double error = this.roll - RobotMap.navx.getRoll();
     double maxPower = NumberPrefs.CLIMBER_REAR_POWER.getValue();
     double power = MathUtil.clamp(error * 0.5, -maxPower, maxPower);
     Robot.climberRear.rawClimb(-power);
@@ -40,13 +40,13 @@ public class SetRobotPitch extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(pitch - RobotMap.navx.getPitch()) <= 1.0;
+    return Math.abs(this.roll - RobotMap.navx.getRoll()) <= 1.0;
   }
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.climberRear.stop();
-    System.out.println("SetRobotPitch end current pitch: " + RobotMap.navx.getPitch());
+    System.out.println("SetRobotPitch end current roll: " + RobotMap.navx.getRoll());
   }
 
   // Called when another command which requires one or more of the same
