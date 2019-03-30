@@ -6,6 +6,9 @@ import frc.robot.subsystems.ClimberPistons.State;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.PullForwardUntilOnHab;
+import frc.robot.commands.SetClimberHeight;
+import frc.robot.commands.SetRobotPitch;
 
 public class Climb extends CommandGroup {
   /**
@@ -13,10 +16,11 @@ public class Climb extends CommandGroup {
    */
   public Climb() {
     addSequential(new DriveStraightDistance(10, -0.3));
-    addSequential(new ActivateClimberPistons(State.EXTEND));
-    addSequential(new DelaySeconds(1.0));
-    // move the motor a certain distance
+    addParallel(new ActivateClimberPistons(State.EXTEND));
+    addSequential(new SetRobotPitch(-10.0));
+    addSequential(new PullForwardUntilOnHab());
+    addSequential(new SetClimberHeight(0.0));
+    addParallel(new DriveStraightDistance(8, 0.3));
     addSequential(new ActivateClimberPistons(State.RETRACT));
-    // move the motor a certain distance
   }
 }
