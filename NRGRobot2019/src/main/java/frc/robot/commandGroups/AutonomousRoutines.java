@@ -58,7 +58,8 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
-    switch (autoMovement) {
+    //Handle movement from starting position
+    switch (autoMovement) { 
     case NONE:
       return;
 
@@ -82,9 +83,6 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     default:
-      // addSequential(new
-      // FollowPathWeaverFile(getPathWeaverFileName(autoStartingPosition,
-      // autoMovement)));
       switch (autoStartingPosition) {
       case LEFT:
         addSequential(new DriveStraightDistance(10.0, 18, drivePower, false));
@@ -112,11 +110,15 @@ public class AutonomousRoutines extends CommandGroup {
       break;
     }
 
+    //Handle feeder station movement
     switch (autoFeederPosition) {
     case NONE:
       return;
 
     case RIGHT_FEEDER:
+      if(autoMovement != AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
+        return;
+      }
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
       addSequential(new DriveStraightDistance(-60.0, 125.0, -1.0, false));
       addSequential(new TurnToHeading(-180, turnPower));
@@ -127,21 +129,27 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new PickupHatch());
       // addSequential(new DriveStraightDistance(6, -drivePower));
       break;
-
-    default:
-      // addSequential(new DriveStraightDistance(6, -drivePower));
-      addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 135 : -135, turnPower));
-      System.out.println("Gyro heading " + RobotMap.navx.getAngle());
-      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoMovement, autoFeederPosition)));
+    
+      case LEFT_FEEDER:
+      if(autoMovement != AutoMovement.CARGO_FRONT_LEFT_HATCH) {
+        return;
+      }
+      // addSequential(new SetCompressorState(CompressorState.DISABLED));
+      addSequential(new DriveStraightDistance(60.0, 125.0, -1.0, false));
+      addSequential(new TurnToHeading(180, turnPower));
+      addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower*0.9));
+      // addSequential(new SetCompressorState(CompressorState.ENABLED));
+      // addSequential(new DelaySeconds(4));
       addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());
-      addSequential(new DriveStraightDistance(6, -drivePower));
-      addSequential(new TurnToHeading((autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER) ? 315 : 45, turnPower));
+      // addSequential(new DriveStraightDistance(6, -drivePower));
       break;
     }
 
+    //Handle movement from feeder station
     switch (autoMovement2) {
     case NONE:
+      default:
       return;
     
     case CARGO_FIRST_HATCH_CLOSE:
@@ -149,13 +157,6 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -85 : 85, turnPower));
       addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
-      break;
-
-    default:
-      addSequential(new FollowPathWeaverFile(getPathWeaverFileName(autoFeederPosition, autoMovement2)));
-      addSequential(new WaitForNewVisionData());
-      addSequential(new DeliverHatch());
-      // addSequential(new DriveStraightDistance(6, -drivePower));
       break;
     }
   }
