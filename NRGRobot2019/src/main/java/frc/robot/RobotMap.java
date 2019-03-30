@@ -33,6 +33,8 @@ public class RobotMap {
   private static final int ARM_ENCODER_PORT_2 = 5;
   private static final int ARM_FRONT_LIMIT_SWITCH_PORT = 6;
   private static final int ARM_BACK_LIMIT_SWITCH_PORT = 7;
+  private static final int CLIMBER_REAR_ENCODER_PORT_1 = 8;
+  private static final int CLIMBER_REAR_ENCODER_PORT_2 = 9;
 
   private static final double DRIVE_LEFT_ENCODER_DIST_PER_PULSE = 0.009262;
   private static final double DRIVE_RIGHT_ENCODER_DIST_PER_PULSE = 0.009262;
@@ -54,6 +56,7 @@ public class RobotMap {
   public static Encoder armEncoder;
   public static Encoder driveLeftEncoder;
   public static Encoder driveRightEncoder;
+  public static Encoder climberRearEncoder;
 
   public static DoubleSolenoid hatchClawSolenoid;
   public static DoubleSolenoid hatchExtensionSolenoid;
@@ -102,6 +105,7 @@ public class RobotMap {
     cameraLights.set(Value.kOff);
 
     armEncoder = new Encoder(ARM_ENCODER_PORT_1, ARM_ENCODER_PORT_2, true);
+    climberRearEncoder = new Encoder(CLIMBER_REAR_ENCODER_PORT_1, CLIMBER_REAR_ENCODER_PORT_2);
     driveLeftEncoder = new Encoder(DRIVE_LEFT_ENCODER_PORT1, DRIVE_LEFT_ENCODER_PORT2);
     driveRightEncoder = new Encoder(DRIVE_RIGHT_ENCODER_PORT1, DRIVE_RIGHT_ENCODER_PORT2, true);
     driveLeftEncoder.setDistancePerPulse(DRIVE_LEFT_ENCODER_DIST_PER_PULSE);
