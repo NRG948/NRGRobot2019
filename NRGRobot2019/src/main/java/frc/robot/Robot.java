@@ -26,6 +26,9 @@ import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
+import frc.robot.commands.PullForwardUntilOnHab;
+import frc.robot.commands.SetClimberHeight;
+import frc.robot.commands.SetRobotPitch;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
@@ -179,6 +182,12 @@ public class Robot extends TimedRobot {
     distanceButtonLayout.add("12 Inches", new DriveDistanceOnHeading(0, 12, 0.7));
     distanceButtonLayout.add("24 Inches", new DriveDistanceOnHeading(0, 24, 0.7));
     distanceButtonLayout.add("48 Inches", new DriveDistanceOnHeading(0, 48, 0.7));
+
+    ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
+        .withPosition(2, 1).withSize(2, 2);
+    climbButtonLayout.add("Set Pitch", new SetRobotPitch(-10));
+    climbButtonLayout.add("Drive Until On Hab", new PullForwardUntilOnHab());
+    climbButtonLayout.add("Set Climber Height", new SetClimberHeight(0));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
     climberPistons.setState(State.RETRACT);
     System.out.println("robotInit() done");
