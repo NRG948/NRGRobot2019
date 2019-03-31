@@ -17,10 +17,10 @@ public class Climb extends CommandGroup {
   public Climb() {
     // addSequential(new DriveStraightDistance(10, -0.3));
     addParallel(new ActivateClimberPistons(State.EXTEND));
-    addSequential(new SetRobotRoll(16.0));
+    addSequential(new SetRobotRoll(8.0));
     addSequential(new PullForwardUntilOnHab());
-    addSequential(new SetClimberHeight(1115));
-    addParallel(new DriveStraightDistance(8, 0.3));
+    addSequential(new SetClimberHeight(75));
+    addParallel(new DriveStraightDistance(6, 0.3), 1.0);
     addSequential(new ActivateClimberPistons(State.RETRACT));
   }
 }

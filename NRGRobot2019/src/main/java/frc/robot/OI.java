@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.HabitatLevel;
+import frc.robot.commandGroups.Climb;
+import frc.robot.commandGroups.Climb;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
 import frc.robot.commandGroups.TestAutoPaths;
@@ -50,6 +52,8 @@ public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
   public XboxController xboxController = new XboxController(2);
+  private Joystick arduinoJoystick = new Joystick(3);
+
   // assign each side of joystick to a port
   private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); // TBD
@@ -78,6 +82,8 @@ public class OI {
   private JoystickButton xboxButtonX = new JoystickButton(xboxController, 3); // X Button
   private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
+
+  private JoystickButton climbButton = new JoystickButton(arduinoJoystick, 16); // climb button
 
   OI() {
     gearShiftButton.whenPressed(new InstantCommand(() -> {
@@ -133,7 +139,7 @@ public class OI {
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
-    
+    climbButton.whenPressed(new Climb());
     
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());

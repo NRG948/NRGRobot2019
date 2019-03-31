@@ -185,7 +185,7 @@ public class Robot extends TimedRobot {
 
     ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
         .withPosition(2, 1).withSize(2, 2);
-    climbButtonLayout.add("Set Pitch", new SetRobotRoll(16));
+    climbButtonLayout.add("Set Pitch", new SetRobotRoll(8.0));
     climbButtonLayout.add("Drive Until On Hab", new PullForwardUntilOnHab());
     climbButtonLayout.add("Set Climber Height", new SetClimberHeight(1115));
     climbButtonLayout.add("Set Climber Height To 0", new SetClimberHeight(0));
@@ -227,7 +227,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Hatch/DefenseOK", Robot.hatchClaw.isOpen() && Robot.hatchExtension.isRetracted());
     SmartDashboard.putNumber("Trigger/Right", Robot.oi.xboxController.getRawAxis(2));
     SmartDashboard.putNumber("Trigger/Left", Robot.oi.xboxController.getRawAxis(3));
-    SmartDashboard.putNumber("IRSensor", RobotMap.IRSensor.getVoltage());
+    SmartDashboard.putNumber("IRSensor", RobotMap.IRSensor.getAverageVoltage());
     SmartDashboard.putNumber("Climber Encoder", RobotMap.climberRearEncoder.getDistance());
     SmartDashboard.putNumber("Roll", RobotMap.navx.getRoll());
     SmartDashboard.putNumber("Pitch", RobotMap.navx.getPitch());

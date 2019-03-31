@@ -31,14 +31,14 @@ public class SetClimberHeight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climberRear.rawClimb(Math.signum(initialError) * NumberPrefs.CLIMBER_REAR_POWER.getValue());
+    Robot.climberRear.rawClimb(-Math.signum(initialError) * NumberPrefs.CLIMBER_REAR_POWER.getValue());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double currentDistance = RobotMap.climberRearEncoder.getDistance();
-    return initialError < 0 ? currentDistance >= this.height: currentDistance <= this.height;
+    double currentError = height -  RobotMap.climberRearEncoder.getDistance();
+    return Math.signum(currentError) != Math.signum(initialError);
   }
 
   // Called once after isFinished returns true

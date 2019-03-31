@@ -13,7 +13,7 @@ import frc.robot.RobotMap;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
-  private static final double OVER_HAB_THRESHOLD = 1.0;
+  private static final double OVER_HAB_THRESHOLD = 0.6;
   public PullForwardUntilOnHab() {
     requires(Robot.climberArmWheels);
   }
@@ -33,7 +33,7 @@ public class PullForwardUntilOnHab extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return RobotMap.IRSensor.getValue() > OVER_HAB_THRESHOLD;
+    return RobotMap.IRSensor.getAverageVoltage() > OVER_HAB_THRESHOLD;
 }
 
   // Called once after isFinished returns true
