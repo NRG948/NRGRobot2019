@@ -185,9 +185,10 @@ public class Robot extends TimedRobot {
 
     ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
         .withPosition(2, 1).withSize(2, 2);
-    climbButtonLayout.add("Set Pitch", new SetRobotRoll(-10));
+    climbButtonLayout.add("Set Pitch", new SetRobotRoll(16));
     climbButtonLayout.add("Drive Until On Hab", new PullForwardUntilOnHab());
-    climbButtonLayout.add("Set Climber Height", new SetClimberHeight(0));
+    climbButtonLayout.add("Set Climber Height", new SetClimberHeight(1115));
+    climbButtonLayout.add("Set Climber Height To 0", new SetClimberHeight(0));
     testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
     climberPistons.setState(State.RETRACT);
     System.out.println("robotInit() done");
