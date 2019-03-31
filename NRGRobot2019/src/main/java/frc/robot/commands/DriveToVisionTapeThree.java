@@ -34,7 +34,7 @@ public class DriveToVisionTapeThree extends DriveDistanceOnHeading {
   @Override
   protected void initialize() {
     if (Robot.visionTargets.hasTargets()) {
-      this.distanceToDrive = Robot.visionTargets.getDistanceToTarget() - this.delivery.getStopDistance();
+      this.distanceToDrive = Robot.visionTargets.getDistanceToTarget() * 1.05 - this.delivery.getStopDistance();
       this.heading = Robot.visionTargets.getAngleToTarget() + RobotMap.navx.getAngle()
           + NumberPrefs.CAMERA_ANGLE_SKEW.getValue();
     } else {
