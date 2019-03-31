@@ -131,6 +131,7 @@ public class RobotMap {
     Robot.positionTracker.reset();
     navx.reset();
     armEncoder.reset();
+    climberRearEncoder.reset();
     // TODO CHECK IF WE NEED TO RESET SOLENOIDS
     System.out.println("Sensors Reset");
   }
