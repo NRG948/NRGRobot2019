@@ -27,7 +27,7 @@ public class ManualClimberArmWheels extends Command {
   @Override
   protected void execute() {
     // if (Robot.oi.climberRearButton.get()) {
-      double speed = Robot.oi.getXboxLeftY();
+      double speed = Robot.oi.getXboxLeftY() * 0.75;
       Robot.climberArmWheels.spin(MathUtil.deadband(speed, 0.1));
   }
 
