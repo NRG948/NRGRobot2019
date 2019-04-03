@@ -267,8 +267,6 @@ public class Robot extends TimedRobot {
     // watchdog.reset();
     positionTracker.updatePosition();
     // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
     // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
@@ -297,8 +295,6 @@ public class Robot extends TimedRobot {
     // watchdog.reset();
     positionTracker.updatePosition();
     // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
     // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
