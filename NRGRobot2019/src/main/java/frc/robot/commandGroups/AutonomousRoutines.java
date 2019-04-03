@@ -11,7 +11,6 @@ import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveStraightDistance;
-import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.SetCompressorState;
