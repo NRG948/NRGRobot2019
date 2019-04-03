@@ -22,6 +22,7 @@ public class WaitForNewVisionData extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.visionTargets.update();
     this.genCount = Robot.visionTargets.getGenCount();
     this.startTimeNano = System.nanoTime();
     System.out.println("WaitForNewVisionData init");
@@ -35,6 +36,7 @@ public class WaitForNewVisionData extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    Robot.visionTargets.update();
     return Robot.visionTargets.getGenCount() != this.genCount && Robot.visionTargets.hasTargets();
   }
 

@@ -24,7 +24,6 @@ import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveDistanceOnHeading;
-import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
 import frc.robot.commands.SetClimberHeight;
@@ -267,8 +266,6 @@ public class Robot extends TimedRobot {
     // watchdog.reset();
     positionTracker.updatePosition();
     // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
     // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
@@ -297,8 +294,6 @@ public class Robot extends TimedRobot {
     // watchdog.reset();
     positionTracker.updatePosition();
     // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
     // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();

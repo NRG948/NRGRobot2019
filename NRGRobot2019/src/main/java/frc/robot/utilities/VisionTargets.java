@@ -1,5 +1,10 @@
 package frc.robot.utilities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -7,6 +12,7 @@ import com.google.gson.GsonBuilder;
 
 import org.opencv.core.Point;
 
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
@@ -28,15 +34,20 @@ public class VisionTargets {
   private ArrayList<TargetPair> targetPairs = new ArrayList<TargetPair>();
   private double imageCenterX;
   private int genCount;
+  private Gson gson = new Gson();
+  private String[] targetsJson = new String[0];
+
+  public VisionTargets() {
+    File dir = new File(Filesystem.getOperatingDirectory(), "targets");
+    dir.mkdirs();
+  }
 
   public void update() {
     this.imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
     this.genCount = (int) SmartDashboard.getNumber("Vision/genCount", this.genCount);
 
     ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
-    String[] targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
-    GsonBuilder builder = new GsonBuilder();
-    Gson gson = builder.create();
+    this.targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
     for (int i = 0; i < targetsJson.length; i++) {
       newTargetPairs.add(gson.fromJson(targetsJson[i], TargetPair.class));
     }
@@ -83,6 +94,21 @@ public class VisionTargets {
     double targetWidth = (desiredTarget.right.getMinX().x - desiredTarget.left.getMaxX().x);
     double distance = (TARGET_WIDTH_INCHES * imageCenterX / (targetWidth * Math.tan(HALF_IMAGE_FOV)))
         * NumberPrefs.CAMERA_DISTANCE_SCALE.getValue();
-    return distance/Math.cos(Math.toRadians(this.getAngleToTarget()));
+    return distance / Math.cos(Math.toRadians(this.getAngleToTarget()));
+  }
+
+  public void saveTargets() {
+    try {
+      String filename = "targets/" + Instant.now().toString() + ".json";
+      File file = new File(Filesystem.getOperatingDirectory(), filename);
+      try (PrintStream stream = new PrintStream(file)) {
+        for (String target : this.targetsJson) {
+          stream.println(target);
+        }
+      }
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
