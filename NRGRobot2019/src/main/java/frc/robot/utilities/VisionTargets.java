@@ -33,7 +33,7 @@ public class VisionTargets {
 
   private ArrayList<TargetPair> targetPairs = new ArrayList<TargetPair>();
   private double imageCenterX;
-  private int genCount;
+  private int genCount = Integer.MAX_VALUE;
   private Gson gson = new Gson();
   private String[] targetsJson = new String[0];
 
@@ -43,15 +43,21 @@ public class VisionTargets {
   }
 
   public void update() {
-    this.imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
-    this.genCount = (int) SmartDashboard.getNumber("Vision/genCount", this.genCount);
+    int newGenCount = (int) SmartDashboard.getNumber("Vision/genCount", this.genCount);
 
-    ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
-    this.targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
-    for (int i = 0; i < targetsJson.length; i++) {
-      newTargetPairs.add(gson.fromJson(targetsJson[i], TargetPair.class));
+    if (this.genCount != newGenCount) {
+      this.genCount = newGenCount;
+      this.imageCenterX = SmartDashboard.getNumber("Vision/imageCenterX", DEFAULT_HALF_IMAGE_WIDTH);
+
+      ArrayList<TargetPair> newTargetPairs = new ArrayList<TargetPair>();
+      this.targetsJson = SmartDashboard.getStringArray("Vision/targetPairs", NO_TARGETS);
+
+      for (int i = 0; i < targetsJson.length; i++) {
+        newTargetPairs.add(gson.fromJson(targetsJson[i], TargetPair.class));
+      }
+
+      this.targetPairs = newTargetPairs;
     }
-    this.targetPairs = newTargetPairs;
   }
 
   public int getGenCount() {
