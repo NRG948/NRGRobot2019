@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
-import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.FollowPathWeaverFile;

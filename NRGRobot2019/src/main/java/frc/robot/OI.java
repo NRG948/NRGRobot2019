@@ -14,7 +14,6 @@ import frc.robot.commandGroups.Climb;
 import frc.robot.commandGroups.Climb;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
-import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
