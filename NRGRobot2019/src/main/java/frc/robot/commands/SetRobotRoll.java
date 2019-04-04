@@ -40,8 +40,10 @@ public class SetRobotRoll extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(this.roll - RobotMap.navx.getRoll()) <= 1.0;
+    return (Math.abs(this.roll - RobotMap.navx.getRoll()) <= 1.0)
+        && (RobotMap.climberRearEncoder.getDistance() >= NumberPrefs.CLIMBER_REAR_MIN_TICKS.getValue());
   }
+
   // Called once after isFinished returns true
   @Override
   protected void end() {
