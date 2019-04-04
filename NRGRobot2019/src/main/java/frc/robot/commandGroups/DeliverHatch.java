@@ -11,6 +11,7 @@ import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.DriveToVisionTapeThree;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
+import frc.robot.commands.WaitForNewVisionData;
 import frc.robot.subsystems.HatchClawSubsystem.State;
 import frc.robot.utilities.VisionTargetsApproach;
 
@@ -20,6 +21,7 @@ public class DeliverHatch extends CommandGroup {
    * position.
    */
   public DeliverHatch() {
+    addSequential(new WaitForNewVisionData());
     addSequential(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver), 2.0);
     addParallel(new HatchClaw(CLOSE));
     addSequential(new HatchExtension(EXTEND));
