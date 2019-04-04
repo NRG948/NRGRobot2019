@@ -24,7 +24,7 @@ public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
   public static final int FIELD_WIDTH_INCHES = 27 * 12;
 
-  private static final double DRIVE_POWER = 0.7;
+  private static final double DRIVE_POWER = 0.8;
   private static final double TURN_POWER = 1.0;
   private static final double VISION_DELAY = 0.25;
 
@@ -119,7 +119,7 @@ public class AutonomousRoutines extends CommandGroup {
         return;
       }
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
-      addSequential(new DriveStraightDistance(-60.0, 125.0, -1.0, false));
+      addSequential(new DriveStraightDistance(-60.0, 123.0, -1.0, false));
       addSequential(new TurnToHeading(-180, turnPower));
       addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower*0.9));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
@@ -134,7 +134,7 @@ public class AutonomousRoutines extends CommandGroup {
         return;
       }
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
-      addSequential(new DriveStraightDistance(60.0, 125.0, -1.0, false));
+      addSequential(new DriveStraightDistance(60.0, 123.0, -1.0, false));
       addSequential(new TurnToHeading(180, turnPower));
       addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower*0.9));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
