@@ -28,6 +28,7 @@ import frc.robot.commands.HatchExtension;
 import frc.robot.commands.InterruptAllCommands;
 import frc.robot.commands.ManualClimbRear;
 import frc.robot.commands.TurnToHeading;
+import frc.robot.commands.WaitForNewVisionData;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Arm.Angle;
 import frc.robot.subsystems.ClimberPistons;
@@ -132,7 +133,7 @@ public class OI {
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
 
-    driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver));
+    driveToVisionCargo.whenPressed(new WaitForNewVisionData());
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
