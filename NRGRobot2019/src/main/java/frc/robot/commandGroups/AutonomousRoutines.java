@@ -74,8 +74,8 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     case CARGO_FIRST_HATCH_CLOSE:
-      addSequential(new DriveStraightDistance(autoStartingPosition == AutoStartingPosition.RIGHT ? 15.0 : -15.0, 170.0,
-          drivePower, false));
+      addSequential(new DriveDistanceOnHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? 10.0 : -10.0, 193.0,
+          drivePower));
       addSequential(new TurnToHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? -90.0 : 90.0, turnPower));
       // addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
@@ -85,7 +85,7 @@ public class AutonomousRoutines extends CommandGroup {
       switch (autoStartingPosition) {
       case LEFT:
         addSequential(new DriveStraightDistance(10.0, 18, drivePower, false));
-        addSequential(new DriveStraightDistance(30.0, 50.0, drivePower, false));
+        addSequential(new DriveStraightDistance(30.0, 58.0, drivePower * 1.2, false));
         addSequential(new DriveDistanceOnHeading(0.0, 32.0, drivePower * 1.2));
         // addSequential(new DriveDistanceOnHeading(20.0, 106.0, drivePower));
         // addSequential(new TurnToHeading(0, turnPower));
@@ -98,7 +98,7 @@ public class AutonomousRoutines extends CommandGroup {
 
       case RIGHT:
         addSequential(new DriveStraightDistance(-10.0, 18, drivePower, false));
-        addSequential(new DriveStraightDistance(-30.0, 50.0, drivePower, false));
+        addSequential(new DriveStraightDistance(-30.0, 58.0, drivePower * 1.2, false));
         addSequential(new DriveDistanceOnHeading(0.0, 32.0, drivePower * 1.2));
         // addSequential(new DriveDistanceOnHeading(-20.0, 106.0, drivePower));
         // addSequential(new TurnToHeading(0, turnPower));
