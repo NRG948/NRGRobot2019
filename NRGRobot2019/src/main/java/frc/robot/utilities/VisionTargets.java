@@ -79,7 +79,8 @@ public class VisionTargets {
   public double getAngleToTarget() {
     double centerX = getCenterOfTargets().x;
     double deltaX = centerX - imageCenterX;
-    return Math.toDegrees(Math.atan2(deltaX, imageCenterX / Math.tan(HALF_IMAGE_FOV)));
+    return Math.toDegrees(Math.atan2(deltaX, imageCenterX / Math.tan(HALF_IMAGE_FOV)))
+        * NumberPrefs.CAMERA_ANGLE_SCALE.getValue();
   }
 
   // returns the targets position in the feild of view, normalized to a range of 1
