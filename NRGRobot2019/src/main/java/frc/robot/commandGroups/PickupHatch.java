@@ -36,7 +36,7 @@ public class PickupHatch extends CommandGroup {
     addParallel(new DriveStraightDistance(6, 0.35), 1);
     addSequential(new HatchClaw(State.OPEN));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
-    addSequential(new DriveStraightDistance(6, -0.25));
+    addSequential(new DriveStraightDistance(6, -0.5));
     // addSequential(new HatchExtension(RETRACT));
   }
 }
