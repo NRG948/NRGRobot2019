@@ -26,24 +26,33 @@ public class DriveDistanceOnHeading extends Command {
   private SimplePIDController distancePID = new SimplePIDController(0, 0, 0);
   private int cyclesOnTarget;
 
-  public DriveDistanceOnHeading(double heading, double distance, double maxPower) {
+  public DriveDistanceOnHeading(double heading, double distance, double maxPower, double tolerance) {
     this.requires(Robot.drive);
     this.heading = heading;
     this.distanceToDrive = distance;
     this.maxPower = maxPower;
+    this.tolerance = tolerance;
+  }
+
+  public DriveDistanceOnHeading(double heading, double distance, double maxPower) {
+    this(heading, distance, maxPower, 0.0);
   }
 
   @Override
   protected void initialize() {
     System.out.println("DriveDistanceOnHeading init heading: " + this.heading + " distance: " + this.distanceToDrive);
-    this.tolerance = NRGPreferences.NumberPrefs.DISTANCE_TOLERANCE.getValue();
+    double tolerance = this.tolerance;
+    if(tolerance == 0.0) {
+      tolerance = NRGPreferences.NumberPrefs.DISTANCE_TOLERANCE.getValue();
+    }
+
     Robot.drive.driveOnHeadingInit(this.heading);
 
     double p = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_P_TERM.getValue();
     double i = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_I_TERM.getValue();
     double d = NRGPreferences.NumberPrefs.DISTANCE_DRIVE_D_TERM.getValue();
 
-    this.distancePID.setPID(p, i, d).setSetpoint(this.distanceToDrive).setAbsoluteTolerance(this.tolerance)
+    this.distancePID.setPID(p, i, d).setSetpoint(this.distanceToDrive).setAbsoluteTolerance(tolerance)
         .setOutputRange(-Math.abs(this.maxPower), Math.abs(this.maxPower)).start();
     this.origin = Robot.positionTracker.getPosition();
     this.cyclesOnTarget = 0;
