@@ -15,6 +15,7 @@ import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
   private static final double OVER_HAB_THRESHOLD = 0.6;
+
   public PullForwardUntilOnHab() {
     requires(Robot.climberArmWheels);
   }
@@ -22,7 +23,7 @@ public class PullForwardUntilOnHab extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("PullForwardUntilOnHab init");
+    System.out.println("PullForwardUntilOnHab init Ir: " + RobotMap.IRSensor.getAverageVoltage());
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -36,14 +37,16 @@ public class PullForwardUntilOnHab extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return RobotMap.IRSensor.getAverageVoltage() > OVER_HAB_THRESHOLD;
-}
+    return (RobotMap.IRSensor.getAverageVoltage() > OVER_HAB_THRESHOLD)
+        && (RobotMap.climberRearEncoder.getDistance() >= NumberPrefs.CLIMBER_REAR_MIN_TICKS.getValue());
+  }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.climberArmWheels.stop();
-    System.out.println("PullForwardUntilOnHab end");
+    System.out.println("PullForwardUntilOnHab end Ir: " + RobotMap.IRSensor.getAverageVoltage() + " ClimbTicks: "
+        + RobotMap.climberRearEncoder.getDistance());
   }
 
   // Called when another command which requires one or more of the same
