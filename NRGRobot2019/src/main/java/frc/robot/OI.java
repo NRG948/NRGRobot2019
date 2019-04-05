@@ -138,7 +138,7 @@ public class OI {
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
-    climbButton.whenPressed(new ClimbLevel3());
+    climbButton.whenPressed(new Climb());
     
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
