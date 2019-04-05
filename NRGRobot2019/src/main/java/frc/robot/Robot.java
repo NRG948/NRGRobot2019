@@ -280,6 +280,7 @@ public class Robot extends TimedRobot {
     System.out.println("teleopInit()");
     RobotMap.cameraLights.set(Value.kForward);
     Robot.arm.armAnglePIDInit();
+    RobotMap.compressor.start();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
