@@ -116,7 +116,7 @@ public class AutonomousRoutines extends CommandGroup {
         // addSequential(new DriveStraightDistance(6, -drivePower));
         break;
       } else if (autoMovement == AutoMovement.ROCKET_CLOSE) {
-        addSequential(new TurnToHeading(-180, turnPower));
+        addSequential(new TurnToHeading(180, turnPower));
         addSequential(new DriveDistanceOnHeading(-180, 108, 1.0, 3.0));
         break;
       }
@@ -131,7 +131,7 @@ public class AutonomousRoutines extends CommandGroup {
         // addSequential(new DriveStraightDistance(6, -drivePower));
         break;
       } else if (autoMovement == AutoMovement.ROCKET_CLOSE) {
-        addSequential(new TurnToHeading(180, turnPower));
+        addSequential(new TurnToHeading(-180, turnPower));
         addSequential(new DriveDistanceOnHeading(180, 108, 1.0, 3.0));
         break;
       }
