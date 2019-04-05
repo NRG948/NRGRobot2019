@@ -58,7 +58,7 @@ public class OI {
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); // TBD
   // private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
   // private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
-  // private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
+  private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
   // private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9);
   // private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
@@ -148,11 +148,11 @@ public class OI {
     extendClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.EXTEND));
     retractClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.RETRACT));
 
-    // testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
+    testButton1.whenPressed(new ClimbLevel3());
     // testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
     // testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
     // testButton4.whenPressed(new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
-  }
+  }                                                                                                                                                                                                                                                                                                                                 
 
   /** Gets the Y value of the left joystick. */
   public double getLeftJoystickY() {
