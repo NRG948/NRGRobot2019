@@ -68,7 +68,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     case ROCKET_CLOSE:
       addSequential(new DriveDistanceOnHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? 35.0 : -35.0, 120,
-          drivePower));
+          1.0, 2.0));
       // addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
       return;
@@ -115,34 +115,42 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     case RIGHT_FEEDER:
-      if(autoMovement != AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
-        return;
+      if(autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
+        // addSequential(new SetCompressorState(CompressorState.DISABLED));
+        addSequential(new DriveStraightDistance(-60.0, 123.0, -1.0, false));
+        addSequential(new TurnToHeading(-180, turnPower));
+        addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower*0.9));
+        // addSequential(new SetCompressorState(CompressorState.ENABLED));
+        // addSequential(new DelaySeconds(4));
+        // addSequential(new WaitForNewVisionData());
+        addSequential(new PickupHatch());
+        // addSequential(new DriveStraightDistance(6, -drivePower));
+        break;
+      } else if(autoMovement == AutoMovement.ROCKET_CLOSE) {
+        addSequential(new TurnToHeading(-180, turnPower));
+        addSequential(new DriveDistanceOnHeading(-180, 108, 1.0, 2.0));
+        break;
       }
-      // addSequential(new SetCompressorState(CompressorState.DISABLED));
-      addSequential(new DriveStraightDistance(-60.0, 123.0, -1.0, false));
-      addSequential(new TurnToHeading(-180, turnPower));
-      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower*0.9));
-      // addSequential(new SetCompressorState(CompressorState.ENABLED));
-      // addSequential(new DelaySeconds(4));
-      // addSequential(new WaitForNewVisionData());
-      addSequential(new PickupHatch());
-      // addSequential(new DriveStraightDistance(6, -drivePower));
-      break;
+      return;
     
       case LEFT_FEEDER:
-      if(autoMovement != AutoMovement.CARGO_FRONT_LEFT_HATCH) {
-        return;
+      if(autoMovement == AutoMovement.CARGO_FRONT_LEFT_HATCH) {
+        // addSequential(new SetCompressorState(CompressorState.DISABLED));
+        addSequential(new DriveStraightDistance(60.0, 123.0, -1.0, false));
+        addSequential(new TurnToHeading(180, turnPower));
+        addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower*0.9));
+        // addSequential(new SetCompressorState(CompressorState.ENABLED));
+        // addSequential(new DelaySeconds(4));
+        // addSequential(new WaitForNewVisionData());
+        addSequential(new PickupHatch());
+        // addSequential(new DriveStraightDistance(6, -drivePower));
+        break;
+      } else if(autoMovement == AutoMovement.ROCKET_CLOSE) {
+        addSequential(new TurnToHeading(180, turnPower));
+        addSequential(new DriveDistanceOnHeading(180, 108, 1.0, 2.0));
+        break;
       }
-      // addSequential(new SetCompressorState(CompressorState.DISABLED));
-      addSequential(new DriveStraightDistance(60.0, 123.0, -1.0, false));
-      addSequential(new TurnToHeading(180, turnPower));
-      addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower*0.9));
-      // addSequential(new SetCompressorState(CompressorState.ENABLED));
-      // addSequential(new DelaySeconds(4));
-      // addSequential(new WaitForNewVisionData());
-      addSequential(new PickupHatch());
-      // addSequential(new DriveStraightDistance(6, -drivePower));
-      break;
+      return;
     }
 
     //Handle movement from feeder station
