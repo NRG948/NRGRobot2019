@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.CargoAcquirer.Direction;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
@@ -27,7 +28,9 @@ public class PullForwardUntilOnHab extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climberArmWheels.spin(NumberPrefs.CLIMBER_ARM_WHEELS_POWER.getValue());
+    double power = NumberPrefs.CLIMBER_ARM_WHEELS_POWER.getValue();
+    Robot.climberArmWheels.spin(power);
+    // Robot.cargoAcquirer.acquire(0.2, Direction.ACQUIRE);
   }
 
   // Make this return true when this Command no longer needs to run execute()

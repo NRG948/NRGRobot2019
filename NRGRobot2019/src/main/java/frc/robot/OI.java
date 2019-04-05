@@ -11,6 +11,7 @@ import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.HabitatLevel;
 import frc.robot.commandGroups.Climb;
+import frc.robot.commandGroups.ClimbLevel3;
 import frc.robot.commandGroups.Climb;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
@@ -137,7 +138,7 @@ public class OI {
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
-    climbButton.whenPressed(new Climb());
+    climbButton.whenPressed(new ClimbLevel3());
     
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
