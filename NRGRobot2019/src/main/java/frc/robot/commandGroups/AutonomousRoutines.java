@@ -67,7 +67,7 @@ public class AutonomousRoutines extends CommandGroup {
       return;
 
     case ROCKET_CLOSE:
-      addSequential(new DriveDistanceOnHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? 35.0 : -35.0, 120,
+      addSequential(new DriveDistanceOnHeading(autoStartingPosition == AutoStartingPosition.RIGHT ? 40.0 : -40.0, 120,
           1.0, 2.0));
       // addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
@@ -160,7 +160,7 @@ public class AutonomousRoutines extends CommandGroup {
       return;
     
     case CARGO_FIRST_HATCH_CLOSE:
-      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 245, -1.0, 1.5));
+      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 250, -1.0, 1.5));
       addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -85 : 85, turnPower));
       // addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());
