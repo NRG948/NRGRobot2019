@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired
@@ -125,6 +126,8 @@ public class RobotMap {
     compressor.start();
 
     navx = new AHRS(SPI.Port.kMXP);
+
+    SmartDashboard.putData(RobotMap.compressor);
   }
 
   public static void resetSensors() {
