@@ -59,7 +59,7 @@ public class NRGPreferences {
         CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0),
         CAMERA_ANGLE_SCALE("CameraAngleScale", 0.8),
 
-        CLIMBER_REAR_POWER("ClimberRearPower", 0.75),
+        CLIMBER_REAR_POWER("ClimberRearPower", 0.95),
         CLIMBER_REAR_MIN_TICKS("ClimberRearMinTicks", 800),
         CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 0.5);
         

@@ -20,7 +20,7 @@ public class PullForwardUntilOnHab extends Command {
   public PullForwardUntilOnHab(boolean level3) {
     requires(Robot.climberArmWheels);
     this.level3 = level3;
-    if(this.level3) {
+    if (this.level3) {
       requires(Robot.cargoAcquirer);
       requires(Robot.drive);
     }
@@ -41,9 +41,11 @@ public class PullForwardUntilOnHab extends Command {
   protected void execute() {
     double power = NumberPrefs.CLIMBER_ARM_WHEELS_POWER.getValue();
     Robot.climberArmWheels.spin(power);
-    if(this.level3) {
-      Robot.cargoAcquirer.acquire(0.2, Direction.ACQUIRE);
-      Robot.drive.tankDrive(0.3, 0.3, false);
+    if (this.level3) {
+      // Robot.cargoAcquirer.acquire(0.2, Direction.ACQUIRE);
+      if (RobotMap.climberRearEncoder.getDistance() >= 2400) {
+        Robot.drive.tankDrive(0.3, 0.3, false);
+      }
     }
   }
 
@@ -58,7 +60,7 @@ public class PullForwardUntilOnHab extends Command {
   @Override
   protected void end() {
     Robot.climberArmWheels.stop();
-    if(this.level3) {
+    if (this.level3) {
       Robot.cargoAcquirer.stop();
       Robot.drive.stopMotor();
     }

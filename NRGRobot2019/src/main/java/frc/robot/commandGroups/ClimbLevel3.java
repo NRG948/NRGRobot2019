@@ -24,7 +24,7 @@ public class ClimbLevel3 extends CommandGroup {
   public ClimbLevel3() {
     addSequential(new ActivateClimberPistons(State.EXTEND));
     addSequential(new DelaySeconds(0.5));
-    addParallel(new SetRobotRoll(2.0));
+    addParallel(new SetRobotRoll(3.0));
     addSequential(new PullForwardUntilOnHab(true));
     addSequential(new SetClimberHeight(75));
     addParallel(new DriveStraightDistance(6, 0.3), 1.0);
