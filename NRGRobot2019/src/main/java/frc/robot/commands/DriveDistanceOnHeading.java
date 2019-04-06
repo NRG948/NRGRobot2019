@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drive;
+import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.SimplePIDController;
 
@@ -30,12 +31,13 @@ public class DriveDistanceOnHeading extends Command {
     this.requires(Robot.drive);
     this.heading = heading;
     this.distanceToDrive = distance;
-    this.maxPower = maxPower;
+    this.maxPower = MathUtil.clamp(maxPower, -1.0, 1.0);
     this.tolerance = tolerance;
   }
 
   public DriveDistanceOnHeading(double heading, double distance, double maxPower) {
     this(heading, distance, maxPower, 0.0);
+
   }
 
   @Override
