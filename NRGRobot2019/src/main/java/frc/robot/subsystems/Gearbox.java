@@ -31,11 +31,15 @@ public class Gearbox extends Subsystem {
     state = Gear.LOW;
   }
 
-  public void toggleGears(){
-    if(state == Gear.HIGH){
+  public void toggleGears() {
+    if (state == Gear.HIGH) {
       setLowGear();
-    }else{
+    } else {
       setHighGear();
     }
+  }
+
+  public Gear getState() {
+    return this.state;
   }
 }

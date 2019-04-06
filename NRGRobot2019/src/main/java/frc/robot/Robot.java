@@ -37,6 +37,7 @@ import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.subsystems.ClimberPistons.State;
+import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
@@ -152,6 +153,10 @@ public class Robot extends TimedRobot {
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
     habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
+    
+    SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
+    SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
+    SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
     // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
     // 3);
@@ -207,10 +212,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putNumber("PositionTracker/maxVelocity", positionTracker.getMaxVelocity());
-    SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
-    SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
-    SmartDashboard.putData("DriveSubsystem", Robot.drive);
+    SmartDashboard.putBoolean("Gearbox/State", Robot.gearbox.getState() == Gear.HIGH);
 
     SmartDashboard.putBoolean("Vision/cameraInverted", Robot.arm.isCameraInverted());
     boolean hasTargets = visionTargets.hasTargets();
