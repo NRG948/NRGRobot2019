@@ -83,7 +83,7 @@ public class DriveDistanceOnHeading extends Command {
       cyclesOnTarget = 0;
     }
     SmartDashboard.putNumber("DistancePID/Cycles On Target", cyclesOnTarget);
-    return (cyclesOnTarget >= 6);
+    return (cyclesOnTarget >= 4);
   }
 
   @Override
