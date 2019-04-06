@@ -109,7 +109,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     case RIGHT_FEEDER:
       if (autoMovement == AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
-        addSequential(new DriveStraightDistance(-60.0, 123.0, -1.0, false));
+        addSequential(new DriveStraightDistance(-60.0, 120.0, -1.0, false));
         addSequential(new TurnToHeading(-180, turnPower));
         addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower * 0.9, 1.5));
         addSequential(new PickupHatch());
@@ -124,7 +124,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     case LEFT_FEEDER:
       if (autoMovement == AutoMovement.CARGO_FRONT_LEFT_HATCH) {
-        addSequential(new DriveStraightDistance(60.0, 123.0, -1.0, false));
+        addSequential(new DriveStraightDistance(60.0, 120.0, -1.0, false));
         addSequential(new TurnToHeading(180, turnPower));
         addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower * 0.9, 1.5));
         addSequential(new PickupHatch());
