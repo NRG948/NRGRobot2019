@@ -53,7 +53,7 @@ public class AutonomousRoutines extends CommandGroup {
     System.out.println("Auto Habitat level is: " + habLevel);
 
     addSequential(new GearShift(Gear.HIGH));
-    if (habLevel != HabitatLevel.LEVEL_1) {
+    if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
       addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
