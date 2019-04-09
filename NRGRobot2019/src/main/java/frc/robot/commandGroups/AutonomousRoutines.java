@@ -144,20 +144,4 @@ public class AutonomousRoutines extends CommandGroup {
       break;
     }
   }
-
-  private String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(AutoStartingPosition from, AutoMovement to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(AutoFeederPosition from, AutoMovement to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(String from, String to) {
-    return "output/" + from + "_TO_" + to + ".pf1.csv";
-  }
 }

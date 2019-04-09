@@ -4,6 +4,9 @@ import java.io.File;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import frc.robot.Robot;
+import frc.robot.Robot.AutoFeederPosition;
+import frc.robot.Robot.AutoMovement;
+import frc.robot.Robot.AutoStartingPosition;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 
@@ -28,5 +31,21 @@ public class FollowPathWeaverFile extends FollowTrajectory {
 
     Trajectory pathTrajectory = Pathfinder.readFromCSV(path);
     return pathTrajectory;
+  }
+
+  public static String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {
+    return getPathWeaverFileName(from.toString(), to.toString());
+  }
+
+  public static String getPathWeaverFileName(AutoStartingPosition from, AutoMovement to) {
+    return getPathWeaverFileName(from.toString(), to.toString());
+  }
+
+  public static String getPathWeaverFileName(AutoFeederPosition from, AutoMovement to) {
+    return getPathWeaverFileName(from.toString(), to.toString());
+  }
+
+  public static String getPathWeaverFileName(String from, String to) {
+    return "output/" + from + "_TO_" + to + ".pf1.csv";
   }
 }
