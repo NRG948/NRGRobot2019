@@ -8,14 +8,13 @@
 package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.subsystems.ClimberRear;
-import frc.robot.subsystems.ClimberPistons.State;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.PullForwardUntilOnHab;
 import frc.robot.commands.SetClimberHeight;
 import frc.robot.commands.SetRobotRoll;
+import frc.robot.subsystems.ClimberPistons.State;
 
 public class ClimbLevel3 extends CommandGroup {
   /**

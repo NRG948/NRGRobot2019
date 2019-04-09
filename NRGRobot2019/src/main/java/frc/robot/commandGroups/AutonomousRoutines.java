@@ -3,22 +3,15 @@ package frc.robot.commandGroups;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.HabitatLevel;
-import frc.robot.Robot.AutoFeederPosition;
-import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveStraightDistance;
-import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
-import frc.robot.commands.SetCompressorState;
 import frc.robot.commands.TurnToHeading;
-import frc.robot.commands.WaitForNewVisionData;
-import frc.robot.commands.SetCompressorState.CompressorState;
 import frc.robot.subsystems.Gearbox.Gear;
-import frc.robot.utilities.VisionTargetsApproach;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;

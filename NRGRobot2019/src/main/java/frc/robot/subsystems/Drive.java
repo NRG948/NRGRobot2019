@@ -4,17 +4,13 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.SimplePIDController;
-import jaci.pathfinder.Trajectory;
-import java.io.File;
-import edu.wpi.first.wpilibj.Filesystem;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
-import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
 /**

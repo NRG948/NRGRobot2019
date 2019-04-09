@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.CargoAcquirer.Direction;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
