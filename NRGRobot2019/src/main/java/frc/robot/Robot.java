@@ -57,10 +57,6 @@ public class Robot extends TimedRobot {
   public static HatchExtensionSubsystem hatchExtension;
 
   public static PositionTracker positionTracker = new PositionTracker();
-  // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
-  // public static Watchdog watchdog = new Watchdog(0.02, () -> {
-  // });
 
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
@@ -145,9 +141,6 @@ public class Robot extends TimedRobot {
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
     habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
-
-    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
-    // 3);
 
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
@@ -256,16 +249,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override
@@ -285,16 +271,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override

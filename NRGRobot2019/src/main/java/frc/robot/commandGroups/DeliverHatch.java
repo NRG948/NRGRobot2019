@@ -26,10 +26,8 @@ public class DeliverHatch extends CommandGroup {
     addParallel(new HatchClaw(CLOSE));
     addSequential(new HatchExtension(EXTEND));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
-    // addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchExtension(RETRACT));
     addSequential(new DriveStraightDistance(6, -0.8));
-    // addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new HatchClaw(State.OPEN));
   }
 }

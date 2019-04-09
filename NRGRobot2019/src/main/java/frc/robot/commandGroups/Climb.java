@@ -14,7 +14,6 @@ public class Climb extends CommandGroup {
    * Perform a level three climbing sequence.
    */
   public Climb() {
-    // addSequential(new DriveStraightDistance(10, -0.3));
     addSequential(new ActivateClimberPistons(State.EXTEND));
     addSequential(new DelaySeconds(0.5));
     addSequential(new SetRobotRoll(8.0));

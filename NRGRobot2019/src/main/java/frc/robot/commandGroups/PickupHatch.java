@@ -26,12 +26,9 @@ public class PickupHatch extends CommandGroup {
     addSequential(new HatchClaw(State.CLOSE));
     addSequential(new WaitForNewVisionData());
     addSequential(new DriveToVisionTapeThree(VisionTargetsApproach.HatchPickUp), 2.0);
-    // addSequential(new HatchExtension(EXTEND));
-    // addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addParallel(new DriveStraightDistance(6, 0.35), 1);
     addSequential(new HatchClaw(State.OPEN));
     addSequential(new DelaySeconds(HATCH_EXTEND_DELAY));
     addSequential(new DriveStraightDistance(6, -0.5));
-    // addSequential(new HatchExtension(RETRACT));
   }
 }

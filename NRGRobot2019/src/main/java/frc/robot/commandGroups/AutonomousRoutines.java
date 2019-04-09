@@ -19,7 +19,6 @@ public class AutonomousRoutines extends CommandGroup {
 
   private static final double DRIVE_POWER = 0.8;
   private static final double TURN_POWER = 1.0;
-  private static final double VISION_DELAY = 0.25;
 
   /**
    * Read autonomous choosers and build a command group to perform the desired
