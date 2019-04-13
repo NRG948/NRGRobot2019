@@ -6,6 +6,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
+import frc.robot.Robot.DelayBeforeAuto;
 import frc.robot.Robot.HabitatLevel;
 import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.DelaySeconds;
@@ -46,6 +47,7 @@ public class AutonomousRoutines extends CommandGroup {
     AutoFeederPosition autoFeederPosition = OI.getAutoStationPosition();
     AutoMovement autoMovement2 = OI.getAutoMovement2();
     HabitatLevel habLevel = OI.getAutoHabitatLevel();
+    DelayBeforeAuto delayBeforeAuto = OI.getDelayBeforeAuto();
 
     System.out.println("Auto Movement is : " + autoMovement);
     System.out.println("Auto Position is : " + autoStartingPosition);
@@ -58,8 +60,20 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
-    //Handle movement from starting position
-    switch (autoMovement) { 
+    // Handle delay for auto
+    switch (delayBeforeAuto) {
+    case ZERO:
+      return;
+
+    case FIVE:
+      addSequential(new DelaySeconds(5.0));
+
+    case TEN:
+      addSequential(new DelaySeconds(10.0));
+    }
+    
+    // Handle movement from starting position
+    switch (autoMovement) {
     case NONE:
       return;
 
@@ -110,34 +124,34 @@ public class AutonomousRoutines extends CommandGroup {
       break;
     }
 
-    //Handle feeder station movement
+    // Handle feeder station movement
     switch (autoFeederPosition) {
     case NONE:
       return;
 
     case RIGHT_FEEDER:
-      if(autoMovement != AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
+      if (autoMovement != AutoMovement.CARGO_FRONT_RIGHT_HATCH) {
         return;
       }
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
       addSequential(new DriveStraightDistance(-60.0, 125.0, -1.0, false));
       addSequential(new TurnToHeading(-180, turnPower));
-      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower*0.9));
+      addSequential(new DriveDistanceOnHeading(-180.0, 44.0, drivePower * 0.9));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
       // addSequential(new DelaySeconds(4));
       addSequential(new WaitForNewVisionData());
       addSequential(new PickupHatch());
       // addSequential(new DriveStraightDistance(6, -drivePower));
       break;
-    
-      case LEFT_FEEDER:
-      if(autoMovement != AutoMovement.CARGO_FRONT_LEFT_HATCH) {
+
+    case LEFT_FEEDER:
+      if (autoMovement != AutoMovement.CARGO_FRONT_LEFT_HATCH) {
         return;
       }
       // addSequential(new SetCompressorState(CompressorState.DISABLED));
       addSequential(new DriveStraightDistance(60.0, 125.0, -1.0, false));
       addSequential(new TurnToHeading(180, turnPower));
-      addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower*0.9));
+      addSequential(new DriveDistanceOnHeading(180.0, 44.0, drivePower * 0.9));
       // addSequential(new SetCompressorState(CompressorState.ENABLED));
       // addSequential(new DelaySeconds(4));
       addSequential(new WaitForNewVisionData());
@@ -146,14 +160,15 @@ public class AutonomousRoutines extends CommandGroup {
       break;
     }
 
-    //Handle movement from feeder station
+    // Handle movement from feeder station
     switch (autoMovement2) {
     case NONE:
-      default:
+    default:
       return;
-    
+
     case CARGO_FIRST_HATCH_CLOSE:
-      addSequential(new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 245, -1.0));
+      addSequential(
+          new DriveDistanceOnHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -190 : 190, 245, -1.0));
       addSequential(new TurnToHeading(autoFeederPosition == AutoFeederPosition.RIGHT_FEEDER ? -85 : 85, turnPower));
       addSequential(new WaitForNewVisionData());
       addSequential(new DeliverHatch());

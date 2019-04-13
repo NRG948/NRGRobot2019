@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
+import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
   public static SendableChooser<AutoFeederPosition> autoStationPositionChooser;
   public static SendableChooser<AutoMovement> autoMovement2Chooser;
   public static SendableChooser<HabitatLevel> habLevelChooser;
+  public static SendableChooser<DelayBeforeAuto> delayChooser;
 
   public enum AutoStartingPosition {
     LEFT, CENTER, RIGHT
@@ -93,6 +95,10 @@ public class Robot extends TimedRobot {
 
   public enum HabitatLevel {
     LEVEL_1, LEVEL_2
+  }
+
+  public enum DelayBeforeAuto {
+    ZERO, FIVE, TEN
   }
 
   public static Boolean isPracticeBot() {
@@ -155,9 +161,13 @@ public class Robot extends TimedRobot {
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
     habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
 
+    delayChooser = new SendableChooser<DelayBeforeAuto>();
+    delayChooser.setDefaultOption("0 seconds", DelayBeforeAuto.ZERO);
+    delayChooser.addOption("5 seconds", DelayBeforeAuto.FIVE);
+    delayChooser.addOption("10 seconds", DelayBeforeAuto.TEN);
+
     // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
     // 3);
-
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
         .withSize(4, 1);
@@ -169,6 +179,8 @@ public class Robot extends TimedRobot {
         .withSize(6, 1);
     autoTab.add("Habitat Level", habLevelChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(4, 0)
         .withSize(2, 1);
+    autoTab.add("Delay", delayChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(6, 0)
+        .withSize(3, 1);
 
     arm.initShuffleboard();
 
