@@ -30,11 +30,6 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
-<<<<<<< HEAD
-import frc.robot.subsystems.ClimberPistons.State;
-import frc.robot.subsystems.Gearbox.Gear;
-=======
->>>>>>> 2d3c18096072824a532cce13ae23d222c19c5e7b
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
