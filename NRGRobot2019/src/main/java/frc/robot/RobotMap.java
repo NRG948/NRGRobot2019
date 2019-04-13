@@ -6,14 +6,12 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -50,7 +48,6 @@ public class RobotMap {
   public static Victor armMotor;
   public static Victor cargoAcquirerMotor;
   public static Victor climberRearMotor;
-  public static Victor climberArmsMotor;
   public static Victor climberArmLeftWheelMotor;
   public static Victor climberArmRightWheelMotor;
 
@@ -91,7 +88,6 @@ public class RobotMap {
 
     armMotor = new Victor(0);
     climberRearMotor = new Victor(2);
-    // climberArmsMotor = new Victor(3);
     cargoAcquirerMotor = new Victor(1);
     climberArmLeftWheelMotor = new Victor(4);
     climberArmRightWheelMotor = new Victor(3);

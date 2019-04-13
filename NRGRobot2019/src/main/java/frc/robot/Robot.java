@@ -2,16 +2,11 @@ package frc.robot;
 
 import org.opencv.core.Point;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -19,9 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
-import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
@@ -30,14 +23,18 @@ import frc.robot.commands.SetRobotRoll;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
-import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.ClimberPistons;
+import frc.robot.subsystems.ClimberPistons.State;
+import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
+<<<<<<< HEAD
 import frc.robot.subsystems.ClimberPistons.State;
 import frc.robot.subsystems.Gearbox.Gear;
+=======
+>>>>>>> 2d3c18096072824a532cce13ae23d222c19c5e7b
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
@@ -65,10 +62,6 @@ public class Robot extends TimedRobot {
   public static HatchExtensionSubsystem hatchExtension;
 
   public static PositionTracker positionTracker = new PositionTracker();
-  // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
-  // public static Watchdog watchdog = new Watchdog(0.02, () -> {
-  // });
 
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
@@ -157,9 +150,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
-
-    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
-    // 3);
 
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
@@ -266,16 +256,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override
@@ -295,16 +278,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override

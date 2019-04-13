@@ -22,11 +22,13 @@ public class ClimberArmWheels extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new ManualClimberArmWheels());
   }
-  public void spin(double power){
+
+  public void spin(double power) {
     power = Math.abs(power);
     RobotMap.climberArmLeftWheelMotor.set(power);
     RobotMap.climberArmRightWheelMotor.set(power);
   }
-public void stop() {
-}
+
+  public void stop() {
+  }
 }

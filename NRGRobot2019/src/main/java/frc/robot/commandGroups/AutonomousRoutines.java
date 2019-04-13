@@ -3,22 +3,15 @@ package frc.robot.commandGroups;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.HabitatLevel;
-import frc.robot.Robot.AutoFeederPosition;
-import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveStraightDistance;
-import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.GearShift;
-import frc.robot.commands.SetCompressorState;
 import frc.robot.commands.TurnToHeading;
-import frc.robot.commands.WaitForNewVisionData;
-import frc.robot.commands.SetCompressorState.CompressorState;
 import frc.robot.subsystems.Gearbox.Gear;
-import frc.robot.utilities.VisionTargetsApproach;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
@@ -26,7 +19,6 @@ public class AutonomousRoutines extends CommandGroup {
 
   private static final double DRIVE_POWER = 0.8;
   private static final double TURN_POWER = 1.0;
-  private static final double VISION_DELAY = 0.25;
 
   /**
    * Read autonomous choosers and build a command group to perform the desired
@@ -53,7 +45,7 @@ public class AutonomousRoutines extends CommandGroup {
     System.out.println("Auto Habitat level is: " + habLevel);
 
     addSequential(new GearShift(Gear.HIGH));
-    if (habLevel != HabitatLevel.LEVEL_1) {
+    if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
       addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
@@ -151,21 +143,5 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DeliverHatch());
       break;
     }
-  }
-
-  private String getPathWeaverFileName(AutoMovement from, AutoFeederPosition to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(AutoStartingPosition from, AutoMovement to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(AutoFeederPosition from, AutoMovement to) {
-    return getPathWeaverFileName(from.toString(), to.toString());
-  }
-
-  private String getPathWeaverFileName(String from, String to) {
-    return "output/" + from + "_TO_" + to + ".pf1.csv";
   }
 }

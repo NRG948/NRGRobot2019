@@ -7,12 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.utilities.VisionTargetsApproach;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
+import frc.robot.utilities.VisionTargetsApproach;
 
 /**
  * Add your docs here.
@@ -20,7 +18,6 @@ import frc.robot.utilities.NRGPreferences.NumberPrefs;
 public class DriveToVisionTapeThree extends DriveDistanceOnHeading {
   private static final double DRIVE_POWER = 0.65;
   private VisionTargetsApproach delivery;
-  private Command currentCommand;
 
   /**
    * Add your docs here.
