@@ -15,12 +15,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandGroups.AutonomousRoutines;
-<<<<<<< HEAD
-import frc.robot.commandGroups.TestAutoPaths;
-import frc.robot.commands.ActivateClimberPistons;
-import frc.robot.commands.DelaySeconds;
-=======
->>>>>>> 3acab619c3bf5e48b722832c5001b24747658dba
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
@@ -152,22 +146,11 @@ public class Robot extends TimedRobot {
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
     habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
-<<<<<<< HEAD
-
-    delayChooser = new SendableChooser<DelayBeforeAuto>();
-    delayChooser.setDefaultOption("0 seconds", DelayBeforeAuto.ZERO);
-    delayChooser.addOption("5 seconds", DelayBeforeAuto.FIVE);
-    delayChooser.addOption("10 seconds", DelayBeforeAuto.TEN);
-
-    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
-    // 3);
-=======
     
     SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
->>>>>>> 3acab619c3bf5e48b722832c5001b24747658dba
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
         .withSize(4, 1);
