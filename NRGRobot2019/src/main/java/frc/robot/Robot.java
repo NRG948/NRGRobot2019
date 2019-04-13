@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandGroups.AutonomousRoutines;
+import frc.robot.commandGroups.FeederStationToCargoFirstHatchClose;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
 import frc.robot.subsystems.ClimberPistons;
 import frc.robot.subsystems.ClimberPistons.State;
+import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
@@ -177,6 +179,8 @@ public class Robot extends TimedRobot {
     distanceButtonLayout.add("12 Inches", new DriveDistanceOnHeading(0, 12, 0.7));
     distanceButtonLayout.add("24 Inches", new DriveDistanceOnHeading(0, 24, 0.7));
     distanceButtonLayout.add("48 Inches", new DriveDistanceOnHeading(0, 48, 0.7));
+    distanceButtonLayout.add("R feeder to R cargo close",
+      new FeederStationToCargoFirstHatchClose(AutoFeederPosition.RIGHT_FEEDER, -1, 1));
 
     ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
         .withPosition(2, 0).withSize(2, 4);
