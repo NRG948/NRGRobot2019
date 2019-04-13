@@ -1,44 +1,36 @@
 package frc.robot;
 
+import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
+import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.DelayBeforeAuto;
 import frc.robot.Robot.HabitatLevel;
+import frc.robot.commandGroups.Climb;
+import frc.robot.commandGroups.ClimbLevel3;
 import frc.robot.commandGroups.DeliverHatch;
 import frc.robot.commandGroups.PickupHatch;
-import frc.robot.commandGroups.TestAutoPaths;
-import frc.robot.Robot.AutoFeederPosition;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
 import frc.robot.commands.DriveStraightDistance;
-import frc.robot.commands.DriveToVisionTape;
-import frc.robot.commands.DriveToVisionTapeThree;
-import frc.robot.commands.DriveToVisionTapeTwo;
-import frc.robot.commands.FollowPathWeaverFile;
-import frc.robot.commands.GearShift;
-import frc.robot.commands.ManualDrive;
-import frc.robot.commands.MoveArmTo;
 import frc.robot.commands.HatchClaw;
 import frc.robot.commands.HatchExtension;
 import frc.robot.commands.InterruptAllCommands;
-import frc.robot.commands.ManualClimbRear;
-import frc.robot.commands.TurnToHeading;
+import frc.robot.commands.ManualDrive;
+import frc.robot.commands.MoveArmTo;
+import frc.robot.commands.WaitForNewVisionData;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Arm.Angle;
 import frc.robot.subsystems.ClimberPistons;
-import frc.robot.subsystems.Gearbox.Gear;
 import frc.robot.subsystems.HatchClawSubsystem.State;
-import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
-import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
-
-import frc.robot.utilities.VisionTargetsApproach;
 import frc.robot.utilities.MathUtil;
 
 /**
@@ -51,12 +43,14 @@ public class OI {
   private Joystick leftJoystick = new Joystick(0);
   private Joystick rightJoystick = new Joystick(1);
   public XboxController xboxController = new XboxController(2);
+  private Joystick arduinoJoystick = new Joystick(3);
+
   // assign each side of joystick to a port
   private JoystickButton driveStraightButton = new JoystickButton(leftJoystick, 1);
   private JoystickButton interruptAllCommandsButton = new JoystickButton(leftJoystick, 2); // TBD
   // private JoystickButton testAutoPath = new JoystickButton(leftJoystick, 3);
   // private JoystickButton testButton4 = new JoystickButton(leftJoystick, 7);
-  // private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
+  private JoystickButton testButton1 = new JoystickButton(leftJoystick, 8);
   // private JoystickButton testButton2 = new JoystickButton(leftJoystick, 9);
   // private JoystickButton testButton3 = new JoystickButton(leftJoystick, 10);
   private JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
@@ -67,7 +61,8 @@ public class OI {
   private JoystickButton pickupToVisionHatch = new JoystickButton(rightJoystick, 4);
   private JoystickButton extendClimberPiston = new JoystickButton(rightJoystick, 7);
   private JoystickButton retractClimberPiston = new JoystickButton(rightJoystick, 8);
-  // private JoystickButton followPathButton = new JoystickButton(rightJoystick, 9);
+  // private JoystickButton followPathButton = new JoystickButton(rightJoystick,
+  // 9);
   private JoystickButton driveStraightDistanceButton = new JoystickButton(rightJoystick, 10);
   private JoystickButton cameraLightOn = new JoystickButton(rightJoystick, 11);
   private JoystickButton cameraLightOff = new JoystickButton(rightJoystick, 12);
@@ -79,6 +74,8 @@ public class OI {
   private JoystickButton xboxButtonX = new JoystickButton(xboxController, 3); // X Button
   private JoystickButton xboxButtonY = new JoystickButton(xboxController, 4); // Y button.
   private JoystickButton hatchExtensionButton = new JoystickButton(xboxController, 6); // right bumper
+
+  private JoystickButton climbButton = new JoystickButton(arduinoJoystick, 16); // climb button
 
   OI() {
     gearShiftButton.whenPressed(new InstantCommand(() -> {
@@ -130,11 +127,11 @@ public class OI {
     hatchExtensionButton.whenPressed(new HatchExtension(EXTEND));
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
 
-    driveToVisionCargo.whenPressed(new DriveToVisionTapeThree(VisionTargetsApproach.HatchDeliver));
+    driveToVisionCargo.whenPressed(new WaitForNewVisionData());
     deliverToVisionHatch.whenPressed(new DeliverHatch());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
-    
+    climbButton.whenPressed(new Climb());
     
     
     interruptAllCommandsButton.whenPressed(new InterruptAllCommands());
@@ -144,11 +141,11 @@ public class OI {
     extendClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.EXTEND));
     retractClimberPiston.whenPressed(new ActivateClimberPistons(ClimberPistons.State.RETRACT));
 
-    // testButton1.whenPressed(new MoveArmTo(Arm.Angle.ARM_ACQUIRE_CARGO_ANGLE));
+    testButton1.whenPressed(new ClimbLevel3());
     // testButton2.whenPressed(new MoveArmTo(Arm.Angle.ARM_FORWARD_ANGLE));
     // testButton3.whenPressed(new MoveArmTo(Arm.Angle.ARM_STOWED_ANGLE));
     // testButton4.whenPressed(new MoveArmTo(Arm.Angle.ARM_ROCKET_CARGO_MEDIUM_ANGLE));
-  }
+  }                                                                                                                                                                                                                                                                                                                                 
 
   /** Gets the Y value of the left joystick. */
   public double getLeftJoystickY() {

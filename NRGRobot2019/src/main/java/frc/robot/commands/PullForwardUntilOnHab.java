@@ -13,34 +13,58 @@ import frc.robot.RobotMap;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class PullForwardUntilOnHab extends Command {
-  private static final double OVER_HAB_THRESHOLD = 0.3;
-  public PullForwardUntilOnHab() {
+  private static final double OVER_HAB_THRESHOLD = 0.6;
+  private final boolean level3;
+
+  public PullForwardUntilOnHab(boolean level3) {
     requires(Robot.climberArmWheels);
+    this.level3 = level3;
+    if (this.level3) {
+      requires(Robot.cargoAcquirer);
+      requires(Robot.drive);
+    }
+  }
+
+  public PullForwardUntilOnHab() {
+    this(false);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("PullForwardUntilOnHab init");
+    System.out.println("PullForwardUntilOnHab init Ir: " + RobotMap.IRSensor.getAverageVoltage());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.climberArmWheels.spin(NumberPrefs.CLIMBER_ARM_WHEELS_POWER.getValue());
+    double power = NumberPrefs.CLIMBER_ARM_WHEELS_POWER.getValue();
+    Robot.climberArmWheels.spin(power);
+    if (this.level3) {
+      // Robot.cargoAcquirer.acquire(0.2, Direction.ACQUIRE);
+      if (RobotMap.climberRearEncoder.getDistance() >= 2400) {
+        Robot.drive.tankDrive(0.3, 0.3, false);
+      }
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return RobotMap.IRSensor.getValue() > OVER_HAB_THRESHOLD;
-}
+    return (RobotMap.IRSensor.getAverageVoltage() > OVER_HAB_THRESHOLD)
+        && (RobotMap.climberRearEncoder.getDistance() >= NumberPrefs.CLIMBER_REAR_MIN_TICKS.getValue());
+  }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.climberArmWheels.stop();
-    System.out.println("PullForwardUntilOnHab end");
+    if (this.level3) {
+      Robot.cargoAcquirer.stop();
+      Robot.drive.stopMotor();
+    }
+    System.out.println("PullForwardUntilOnHab end Ir: " + RobotMap.IRSensor.getAverageVoltage() + " ClimbTicks: "
+        + RobotMap.climberRearEncoder.getDistance());
   }
 
   // Called when another command which requires one or more of the same

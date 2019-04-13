@@ -78,10 +78,12 @@ public class PositionTracker extends SendableBase {
     return calculateDistance(origin.x, origin.y);
   }
 
+  /** Returns current robot velocity in inches/second.  */
   public double getCurrentVelocity() {
     return currentVelocity;
   }
 
+  /** Returns maximum robot velocity in inches/second.  */
   public double getMaxVelocity() {
     return maxVelocity;
   }

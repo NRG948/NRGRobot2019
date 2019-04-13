@@ -13,7 +13,7 @@ public class ClimberRear extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new ManualClimbRear(0));
   }
-
+// negative means drive the rack and pinion downward, lifting the robot
   public void rawClimb(double power) {
     RobotMap.climberRearMotor.set(power);
   }

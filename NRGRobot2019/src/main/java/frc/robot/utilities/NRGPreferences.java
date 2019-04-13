@@ -55,11 +55,13 @@ public class NRGPreferences {
         
         DRIVE_TO_VISION_TAPE_MIN_POWER("VisionMinPower", 0.15),
         DRIVE_TO_VISION_TAPE_MAX_POWER("VisionMaxPower", 0.65 ),
-        CAMERA_ANGLE_SKEW("CameraAngleSkew", 0.0),
-        CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0),   
+        CAMERA_ANGLE_SKEW("CameraAngleSkew", -1.7),
+        CAMERA_DISTANCE_SCALE("CameraDistanceScale", 1.0),
+        CAMERA_ANGLE_SCALE("CameraAngleScale", 0.8),
 
-        CLIMBER_REAR_POWER("ClimberRearPower", 0.75),
-        CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 1.0);
+        CLIMBER_REAR_POWER("ClimberRearPower", 0.95),
+        CLIMBER_REAR_MIN_TICKS("ClimberRearMinTicks", 800),
+        CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 0.5);
         
         private String key;
         private double defaultValue;

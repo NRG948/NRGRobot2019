@@ -19,6 +19,5 @@ public class ClimberPistons extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // setDefaultCommand(new ActivateClimberPistons(false));
   }
 }

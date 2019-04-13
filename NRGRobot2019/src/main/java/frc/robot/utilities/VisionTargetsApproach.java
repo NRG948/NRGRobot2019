@@ -12,8 +12,8 @@ package frc.robot.utilities;
  */
 public enum VisionTargetsApproach {
   Cargo(34),
-  HatchDeliver(12.25),
-  HatchPickUp(13.5 - 6.25);
+  HatchDeliver(12.25 - 1.0),
+  HatchPickUp(13.5 - 6.25 - 1.5); // 6.25 is piston length
 
   private final double stopDistance;
 

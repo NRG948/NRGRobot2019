@@ -2,16 +2,11 @@ package frc.robot;
 
 import org.opencv.core.Point;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -19,27 +14,28 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.commandGroups.AutonomousRoutines;
+<<<<<<< HEAD
 import frc.robot.commandGroups.TestAutoPaths;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DelaySeconds;
+=======
+>>>>>>> 3acab619c3bf5e48b722832c5001b24747658dba
 import frc.robot.commands.DriveDistanceOnHeading;
-import frc.robot.commands.DriveToVisionTape;
 import frc.robot.commands.FollowPathWeaverFile;
 import frc.robot.commands.PullForwardUntilOnHab;
 import frc.robot.commands.SetClimberHeight;
-import frc.robot.commands.SetRobotPitch;
+import frc.robot.commands.SetRobotRoll;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CargoAcquirer;
 import frc.robot.subsystems.ClimberArmWheels;
-import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.ClimberPistons;
+import frc.robot.subsystems.ClimberPistons.State;
+import frc.robot.subsystems.ClimberRear;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Gearbox;
 import frc.robot.subsystems.HatchClawSubsystem;
 import frc.robot.subsystems.HatchExtensionSubsystem;
-import frc.robot.subsystems.ClimberPistons.State;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
@@ -67,10 +63,6 @@ public class Robot extends TimedRobot {
   public static HatchExtensionSubsystem hatchExtension;
 
   public static PositionTracker positionTracker = new PositionTracker();
-  // public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
-  // public static Watchdog watchdog = new Watchdog(0.02, () -> {
-  // });
 
   Command autonomousCommand;
   public static SendableChooser<AutoStartingPosition> autoStartingPositionChooser;
@@ -160,6 +152,7 @@ public class Robot extends TimedRobot {
     habLevelChooser = new SendableChooser<HabitatLevel>();
     habLevelChooser.setDefaultOption("Level 1", HabitatLevel.LEVEL_1);
     habLevelChooser.addOption("Level 2", HabitatLevel.LEVEL_2);
+<<<<<<< HEAD
 
     delayChooser = new SendableChooser<DelayBeforeAuto>();
     delayChooser.setDefaultOption("0 seconds", DelayBeforeAuto.ZERO);
@@ -168,6 +161,13 @@ public class Robot extends TimedRobot {
 
     // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
     // 3);
+=======
+    
+    SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
+    SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
+    SmartDashboard.putData("DriveSubsystem", Robot.drive);
+
+>>>>>>> 3acab619c3bf5e48b722832c5001b24747658dba
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
         .withSize(4, 1);
@@ -196,11 +196,13 @@ public class Robot extends TimedRobot {
     distanceButtonLayout.add("48 Inches", new DriveDistanceOnHeading(0, 48, 0.7));
 
     ShuffleboardLayout climbButtonLayout = testTab.getLayout("Test Climb", BuiltInLayouts.kList)
-        .withPosition(2, 1).withSize(2, 2);
-    climbButtonLayout.add("Set Pitch", new SetRobotPitch(-10));
+        .withPosition(2, 0).withSize(2, 4);
+    climbButtonLayout.add("Set Pitch 1", new SetRobotRoll(1.0));
+    climbButtonLayout.add("Set Pitch 8", new SetRobotRoll(8.0));
     climbButtonLayout.add("Drive Until On Hab", new PullForwardUntilOnHab());
-    climbButtonLayout.add("Set Climber Height", new SetClimberHeight(0));
-    testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(2, 0);
+    climbButtonLayout.add("Set Climber Height", new SetClimberHeight(1115));
+    climbButtonLayout.add("Set Climber Height To 0", new SetClimberHeight(0));
+    testTab.add("Position Tracker", positionTracker).withSize(2, 3).withPosition(4, 0);
     climberPistons.setState(State.RETRACT);
     System.out.println("robotInit() done");
   }
@@ -219,10 +221,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("PositionTracker/x", positionTracker.getX());
     SmartDashboard.putNumber("PositionTracker/y", positionTracker.getY());
     SmartDashboard.putNumber("PositionTracker/maxVelocity", positionTracker.getMaxVelocity());
-    SmartDashboard.putData("LeftEncoder", RobotMap.driveLeftEncoder);
-    SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putNumber("Gyro", RobotMap.navx.getAngle());
-    SmartDashboard.putData("DriveSubsystem", Robot.drive);
+    SmartDashboard.putBoolean("Gearbox/State", Robot.gearbox.getState() == Gear.HIGH);
 
     SmartDashboard.putBoolean("Vision/cameraInverted", Robot.arm.isCameraInverted());
     boolean hasTargets = visionTargets.hasTargets();
@@ -238,7 +238,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Hatch/DefenseOK", Robot.hatchClaw.isOpen() && Robot.hatchExtension.isRetracted());
     SmartDashboard.putNumber("Trigger/Right", Robot.oi.xboxController.getRawAxis(2));
     SmartDashboard.putNumber("Trigger/Left", Robot.oi.xboxController.getRawAxis(3));
-    SmartDashboard.putNumber("IRSensor", RobotMap.IRSensor.getVoltage());
+    SmartDashboard.putNumber("IRSensor", RobotMap.IRSensor.getAverageVoltage());
+    SmartDashboard.putNumber("Climber Encoder", RobotMap.climberRearEncoder.getDistance());
+    SmartDashboard.putNumber("Roll", RobotMap.navx.getRoll());
+    SmartDashboard.putNumber("Pitch", RobotMap.navx.getPitch());
   }
 
   /**
@@ -272,18 +275,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override
@@ -291,6 +285,7 @@ public class Robot extends TimedRobot {
     System.out.println("teleopInit()");
     RobotMap.cameraLights.set(Value.kForward);
     Robot.arm.armAnglePIDInit();
+    RobotMap.compressor.start();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -302,18 +297,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // watchdog.reset();
     positionTracker.updatePosition();
-    // watchdog.addEpoch("position tracker");
-    visionTargets.update();
-    // watchdog.addEpoch("vision targets");
     Robot.arm.armAnglePIDExecute();
-    // watchdog.addEpoch("arm angle PID");
     Scheduler.getInstance().run();
-    // watchdog.addEpoch("scheduler");
-    // if (watchdog.isExpired()) {
-    //   watchdog.printEpochs();
-    // }
   }
 
   @Override

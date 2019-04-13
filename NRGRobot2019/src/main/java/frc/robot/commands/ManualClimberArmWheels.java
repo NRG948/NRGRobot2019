@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.utilities.MathUtil;
 
 public class ManualClimberArmWheels extends Command {
@@ -27,7 +26,7 @@ public class ManualClimberArmWheels extends Command {
   @Override
   protected void execute() {
     // if (Robot.oi.climberRearButton.get()) {
-      double speed = Robot.oi.getXboxLeftY();
+      double speed = Robot.oi.getXboxLeftY() * 0.75;
       Robot.climberArmWheels.spin(MathUtil.deadband(speed, 0.1));
   }
 

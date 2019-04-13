@@ -4,19 +4,14 @@ import java.util.Map;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualMoveArm;
 import frc.robot.commands.ManualMoveArmWithPID;
 import frc.robot.commands.MoveArmTo;
-import frc.robot.utilities.MathUtil;
 import frc.robot.utilities.NRGPreferences.NumberPrefs;
 import frc.robot.utilities.SimplePIDController;
 
@@ -36,20 +31,16 @@ public class Arm extends Subsystem {
 
   public enum Angle {
 
-    ARM_STOWED_ANGLE(NumberPrefs.ARM_STOWED_TICKS),
-    ARM_ACQUIRE_CARGO_ANGLE(NumberPrefs.ARM_ACQUIRE_CARGO_TICKS),
+    ARM_STOWED_ANGLE(NumberPrefs.ARM_STOWED_TICKS), ARM_ACQUIRE_CARGO_ANGLE(NumberPrefs.ARM_ACQUIRE_CARGO_TICKS),
     ARM_CARGO_SHIP_ANGLE(NumberPrefs.ARM_CARGO_SHIP_TICKS),
     ARM_ROCKET_CARGO_LOW_ANGLE(NumberPrefs.ARM_ROCKET_CARGO_LOW_TICKS),
     ARM_ROCKET_CARGO_MEDIUM_ANGLE(NumberPrefs.ARM_ROCKET_CARGO_MEDIUM_TICKS),
-    ARM_MAX_ANGLE(NumberPrefs.ARM_MAX_ANGLE_TICKS),
-    ARM_INVERSION_ANGLE(NumberPrefs.ARM_INVERSION_TICKS),
-    ARM_HATCH_MEDIUM_ANGLE(NumberPrefs.ARM_HATCH_MEDIUM_TICKS),
-    ARM_FORWARD_ANGLE(NumberPrefs.ARM_LEVEL_TICKS);
+    ARM_MAX_ANGLE(NumberPrefs.ARM_MAX_ANGLE_TICKS), ARM_INVERSION_ANGLE(NumberPrefs.ARM_INVERSION_TICKS),
+    ARM_HATCH_MEDIUM_ANGLE(NumberPrefs.ARM_HATCH_MEDIUM_TICKS), ARM_FORWARD_ANGLE(NumberPrefs.ARM_LEVEL_TICKS);
 
-  
     public final NumberPrefs pref;
 
-    private Angle(NumberPrefs pref ) {
+    private Angle(NumberPrefs pref) {
       this.pref = pref;
     }
 
@@ -73,31 +64,18 @@ public class Arm extends Subsystem {
       if (atBackLimit()) {
         power = 0;
       }
-     } //else {
-    //   if (atFrontLimit()) {
-    //     power = 0;
-    //   }
+    } // else {
+    // if (atFrontLimit()) {
+    // power = 0;
+    // }
     // }
     rawOutputWidget.getEntry().setDouble(power);
 
     if (power != 0) {
-      //power = adjustPowerForGravity(power);
       RobotMap.armMotor.set(power);
     } else {
       stop();
     }
-  }
-
-  // Limit max power when the arm is moving toward the floor.
-  private double adjustPowerForGravity(double power) {
-    double maxPower = NumberPrefs.ARM_MAX_POWER.getValue();
-    int position = getCurrentArmPosition();
-    if (position <= Angle.ARM_INVERSION_ANGLE.getTicks()) {
-      power = MathUtil.clamp(power, -0.5 * maxPower, maxPower);
-    } else {
-      power = MathUtil.clamp(power, -maxPower, 0.5 * maxPower);
-    }
-    return power;
   }
 
   public void stop() {

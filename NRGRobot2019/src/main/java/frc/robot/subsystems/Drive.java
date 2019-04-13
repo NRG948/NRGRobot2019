@@ -4,17 +4,13 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualDrive;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.SimplePIDController;
-import jaci.pathfinder.Trajectory;
-import java.io.File;
-import edu.wpi.first.wpilibj.Filesystem;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
-import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
 /**
@@ -72,8 +68,26 @@ public class Drive extends Subsystem {
   }
 
   public void turnToHeadingExecute(double maxPower) {
+    turnToHeadingExecute(maxPower, true, true);
+  }
+
+  public void turnToHeadingExecute(double maxPower, boolean useBothSides, boolean forward) {
     double currentPower = this.turnPIDController.update(RobotMap.navx.getAngle()) * maxPower;
-    this.tankDrive(currentPower, -currentPower, this.turnSquareInputs);
+    if (useBothSides) {
+      this.tankDrive(currentPower, -currentPower, this.turnSquareInputs);
+    } else {
+      double leftPower;
+      double rightPower;
+
+      if (forward) {
+        leftPower = currentPower > 0 ? currentPower : 0;
+        rightPower = currentPower < 0 ? -currentPower : 0;
+      } else {
+        leftPower = currentPower < 0 ? currentPower : 0;
+        rightPower = currentPower > 0 ? -currentPower : 0;
+      }
+      tankDrive(leftPower, rightPower, this.turnSquareInputs);
+    }
   }
 
   public boolean turnToHeadingOnTarget() {
@@ -157,9 +171,11 @@ public class Drive extends Subsystem {
     }
 
     tankDrive(left, right, this.pathsSquareInputs);
-  //   System.out.println(String.format(
-  //       "l: %.2f r: %.2f t: %.2f le: %.2f re: %.2f lp: %.2f rp: %.2f ch: %.1f dh: %.1f ad: %.1f", left, right, turn,
-  //       leftEncoder, rightEncoder, leftPostion, rightPosition, currentHeading, desiredHeading, angleDifference));
+    // System.out.println(String.format(
+    // "l: %.2f r: %.2f t: %.2f le: %.2f re: %.2f lp: %.2f rp: %.2f ch: %.1f dh:
+    // %.1f ad: %.1f", left, right, turn,
+    // leftEncoder, rightEncoder, leftPostion, rightPosition, currentHeading,
+    // desiredHeading, angleDifference));
   }
 
   public boolean followTrajectoryIsFinished() {
