@@ -153,6 +153,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("RightEncoder", RobotMap.driveRightEncoder);
     SmartDashboard.putData("DriveSubsystem", Robot.drive);
 
+    delayChooser = new SendableChooser<DelayBeforeAuto>();
+    delayChooser.setDefaultOption("0 seconds", DelayBeforeAuto.ZERO);
+    delayChooser.addOption("5 seconds", DelayBeforeAuto.FIVE);
+    delayChooser.addOption("10 seconds", DelayBeforeAuto.TEN);
+
+    // Shuffleboard.getTab("Power").add(Robot.pdp).withPosition(0, 0).withSize(3,
+    // 3);
     ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
     autoTab.add("Start", autoStartingPositionChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withPosition(0, 0)
         .withSize(4, 1);

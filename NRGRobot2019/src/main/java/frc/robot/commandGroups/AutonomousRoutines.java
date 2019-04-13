@@ -8,6 +8,7 @@ import frc.robot.Robot.AutoMovement;
 import frc.robot.Robot.AutoStartingPosition;
 import frc.robot.Robot.DelayBeforeAuto;
 import frc.robot.Robot.HabitatLevel;
+import frc.robot.commands.DelaySeconds;
 import frc.robot.commands.DriveDistanceOnHeading;
 import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.GearShift;
@@ -51,6 +52,18 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DriveStraightDistance(40, 0.7, false));
     }
 
+    // Handle delay for auto
+    switch (delayBeforeAuto) {
+    case ZERO:
+      return;
+
+    case FIVE:
+      addSequential(new DelaySeconds(5.0));
+
+    case TEN:
+      addSequential(new DelaySeconds(10.0));
+    }
+    
     // Handle movement from starting position
     switch (autoMovement) {
     case NONE:
