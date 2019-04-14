@@ -7,28 +7,28 @@
 
 package frc.robot.commandGroups;
 
+import static frc.robot.subsystems.HatchClawSubsystem.State.CLOSE;
+import static frc.robot.subsystems.HatchExtensionSubsystem.State.EXTEND;
+import static frc.robot.subsystems.HatchExtensionSubsystem.State.RETRACT;
+import static frc.robot.subsystems.HatchExtensionSubsystem.HATCH_EXTEND_DELAY;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.DelaySeconds;
+import frc.robot.commands.DriveStraightDistance;
+import frc.robot.commands.DriveToVisionTape;
+import frc.robot.commands.HatchClaw;
+import frc.robot.commands.HatchExtension;
+import frc.robot.commands.WaitForNewVisionData;
+import frc.robot.subsystems.HatchClawSubsystem.State;
+import frc.robot.utilities.VisionTargetsApproach;
 
 public class DeliverHatchWithoutRelease extends CommandGroup {
   /**
    * Add your docs here.
    */
   public DeliverHatchWithoutRelease() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
-
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
-
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
+    addSequential(new WaitForNewVisionData());
+    addSequential(new DriveToVisionTape(VisionTargetsApproach.HatchDeliver), 2.0);
+    addSequential(new HatchExtension(EXTEND));
   }
 }

@@ -15,14 +15,14 @@ import frc.robot.utilities.VisionTargetsApproach;
 /**
  * Add your docs here.
  */
-public class DriveToVisionTapeThree extends DriveDistanceOnHeading {
+public class DriveToVisionTape extends DriveDistanceOnHeading {
   private static final double DRIVE_POWER = 0.65;
   private VisionTargetsApproach delivery;
 
   /**
    * Add your docs here.
    */
-  public DriveToVisionTapeThree(VisionTargetsApproach delivery) {
+  public DriveToVisionTape(VisionTargetsApproach delivery) {
     super(0, 0, DRIVE_POWER);
     this.delivery = delivery;
   }
