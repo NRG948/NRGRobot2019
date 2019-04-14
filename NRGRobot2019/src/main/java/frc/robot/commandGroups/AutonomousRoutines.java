@@ -48,22 +48,26 @@ public class AutonomousRoutines extends CommandGroup {
     System.out.println("Auto Habitat level is: " + habLevel);
 
     addSequential(new GearShift(Gear.HIGH));
-    if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
-      addSequential(new DriveStraightDistance(40, 0.7, false));
-    }
 
     // Handle delay for auto
     switch (delayBeforeAuto) {
     case ZERO:
-      return;
+      break;
 
     case FIVE:
       addSequential(new DelaySeconds(5.0));
+      break;
 
     case TEN:
       addSequential(new DelaySeconds(10.0));
+      break;
     }
     
+    // Handle Level 2 movement
+    if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
+      addSequential(new DriveStraightDistance(40, 0.7, false));
+    }
+
     // Handle movement from starting position
     switch (autoMovement) {
     case NONE:
