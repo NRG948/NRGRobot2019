@@ -17,6 +17,7 @@ import frc.robot.Robot.HabitatLevel;
 import frc.robot.commandGroups.Climb;
 import frc.robot.commandGroups.ClimbLevel3;
 import frc.robot.commandGroups.DeliverHatch;
+import frc.robot.commandGroups.DeliverHatchWithoutRelease;
 import frc.robot.commandGroups.PickupHatch;
 import frc.robot.commands.ActivateClimberPistons;
 import frc.robot.commands.DriveStraight;
@@ -128,7 +129,7 @@ public class OI {
     hatchExtensionButton.whenReleased(new HatchExtension(RETRACT));
 
     driveToVisionCargo.whenPressed(new WaitForNewVisionData());
-    deliverToVisionHatch.whenPressed(new DeliverHatch());
+    deliverToVisionHatch.whenPressed(new DeliverHatchWithoutRelease());
     pickupToVisionHatch.whenPressed(new PickupHatch());
 
     climbButton.whenPressed(new Climb());
