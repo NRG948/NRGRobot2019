@@ -14,6 +14,7 @@ import frc.robot.commands.DriveStraightDistance;
 import frc.robot.commands.GearShift;
 import frc.robot.commands.TurnToHeading;
 import frc.robot.subsystems.Gearbox.Gear;
+import frc.robot.utilities.NRGPreferences.NumberPrefs;
 
 public class AutonomousRoutines extends CommandGroup {
   public static final int FIELD_LENGTH_INCHES = 54 * 12;
@@ -62,7 +63,7 @@ public class AutonomousRoutines extends CommandGroup {
       addSequential(new DelaySeconds(10.0));
       break;
     }
-    
+
     // Handle Level 2 movement
     if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
       addSequential(new DriveStraightDistance(40, 0.7, false));
