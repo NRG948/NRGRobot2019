@@ -61,7 +61,9 @@ public class NRGPreferences {
 
         CLIMBER_REAR_POWER("ClimberRearPower", 0.95),
         CLIMBER_REAR_MIN_TICKS("ClimberRearMinTicks", 800),
-        CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 0.5);
+        CLIMBER_ARM_WHEELS_POWER("ClimberArmWheelsPower", 0.5),
+        
+        AUTO_HAB_LEVEL_2_DRIVE_DISTANCE("AutoHabLevel2DriveDistance", 40.0);
         
         private String key;
         private double defaultValue;

@@ -66,7 +66,7 @@ public class AutonomousRoutines extends CommandGroup {
 
     // Handle Level 2 movement
     if (habLevel != HabitatLevel.LEVEL_1 && autoMovement != AutoMovement.NONE) {
-      addSequential(new DriveStraightDistance(40, 0.7, false));
+      addSequential(new DriveStraightDistance(NumberPrefs.AUTO_HAB_LEVEL_2_DRIVE_DISTANCE.getValue(), 0.7, false));
     }
 
     // Handle movement from starting position
