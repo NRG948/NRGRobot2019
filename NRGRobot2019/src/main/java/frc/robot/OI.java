@@ -28,13 +28,13 @@ import frc.robot.utilities.Waypoint.WithinInchesY;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  private static final double PATH_POWER = 0.75;
+  private static final double PATH_POWER = 1.0;
   private static final Waypoint[] FOLLOW_SQUARE = new Waypoint[]{
-    // new Waypoint(0, 30, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
-    // new Waypoint(5, 60, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
-    // new Waypoint(15, 80, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
-    // new Waypoint(30, 90, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
-    // new Waypoint(50, 90, CoordinateType.ABSOLUTE, 0.65, new WithinInches(10.0)),
+    // new Waypoint(0, 30, CoordinateType.ABSOLUTE, 1, new WithinInches(10.0)),
+    // new Waypoint(5, 60, CoordinateType.ABSOLUTE, 1, new WithinInches(10.0)),
+    // new Waypoint(15, 80, CoordinateType.ABSOLUTE, 1, new WithinInches(10.0)),
+    // new Waypoint(30, 90, CoordinateType.ABSOLUTE, 1, new WithinInches(10.0)),
+    // new Waypoint(50, 90, CoordinateType.ABSOLUTE, 1, new WithinInches(20.0)),
     new Waypoint(0, 78, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
     new Waypoint(4, 112, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
     new Waypoint(6, 126, CoordinateType.ABSOLUTE, PATH_POWER, new WithinInchesY(10.0)),
