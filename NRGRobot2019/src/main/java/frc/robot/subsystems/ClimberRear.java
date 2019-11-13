@@ -3,10 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManualClimbRear;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Subsystem that controls climber motor.
  */
+
 public class ClimberRear extends Subsystem {
 
   @Override

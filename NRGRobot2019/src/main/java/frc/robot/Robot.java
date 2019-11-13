@@ -35,6 +35,8 @@ import frc.robot.subsystems.HatchExtensionSubsystem;
 import frc.robot.utilities.NRGPreferences;
 import frc.robot.utilities.PositionTracker;
 import frc.robot.utilities.VisionTargets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -101,9 +103,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     System.out.println("robotInit()");
 
-
+    
     RobotMap.init();
     NRGPreferences.init();
+
+    //initialize logger
+    Logger logger = LogManager.getLogger("LoggerSystem");
 
     // initialize subsystems
     drive = new Drive();
@@ -239,7 +244,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is called once each time the robot e%nters Disabled mode. You
+   * This function is called once each time the robot enters Disabled mode. You
    * can use it to reset any subsystem information you want to clear when the
    * robot is disabled.
    */
