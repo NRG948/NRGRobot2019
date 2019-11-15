@@ -27,7 +27,7 @@ public class HatchExtension extends Command {
 
   @Override
   protected void initialize() {
-    System.out.println("Hatch Extension " + state);
+    System.out.println("Hatch Extension  " + state);
   }
 
   @Override
