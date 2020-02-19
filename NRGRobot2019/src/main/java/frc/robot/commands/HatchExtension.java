@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 
 public class HatchExtension extends Command {
   
-  static final Logger logger = LogManager.getLogger(HatchExtension.class.getName());
+ private static final Logger logger = LogManager.getLogger(HatchExtension.class.getName());
 
   private State state;
 

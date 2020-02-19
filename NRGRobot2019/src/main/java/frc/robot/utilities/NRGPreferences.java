@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import edu.wpi.first.wpilibj.Preferences;
 
+
 /**
  * Defines enums for all robot preferences.
  */
